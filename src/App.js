@@ -9,6 +9,7 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <h1>Hello World</h1>
         <h1>I am hungry</h1>
+        <h2>I am hungry too</h2>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
