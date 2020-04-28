@@ -11,6 +11,6 @@
     measurementId: "G-CV8H9PL5BZ"
   };
 
-const fire = firebase.initialize(firebaseConfig)
+const firebase = firebase.initialize(firebaseConfig)
 
-export default fire;
+export default firebase;

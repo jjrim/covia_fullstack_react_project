@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import logo from './assets/logo.png';
 import './App.css';
-import fire from './firebase/fire.js';
+import firebase from './firebase/Firebase.js';
 import Login from './firebase/Login.js';
 import Main from './firebase/Main.js';
 
@@ -18,7 +18,7 @@ class App extends Component {
 //   this.authListner
 // }
   authListner() {
-    fire.auth().onAuthStateChanger((user) => {
+    firebase.auth().onAuthStateChanger((user) => {
       if(user) {
         this.setState({user})
       
