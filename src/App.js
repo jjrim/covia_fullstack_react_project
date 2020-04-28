@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './logo.svg';
+import logo from './assets/logo.png';
 import './App.css';
 
 function App() {
@@ -7,17 +7,10 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <h1>Hello World</h1>
-        <h1>I am hungry</h1>
-        <h1>I am aaa</h1>
-        <h1>Heldffdflo</h1>
-        <h1>hehkecvcvcsdkfjksldhke</h1>
-        <h1>I hate project</h1>
-        <h1>Hello</h1>
-        <h1>hehke</h1>
+
 
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+         Meet Covia
         </p>
         <a
           className="App-link"
@@ -25,7 +18,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          About React
         </a>
       </header>
     </div>
