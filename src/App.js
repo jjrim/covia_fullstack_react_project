@@ -1,29 +1,41 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './assets/logo.png';
 import './App.css';
-import logo from './assets/logo.png';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+import firebase from './firebase/firebase.js';
+import Login from './firebase/Login.js';
 
 
-        <p>11
-         Meet Covia
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          About React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      user : {}
+    }
+  }
+// componentDidMount() {
+//   this.authListner
+// }
+  authListner() {
+    firebase.auth().onAuthStateChanger((user) => {
+      if(user) {
+        this.setState({user})
+      
+      }
+      else{
+        this.setState({user: null})
+      }
+    })
+  }
+
+  render(){
+    return(
+      <div className="App">
+      {this.state.user ? <Home /> : <Login />}
+        </div>
+    )
+  }
 }
+
+
 
 export default App;
