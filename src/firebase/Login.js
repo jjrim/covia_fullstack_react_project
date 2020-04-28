@@ -1,6 +1,8 @@
 import React , { Component } from "react";
+import logo from './logo.png';
 
-class Home extends Component {
+
+class Login extends Component {
 constructor(props)
 {
     super(props)
@@ -11,7 +13,12 @@ constructor(props)
 }
 render()
 {
+    return(
+
+
     <div>
+                <img src={logo} className="App-logo" alt="logo" />
+
         <form>
             <input
             type="email"
@@ -20,8 +27,8 @@ render()
             onChange={this.HandleChange}
             value={this.state.email}
             />
-
-            <input
+<br />
+<br />            <input
             type="password"
             id="password"
             Placeholder="enter password address"
@@ -29,4 +36,8 @@ render()
             />
         </form>
     </div>
+    )
 }
+}
+
+export default Login;

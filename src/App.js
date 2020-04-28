@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import logo from './assets/logo.png';
+// import logo from './assets/logo.png';
 import './App.css';
-import firebase from './firebase/firebase.js';
+import fire from './firebase/fire.js';
 import Login from './firebase/Login.js';
+import Main from './firebase/Main.js';
+
 
 
 class App extends Component {
@@ -16,7 +18,7 @@ class App extends Component {
 //   this.authListner
 // }
   authListner() {
-    firebase.auth().onAuthStateChanger((user) => {
+    fire.auth().onAuthStateChanger((user) => {
       if(user) {
         this.setState({user})
       
@@ -30,7 +32,7 @@ class App extends Component {
   render(){
     return(
       <div className="App">
-      {this.state.user ? <Home /> : <Login />}
+      {this.state.user ? <Login /> : <Main />}
         </div>
     )
   }

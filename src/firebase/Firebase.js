@@ -1,3 +1,5 @@
+  import firebase from "firebase";
+  
   var firebaseConfig = {
     apiKey: "AIzaSyB0KQUuIHKY-SIKWR0Y2vMvkHg2NMJNyNQ",
     authDomain: "covia-f2018.firebaseapp.com",
@@ -9,6 +11,6 @@
     measurementId: "G-CV8H9PL5BZ"
   };
 
-const firebase = firebase.initialize(firebaseConfig)
+const fire = firebase.initialize(firebaseConfig)
 
-export default firebase;
+export default fire;
