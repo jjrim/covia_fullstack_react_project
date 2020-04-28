@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from './assets/logo.png';
 import './App.css';
 import logo from './assets/logo.png';
 
@@ -9,14 +10,16 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
 
 
-        <p>COVIA FOREVER</p>
+        <p>11
+         Meet Covia
+        </p>
         <a
           className="App-link"
           href="https://reactjs.org"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          About React
         </a>
       </header>
     </div>
