@@ -35,6 +35,7 @@ class App extends Component {
       <div className="App">
         {this.state.user ? (<Main/>) : (<Login/>)}
       </div>
+      test
     );
   }
 }
