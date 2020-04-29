@@ -36,6 +36,8 @@ class App extends Component {
         {this.state.user ? (<Main/>) : (<Login/>)}
       </div>
       fd
+      fd
+      fd
     );
   }
 }
