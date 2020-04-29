@@ -1,40 +1,41 @@
 import React, { Component } from 'react';
-// import logo from './assets/logo.png';
 import './App.css';
-import firebase from './firebase/Firebase.js';
+import fire from './firebase/fire.js';
 import Login from './firebase/Login.js';
 import Main from './firebase/Main.js';
 
 
 
 class App extends Component {
-  constructor(props){
+  constructor(props)
+  {
     super(props);
-    this.state = {
+    this.state={
       user : {}
     }
   }
-// componentDidMount() {
-//   this.authListner
-// }
-  authListner() {
-    firebase.auth().onAuthStateChanger((user) => {
-      if(user) {
+  componentDidMount()
+  {
+    this.authListener();
+  }
+  authListener(){
+    fire.auth().onAuthStateChanged((user)=>{
+      if(user)
+      {
         this.setState({user})
-      
       }
       else{
-        this.setState({user: null})
+        this.setState({user : null})
       }
     })
   }
 
   render(){
-    return(
+    return (
       <div className="App">
-      {this.state.user ? <Login /> : <Main />}
-        </div>
-    )
+        {this.state.user ? (<Main/>) : (<Login/>)}
+      </div>
+    );
   }
 }
 
