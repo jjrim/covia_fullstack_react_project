@@ -74,13 +74,13 @@ render()
                         />
                         <br />
                         <br />
+                        
                         <button onClick={this.login}>Login</button>
                         <button onClick={this.signup}>Signup</button>
 
                         <br />
                         <br />
 
-                        <button onClick={this.signup}>Signup</button>
 
                     </form>
         
