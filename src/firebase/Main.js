@@ -24,7 +24,7 @@ render()
         <h3>Coronavirus Cases In the World</h3>
         <h2>3,000,000</h2>
         <div className="home-buttons">
-            <button href="#" className="home-button">Single-Player</button>
+            <button className="home-button">Single-Player</button>
             <button className="home-button">Two Player</button>
             <button className="home-button">Rules</button>
             <button className="home-button">Statistics</button>
