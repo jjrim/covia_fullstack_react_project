@@ -20,9 +20,9 @@ render()
 
 
     <div>
-        <h1>Welcome to Covia</h1>
+        <h1>Welcome to Covia!</h1>
         <h1>You are logged in</h1>
-        <button onClick={this.logout}>Logout</button>
+        <button class = "ui button" onClick={this.logout}>Logout</button>
         <button>Single Player</button>
         <button>Multi Player</button>
         <button>Create your Custom Question</button>
