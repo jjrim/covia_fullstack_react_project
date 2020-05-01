@@ -57,7 +57,7 @@ render()
             </div>
 
             
-            <div id = "loginDiv" > 
+            <div id = "loginDiv" class = "ui container"> 
                 <h1 id="message">COVIA WORLD</h1>
                 <h3 id="signInMsg">Log-in to your account</h3>
                 <form>
