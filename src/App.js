@@ -5,7 +5,6 @@ import Login from './firebase/Login.js';
 import Main from './firebase/Main.js';
 
 
-
 class App extends Component {
   constructor(props)
   {
@@ -35,7 +34,6 @@ class App extends Component {
       <div className="App">
         {this.state.user ? (<Main/>) : (<Login/>)}
       </div>
-11111111
     );
   }
 }
