@@ -9,19 +9,46 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 0.1s linear;
+    animation: App-logo-spin infinite 10s linear;
   }
 }
 
-.App-header {
-  background-color: #282c34;
+.App-body {
+  background-color: steelblue;
+  /* background-color: #282c34; */
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  min-width: 100vw;
+  /* background-position: 80%;  */
+  /* display: flex; 
+  flex-direction: column; */
+  /* align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
+  color: white; */
+}
+
+#explanation {
+  color: beige;
+  font-size: medium;
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bolder;
+}
+
+#message {
   color: white;
+  text-shadow: -2px 0 black, 0 2px black;
+}
+
+#signInMsg {
+  color: beige;
+}
+
+#team {
+  color: lavender;
+  font-size: small;
+  font-style: normal;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .App-link {
