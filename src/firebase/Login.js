@@ -2,8 +2,6 @@ import React , { Component } from "react";
 import logo from './logo.png';
 import fire from './fire.js';
 
-
-
 class Login extends Component {
     constructor(props)
     {
@@ -16,7 +14,6 @@ class Login extends Component {
             password : ""
         }
     }
-
     login(e){
         e.preventDefault();
         fire.auth().signInWithEmailAndPassword(this.state.email,this.state.password).then((u)=>{
