@@ -1,0 +1,23 @@
+.homepage-content{
+    position: relative;
+    width: 414px;
+    height: 921px;
+    background: #FFFFFF;
+    margin: auto;
+    background: linear-gradient(157.81deg, rgba(32, 139, 216, 0.19) 43.58%, rgba(204, 224, 239, 0) 85.03%);
+    text-align: center;
+}
+
+.home-buttons{
+    display: grid;
+    grid-template-rows: repeat(6, 90px);
+    justify-items: center;
+}
+
+.home-button{
+    background:rgba(196, 196, 196, 0.31);
+    height: 70px;
+    width: 220px;
+    border-radius: 20px;
+    font-family: Myanmar Sans Pro;
+}
