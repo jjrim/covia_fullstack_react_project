@@ -1,7 +1,7 @@
 import React , { Component } from "react";
 import logo from './logo.png';
 import fire from './fire.js';
-import { Button, Form, Grid, Header, Image, Message, Segment, Input } from 'semantic-ui-react';
+import 'semantic-ui-react';
 
 class Login extends Component {
     constructor(props)
