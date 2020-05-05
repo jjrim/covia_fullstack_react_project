@@ -3,10 +3,10 @@ import React , { Component } from "react";
 import fire from "./fire";
 import "../homepage.css";
 import logo from './logo.png';
-import { BrowserRouter as Router, Route, Link , Switch} from 'react-router-dom';
-import { Single } from './Single';
-import { Two } from './Two';
-import { Statistics } from './Statistic';
+import { BrowserRouter as Router, Route, Link , Switch } from 'react-router-dom';
+import Single from './Single';
+import Two from './Two';
+import Statistics from './Statistic';
 class Main extends Component {
 constructor(props)
     {
@@ -35,7 +35,6 @@ logout(){
     fire.auth().signOut();
 };
 
-
     
 
 render()
@@ -46,23 +45,22 @@ render()
     }
     else{
     return(
-        <Router>
+        
     <div className="homepage-content">
-        <img src={logo} className="logo" alt="logo" height="130" width="200"/>
+      <Link to='/'> <img src={logo} className="logo" alt="logo" height="130" width="200"/> </Link>
         <h3>Coronavirus Cases In the World</h3>
         <h2>{number}</h2>
         <div className="home-buttons">
-            <Link className="home-button">Single-Player</Link>
-            <Link className="home-button">Two Player</Link>
-            <Link className="home-button">Rules</Link>
-            <Link className="home-button">Statistics</Link>
-            <Link className="home-button">Create Custom Question</Link>
-            <Link onClick={this.logout} className="home-button">Logout</Link>
+            <Link to='/Single'> <button className="home-button" >Single-Player </button> </Link>
+            <Link to='/Two'> <button className="home-button" >Two Player </button></Link>
+            <button className="home-button">Rules</button>
+            <Link to='/Statistics'><button className="home-button" >Statistics </button></Link>
+            <Link to='/Question'><button className="home-button">Create Custom Question </button></Link>
+            <button onClick={this.logout} className="home-button">Logout</button>
         </div>
-        
-
     </div>
-    </Router>
+           
+        
     )
 }
     }

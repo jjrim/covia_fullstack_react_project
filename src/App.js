@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import fire from './firebase/fire.js';
 import Login from './firebase/Login.js';
-import Main from './firebase/Main.js';
-
+import Home from './firebase/Home.js'
 
 class App extends Component {
   constructor(props)
@@ -32,7 +31,7 @@ class App extends Component {
   render(){
     return (
       <div className="App">
-        {this.state.user ? (<Main/>) : (<Login/>)}
+        {this.state.user ? (<Home/>) : (<Login/>)}
       </div>
     );
   }

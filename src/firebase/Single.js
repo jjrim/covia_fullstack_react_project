@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-export default function Single() {
-    return (
+function Single(){
+    return(
         <div>
-        Hello World
+            <h1>Hello World</h1>
         </div>
     )
 }
+    
+
+export default Single;

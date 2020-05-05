@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 export default function Statistic() {
     return (
         <div>
-            
+            I am Statistic
         </div>
     )
 }
