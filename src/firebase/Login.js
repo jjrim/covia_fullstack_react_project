@@ -53,7 +53,11 @@ render()
                 “COVIA'' is here to give you an information what is COVID-19<br/>
                 and how we can be safe from them.<br/>
                 Test your knowledge about COVID-19 yourself or compete with your friends!<br/> 
-                Welcome to COVIA world.</p><br/>
+                Welcome to COVIA world.</p>
+
+                <button class="ui basic inverted button">Learn More About Us </button>
+                <br/>
+
             </div>
 
             

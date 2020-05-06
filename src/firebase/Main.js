@@ -40,6 +40,7 @@ logout(){
 render()
 {
     let {isLoaded, number} = this.state;
+    // loading page
     if(!isLoaded){
         return <div>Loading... Please Wait!</div>
     }
