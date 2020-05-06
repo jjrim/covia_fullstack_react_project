@@ -15,7 +15,8 @@ class Single extends Component {
         endQuiz: false,
         quitQuiz: false,
         score: 0,
-        disabled: true
+        disabled: true,
+        time: 5
     }
 
         loadQuiz = () => {
@@ -31,6 +32,7 @@ class Single extends Component {
 
     componentDidMount() {
         this.loadQuiz();
+        this.timer()
     }
 
     nextQuestionHandler = () => {
@@ -46,7 +48,6 @@ class Single extends Component {
             })
         }
     }
-
     componentDidUpdate(props, state) {
         const {currentQuestion} = this.state;
         if (this.state.currentQuestion !== state.currentQuestion) {
@@ -82,7 +83,23 @@ class Single extends Component {
         })
     }
 
-
+    // Add timer for the game
+    // Also, NextQuestionHandle is also invoked in the timer
+    timer = () => {
+        setInterval(() => {
+            this.setState((preState) =>({
+              time: preState.time - 1,
+            }), () =>{
+                if(this.state.time === -1){
+                    this.nextQuestionHandler()
+                    this.setState({
+                        time: 5
+                    })
+                }
+            }
+            );
+          }, 1000)
+    }
 
     // componentDidMount () {
     //     const {question, currentQuestion, nextQuestion} = this.state;
@@ -114,13 +131,14 @@ class Single extends Component {
     // }
 
     render () {
-        const {questions, options, currentQuestion, userAnswer, endQuiz, quitQuiz, score} = this.state;
+        const {questions, options, currentQuestion, userAnswer, endQuiz, quitQuiz, score, time} = this.state;
 
             if(endQuiz) {
                 return (
                     <div>
                         <h1>Game Over. Your final score is {this.state.score} points</h1>
                         <p></p>
+                        <Link to="/"><button>Go Back</button></Link>
                     </div>
                 )
             }
@@ -129,6 +147,7 @@ class Single extends Component {
                 return (
                     <div>
                         <h1>Your score is: </h1>
+                        <Link to="/"><button>Go Back</button></Link>
                     </div>
                 )
             }
@@ -138,7 +157,7 @@ class Single extends Component {
                 <title>Question</title>
                 <div className="question">
                     <p>
-                        <span className="clock">00:15</span>
+        <span className="clock">{time}</span>
                     </p>
                     <h5>{questions}</h5>
                     <span> {`Questions ${currentQuestion} out of ${QuizData.length-1}`}</span>
