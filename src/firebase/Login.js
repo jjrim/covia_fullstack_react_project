@@ -2,7 +2,7 @@ import React , { Component } from "react";
 import logo from './logo.png';
 import fire from './fire.js';
 import 'semantic-ui-react';
-
+import { Link } from 'react-router-dom';
 class Login extends Component {
     constructor(props)
     {
@@ -55,7 +55,7 @@ render()
                 Test your knowledge about COVID-19 yourself or compete with your friends!<br/> 
                 Welcome to COVIA world.</p>
 
-                <button class="ui basic inverted button">Learn More About Us </button>
+            <Link to='/about'>   <button class="ui basic inverted button">Learn More About Us </button>    </Link>
                 <br/>
 
             </div>
