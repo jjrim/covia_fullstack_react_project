@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import React , { Component } from "react";
 import fire from "./fire";
+import Loading from './Loading'
 import "../homepage.css";
 import logo from './logo.png';
 import { Button, Header, Image, Modal } from 'semantic-ui-react';
@@ -45,7 +46,7 @@ render()
 {   
     let {isLoaded, number, open, dimmer} = this.state;
     if(!isLoaded){
-        return <div>Loading... Please Wait!</div>
+      return <Loading />
     }
     else{
     return(
