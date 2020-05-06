@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import fire from './firebase/fire.js';
-import Login from './firebase/Login.js';
-import Home from './firebase/Home.js'
-
+import Home from './firebase/Home.js';
+import Loginrouter from './firebase/Loginrouter.js';
 class App extends Component {
   constructor(props)
   {
@@ -31,7 +30,7 @@ class App extends Component {
   render(){
     return (
       <div className="App">
-        {this.state.user ? (<Home/>) : (<Login/>)}
+        {this.state.user ? (<Home/>) : (<Loginrouter/>)}
       </div>
     );
   }
