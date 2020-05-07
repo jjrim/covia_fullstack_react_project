@@ -8,7 +8,9 @@ import { Button, Header, Image, Modal } from 'semantic-ui-react';
 /* eslint-disable no-unused-expressions */
 import { BrowserRouter as Router, Route, Link , Switch } from 'react-router-dom';
 
+/* Lottie elements*/
 import CellVirusCleaning from './PhoneVirusLottie'
+import ReadingRule from './RuleLottie'
 
 class Main extends Component {
 constructor(props)
@@ -79,27 +81,26 @@ render()
     
         {/* This is for the Rules Page(Modal Box) */}
         <Modal dimmer={dimmer} open={open} onClose={this.close}>
-          <Modal.Header className="ui center aligned">COVIA</Modal.Header>
+          <Modal.Header className="ui center aligned">COVIA Rule</Modal.Header>
           <Modal.Content image>
-            <Image
+            <ReadingRule
               wrapped
               size='large'
-              src={logo}
             />
             <Modal.Description>
-              <Header className="ui center aligned header brown ">Single Play</Header>
-              <p className="ui center">Answer <span className="ui red header">5</span> Questions</p>
-              <p><span className="ui red header">5</span> Seconds For Preparation, 
-              <span className="ui red header"> 10</span> Seconds For Answer</p>
-              <p>Full Mark For Every Question: <span className="ui red header">200</span></p>
-              <p><span className="ui red header">20</span> Marks Deduction For Every Second Late</p>
-              <p> <span className="ui red header">DOUBLE MARK</span> For The Last Question </p>
+              <Header className="ui center aligned header blue ">Single Player</Header>
+              <p className="ui center aligned">Answer <span className="ui red header">5</span> Questions for each game round</p>
+              <p>You have <span className="ui red header">5</span> Seconds For Preparation, 
+              <span className="ui red header"> 10</span> Seconds For Answering</p>
+              <p>The Full Mark For Every Question is <span className="ui red header">200</span> points</p>
+              <p>There is a <span className="ui red header">20</span> Marks Deduction For Every Second Proceed</p>
+              <p>You can earn <span className="ui red header">DOUBLE MARKS</span> For The Last Question </p>
               <br></br>
-              <Header className="ui center aligned header brown ">Two-Player</Header>
-              <p><span className="ui red header">Same</span> Rule With The Single Play</p>
-              <p><span className="ui red header">Invite Your Friend </span></p>
-              <p>Compare The Scores At Last</p>
-              <p>Who Is The Winner?</p>
+              <Header className="ui center aligned header blue ">Two-Player</Header>
+              <p><span className="ui red header">Same</span> Rule As The Single Player</p>
+              <p>Plus you can <span className="ui red header">Invite Your Friend </span> or Play with a <span className="ui red header">Stranger  </span></p>
+              <p>Compare The Scores At the End</p>
+              <p>Are You The Winner?</p>
 
             </Modal.Description>
           </Modal.Content>
@@ -108,7 +109,7 @@ render()
               positive
               icon='checkmark'
               labelPosition='right'
-              content="Play The Game"
+              content="I understood"
               onClick={this.close}
             />
           </Modal.Actions>
