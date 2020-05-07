@@ -33,7 +33,7 @@ class Single extends Component {
 
     componentDidMount() {
         this.loadQuiz();
-        // this.timer();
+        this.timer();
     }
 
     nextQuestionHandler = () => {
@@ -95,11 +95,11 @@ class Single extends Component {
         if (userAnswer === answers) {
             if(this.state.time >= 10){
                 this.setState({
-                    score: score + 200
+                    score: score + 400
          })
         }else{
                 this.setState({
-                    score: score + this.state.time * 20
+                    score: score + this.state.time * 40
                 })
             }
         }
