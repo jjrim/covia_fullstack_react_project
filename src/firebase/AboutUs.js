@@ -6,6 +6,8 @@ import erica from './TeamAvatar/Erica.jpeg';
 import jay from './TeamAvatar/Jay.jpeg';
 import luke from './TeamAvatar/Luke.jpeg';
 import { Image } from 'semantic-ui-react'
+import Staying from './StayHome';
+import DevelopingApp from './AppDev'
 
 
 const AboutUs = () =>{
@@ -17,6 +19,9 @@ const AboutUs = () =>{
                 <p id = "introPara">
                     We designed “COVIA'' as an online trivia competition game that is made to supply people with more information about COVID-19 while interacting with other people online during the COVID-19 crisis. 
                 </p>
+                <div>
+                    <DevelopingApp />
+                </div>
                 
             </div>
 
@@ -97,6 +102,9 @@ const AboutUs = () =>{
             </div>
 
             <div id = "abtStoryDiv" class = "ui vertical center aligned segment">
+                <div>
+                    <Staying />
+                </div>
                 <h1 id = "abtH1">
                     Our Story</h1>
                 <p id = "abtP">
@@ -117,7 +125,10 @@ const AboutUs = () =>{
                 <p id = "abtP">
                     And then, we have COVIA.
                 </p>
+
+                <br/>
                 <Link to='/'>   <button class="ui basic inverted button huge">Back</button>    </Link>
+
             </div>
 
 

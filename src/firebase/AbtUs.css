@@ -11,7 +11,7 @@
     margin-top: 0.5em;
 }
 
-p#introPara{
+#introPara{
     color: white;
     text-align: center;
     font-size: 2em; 
@@ -28,6 +28,7 @@ p#introPara{
 
 #abtCenterDiv{
     margin-top: 3em;
+    margin-bottom: 5em;
 }
 
 h2{
