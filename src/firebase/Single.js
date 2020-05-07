@@ -8,6 +8,7 @@ import { isCompositeComponentWithType } from 'react-dom/test-utils';
 import { QuizData } from './QuizData';
 import { Icon } from 'semantic-ui-react'
 import $ from 'jquery'
+import leeke from './leeke.png'
 class Single extends Component {
     state = {
         userAnswer: null,
@@ -192,12 +193,13 @@ class Single extends Component {
             <Fragment>
                 <title>Question</title>
                 <div className="question">
-        <Link to ='/'> <Icon size='huge' name='arrow left' className='quit'/></Link>
-        <Link to ='/'> <Icon size='huge' name='sing-out' className='home' onClick={this.logout}/></Link>
+       <Link to='/'>  <Icon size='huge' name='arrow left' className='quit'/>  </Link>       
+       <Link to='/'>  <Icon size='huge' name='sign-out' className='home' onClick={this.logout}/>  </Link>  
                     <div className='ui orange circular label large'>
         <span className="clock">{time}</span>
                     </div>
-        <div>Your Score: {score}</div>
+                    <div className='ui horizontal inverted divider'>Your Score is {score}</div>
+                    <img src={leeke} className="leeke" alt="leeke" height="60" width='60'/>
                     <h5>{questions}</h5>
                     <span> {`Questions ${currentQuestion} out of ${QuizData.length - 1}`}</span>
                     {options.map(option => (
@@ -205,10 +207,10 @@ class Single extends Component {
                             {option}
                         </p>
                     ))}
-                    <br /><br /><br /><br />
+                    <br /><br />
                     <div className="button-container">
-                        {currentQuestion < QuizData.length - 1 && <button disabled={this.state.disabled} onClick={this.nextQuestionHandler}>Next</button>}
-                        {currentQuestion === QuizData.length - 1 && <button onClick={this.endHandler}>End</button>}
+                        {currentQuestion < QuizData.length - 1 && <button disabled={this.state.disabled} onClick={this.nextQuestionHandler} className='ui orange button'>Next</button>}
+                        {currentQuestion === QuizData.length - 1 && <button onClick={this.endHandler} className='ui orange button'>End</button>}
                     </div>
                 </div>
             </Fragment>
