@@ -13,7 +13,6 @@ class Single extends Component {
         currentQuestion: 0,
         options: [],
         endQuiz: false,
-        quitQuiz: false,
         score: 0,
         disabled: true,
         time: 5
@@ -32,25 +31,33 @@ class Single extends Component {
 
     componentDidMount() {
         this.loadQuiz();
-        this.timer()
+        this.timer();
     }
 
     nextQuestionHandler = () => {
-        const {userAnswer, answer, score} = this.state;
+
+        if (this.state.currentQuestion === QuizData.length - 1) {
+            this.endHandler();
+        } else {
+        const {userAnswer, answers, score} = this.state;
         this.setState({
             currentQuestion: this.state.currentQuestion + 1
         })
-        // console.log(this.state.currentQuestion)
+        console.log(this.state.currentQuestion)
 
-        if (userAnswer === answer) {
+        if (userAnswer === answers) {
             this.setState({
                 score: score + 1
             })
         }
+        this.setState({
+            time: 5
+        })
     }
-    componentDidUpdate(props, state) {
+}
+    componentDidUpdate(prevProps, prevState) {
         const {currentQuestion} = this.state;
-        if (this.state.currentQuestion !== state.currentQuestion) {
+        if (this.state.currentQuestion !== prevState.currentQuestion) {
             this.setState(() => {
                 return {
                     disabled: true,
@@ -70,18 +77,23 @@ class Single extends Component {
     }
 
     endHandler = () => {
+        const {userAnswer, answers, score} = this.state;
         if (this.state.currentQuestion === QuizData.length - 1) {
             this.setState({
                 endQuiz: true
             })
         }
-    }
-    
-    quitHandler = () => {
+
+        if (userAnswer === answers) {
+            this.setState({
+                score: score + 1
+            })
+        }
         this.setState({
-            quitQuiz: true
+            time: -2
         })
     }
+    
 
     // Add timer for the game
     // Also, NextQuestionHandle is also invoked in the timer
@@ -95,6 +107,9 @@ class Single extends Component {
                     this.setState({
                         time: 5
                     })
+                }
+                else if(this.state.time < -1) {
+                    
                 }
             }
             );
@@ -131,22 +146,13 @@ class Single extends Component {
     // }
 
     render () {
-        const {questions, options, currentQuestion, userAnswer, endQuiz, quitQuiz, score, time} = this.state;
+        const {questions, options, currentQuestion, userAnswer, endQuiz, time} = this.state;
 
             if(endQuiz) {
                 return (
                     <div>
                         <h1>Game Over. Your final score is {this.state.score} points</h1>
                         <p></p>
-                        <Link to="/"><button>Go Back</button></Link>
-                    </div>
-                )
-            }
-
-            if(quitQuiz) {
-                return (
-                    <div>
-                        <h1>Your score is: </h1>
                         <Link to="/"><button>Go Back</button></Link>
                     </div>
                 )
@@ -160,7 +166,7 @@ class Single extends Component {
         <span className="clock">{time}</span>
                     </p>
                     <h5>{questions}</h5>
-                    <span> {`Questions ${currentQuestion} out of ${QuizData.length-1}`}</span>
+                    <span> {`Questions ${currentQuestion} out of ${QuizData.length - 1}`}</span>
                     {options.map(option => (
                         <p key={option.id} className= {`ui floating message options ${userAnswer === option ? "selected" : null}`} onClick ={() => this.checkAnswer(option)}>
                             {option}
@@ -169,7 +175,6 @@ class Single extends Component {
                     <br /><br /><br /><br />
                     <div className="button-container">
                         {currentQuestion < QuizData.length - 1 && <button disabled={this.state.disabled} onClick={this.nextQuestionHandler}>Next</button>}
-                        {currentQuestion < QuizData.length - 1 && <button onClick={this.quitHandler}>Quit</button>}
                         {currentQuestion === QuizData.length - 1 && <button onClick={this.endHandler}>End</button>}
                     </div>
                 </div>
