@@ -32,7 +32,7 @@ class Single extends Component {
 
     componentDidMount() {
         this.loadQuiz();
-        this.timer();
+        // this.timer();
     }
 
     nextQuestionHandler = () => {
