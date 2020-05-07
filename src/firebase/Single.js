@@ -6,6 +6,7 @@ import fire from "./fire";
 import Main from './Main';
 import { isCompositeComponentWithType } from 'react-dom/test-utils';
 import { QuizData } from './QuizData';
+import $ from 'jquery'
 
 class Single extends Component {
     state = {
@@ -16,7 +17,7 @@ class Single extends Component {
         quitQuiz: false,
         score: 0,
         disabled: true,
-        time: 5
+        time: 15
     }
 
         loadQuiz = () => {
@@ -38,7 +39,8 @@ class Single extends Component {
     nextQuestionHandler = () => {
         const {userAnswer, answer, score} = this.state;
         this.setState({
-            currentQuestion: this.state.currentQuestion + 1
+            currentQuestion: this.state.currentQuestion + 1,
+            time: 15
         })
         // console.log(this.state.currentQuestion)
 
@@ -49,6 +51,7 @@ class Single extends Component {
         }
     }
     componentDidUpdate(props, state) {
+        this.changeTimeColor()
         const {currentQuestion} = this.state;
         if (this.state.currentQuestion !== state.currentQuestion) {
             this.setState(() => {
@@ -62,11 +65,18 @@ class Single extends Component {
         }
     }
 
-    checkAnswer = answer => {
+    checkAnswer = answer => {   
+        this.setState({userAnswer:answer})
+        if(this.state.time > 10){
+            this.setState({
+                disabled: true
+            })
+        }
+        else{
         this.setState({
-            userAnswer: answer,
             disabled: false
         })
+    }
     }
 
     endHandler = () => {
@@ -74,6 +84,7 @@ class Single extends Component {
             this.setState({
                 endQuiz: true
             })
+            
         }
     }
     
@@ -93,14 +104,28 @@ class Single extends Component {
                 if(this.state.time === -1){
                     this.nextQuestionHandler()
                     this.setState({
-                        time: 5
+                        time: 15
                     })
                 }
             }
             );
           }, 1000)
     }
+    changeTimeColor = () => {
+        if(this.state.time > 18){
+            $('.clock').css('color', 'yellow')
+        }
+        if(this.state.time > 10 || this.state.time < 15){
+            $('.clock').css('color', '#000000')
+        }
 
+        if(this.state.time <= 10){
+            $('.clock').css('color', '#016936')
+        }
+        if(this.state.time <= 4){
+            $('.clock').css('color', '#B03060')
+        }
+    }
     // componentDidMount () {
     //     const {question, currentQuestion, nextQuestion} = this.state;
     //     this.displayQuestions(question, currentQuestion, nextQuestion);
@@ -129,6 +154,9 @@ class Single extends Component {
             
     //     })
     // }
+    logout = () =>{
+        fire.auth().signOut();
+    };
 
     render () {
         const {questions, options, currentQuestion, userAnswer, endQuiz, quitQuiz, score, time} = this.state;
@@ -139,6 +167,7 @@ class Single extends Component {
                         <h1>Game Over. Your final score is {this.state.score} points</h1>
                         <p></p>
                         <Link to="/"><button>Go Back</button></Link>
+                        <Link to='/'>   <button onClick={this.logout}>Log Out</button> </Link> 
                     </div>
                 )
             }
@@ -156,9 +185,9 @@ class Single extends Component {
             <Fragment>
                 <title>Question</title>
                 <div className="question">
-                    <p>
+                    <div className='ui orange circular label large'>
         <span className="clock">{time}</span>
-                    </p>
+                    </div>
                     <h5>{questions}</h5>
                     <span> {`Questions ${currentQuestion} out of ${QuizData.length-1}`}</span>
                     {options.map(option => (

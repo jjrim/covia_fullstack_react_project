@@ -9,9 +9,9 @@
 }
 
 .clock {
-    position: relative;
-    top: -3px;
+    font-size: 1.5em;
     margin-bottom: 3em;
+    padding: 1.3em;
 }
 
 h5 {
@@ -20,6 +20,7 @@ h5 {
     font-size: x-large;
     text-align: center;
     margin: auto;
+    margin-top: 1em;
     margin-bottom: 2em;
     color: salmon;
     width: 60%;
