@@ -64,6 +64,11 @@ class Single extends Component {
                 this.setState({
                     score: score + 200
          })}
+            else if(this.state.time <= 0){
+                this.setState({
+                    score: score 
+                })
+            }
             else{
                 this.setState({
                     score: score + this.state.time * 20
@@ -125,18 +130,29 @@ class Single extends Component {
                 this.setState({
                     score: score + 400
          })
-            }else{
-                    this.setState({
-                        score: score + this.state.time * 40
-                    })
+            }
+            else if(this.state.time <= 0){
+                this.setState({
+                    score: score
+                })
+            }
+            else{
+                this.setState({
+                    score: score + this.state.time * 40
+                })
                 }
         }
         else{
             $('.selected').css("cssText", 'background: red!important');
         }
 
+        if(this.state.time <= 0){
+            this.setState({
+                endQuiz: true
+            })
+        }
         this.setState({
-            time: 2
+            time: 3
         })
     }
 
@@ -154,7 +170,7 @@ class Single extends Component {
                 if(this.state.time === -1){
                     this.nextQuestionHandler()
                     this.setState({
-                        time: 2
+                        time: 17
                     })
                 }
                 else if(this.state.time < -1) {
