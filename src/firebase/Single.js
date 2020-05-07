@@ -15,7 +15,7 @@ class Single extends Component {
         endQuiz: false,
         score: 0,
         disabled: true,
-        time: 5
+        time: 15
     }
 
         loadQuiz = () => {
@@ -31,7 +31,7 @@ class Single extends Component {
 
     componentDidMount() {
         this.loadQuiz();
-        this.timer();
+        // this.timer();
     }
 
     nextQuestionHandler = () => {
@@ -46,12 +46,18 @@ class Single extends Component {
         console.log(this.state.currentQuestion)
 
         if (userAnswer === answers) {
-            this.setState({
-                score: score + 1
-            })
+            if(this.state.time >= 10){
+                this.setState({
+                    score: score + 200
+         })}
+            else{
+                this.setState({
+                    score: score + this.state.time * 20
+                })
+            }
         }
         this.setState({
-            time: 5
+            time: 15
         })
     }
 }
@@ -85,9 +91,15 @@ class Single extends Component {
         }
 
         if (userAnswer === answers) {
-            this.setState({
-                score: score + 1
-            })
+            if(this.state.time >= 10){
+                this.setState({
+                    score: score + 200
+         })
+        }else{
+                this.setState({
+                    score: score + this.state.time * 20
+                })
+            }
         }
         this.setState({
             time: -2
@@ -146,7 +158,7 @@ class Single extends Component {
     // }
 
     render () {
-        const {questions, options, currentQuestion, userAnswer, endQuiz, time} = this.state;
+        const {questions, options, currentQuestion, userAnswer, endQuiz, time, score} = this.state;
 
             if(endQuiz) {
                 return (
@@ -165,6 +177,7 @@ class Single extends Component {
                     <p>
         <span className="clock">{time}</span>
                     </p>
+        <div>Your Score: {score}</div>
                     <h5>{questions}</h5>
                     <span> {`Questions ${currentQuestion} out of ${QuizData.length - 1}`}</span>
                     {options.map(option => (
