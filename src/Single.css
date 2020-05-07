@@ -6,6 +6,7 @@
     width: 80%;
     margin: auto;
     padding: 1em;
+    position: relative;
 }
 
 .clock {
@@ -63,4 +64,14 @@ h5 {
     padding: 1em;
     color: white;
     cursor: pointer;
+}
+
+.quit{
+    position: absolute;
+    left: 0;
+}
+
+.home{
+    position: absolute;
+    right: 0;
 }

@@ -6,7 +6,7 @@ import fire from "./fire";
 import Main from './Main';
 import { isCompositeComponentWithType } from 'react-dom/test-utils';
 import { QuizData } from './QuizData';
-
+import { Icon } from 'semantic-ui-react'
 class Single extends Component {
     state = {
         userAnswer: null,
@@ -105,7 +105,10 @@ class Single extends Component {
             time: -2
         })
     }
-    
+
+    logout(){
+        fire.auth().signOut();
+    };
 
     // Add timer for the game
     // Also, NextQuestionHandle is also invoked in the timer
@@ -174,9 +177,11 @@ class Single extends Component {
             <Fragment>
                 <title>Question</title>
                 <div className="question">
-                    <p>
+        <Link to ='/'> <Icon size='huge' name='arrow left' className='quit'/></Link>
+        <Link to ='/'> <Icon size='huge' name='sing-out' className='home' onClick={this.logout}/></Link>
+                    <div className='ui orange circular label large'>
         <span className="clock">{time}</span>
-                    </p>
+                    </div>
         <div>Your Score: {score}</div>
                     <h5>{questions}</h5>
                     <span> {`Questions ${currentQuestion} out of ${QuizData.length - 1}`}</span>
