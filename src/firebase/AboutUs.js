@@ -19,7 +19,7 @@ const AboutUs = () =>{
                 <p id = "introPara">
                     We designed “COVIA'' as an online trivia competition game that is made to supply people with more information about COVID-19 while interacting with other people online during the COVID-19 crisis. 
                 </p>
-                <div>
+                <div class = "ui container">
                     <DevelopingApp />
                 </div>
                 
@@ -28,7 +28,7 @@ const AboutUs = () =>{
 
 
             <div class = "ui center aligned container" id = "abtCenterDiv">
-                <h2>Meet the Team!</h2>
+                <h2 id = "headerTransitionColor">Meet the Team!</h2>
                 <div class = "ui two column grid">
                     <div class = "row">
                         <div class = "column">
@@ -102,9 +102,7 @@ const AboutUs = () =>{
             </div>
 
             <div id = "abtStoryDiv" class = "ui vertical center aligned segment">
-                <div>
-                    <Staying />
-                </div>
+                <Staying />
                 <h1 id = "abtH1">
                     Our Story</h1>
                 <p id = "abtP">

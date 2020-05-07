@@ -3,6 +3,8 @@ import logo from './logo.png';
 import fire from './fire.js';
 import 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import MultiUserPlaying from './MultiPlayerLottie'
+
 class Login extends Component {
     constructor(props)
     {
@@ -47,7 +49,7 @@ render()
                 <br />
                 <br />
                 <img src={logo} className="App-logo" alt="logo" />
-                <h2 class="ui inverted header">ABOUT COVIA </h2>
+                <h2 class="ui inverted header" id = "loginAbt">ABOUT COVIA</h2>
 
                 <p id ="explanation">Since COVID-19 is spread out as a pandemic disease,<br/> 
                 “COVIA'' is here to give you an information what is COVID-19<br/>
@@ -55,7 +57,7 @@ render()
                 Test your knowledge about COVID-19 yourself or compete with your friends!<br/> 
                 Welcome to COVIA world.</p>
 
-            <Link to='/about'>   <button class="ui basic inverted huge button">Learn More About Us </button>    </Link>
+            <Link to='/about'>   <button class="ui purple huge button">Learn More About Us </button>    </Link>
                 <br/>
 
             </div>
@@ -97,11 +99,19 @@ render()
                 </form>
             </div>
 
+            <div id = "featureDiv"> 
+            <MultiUserPlaying />
+            <h1 id="sloGan0">Anyone</h1>
+            <h1 id="sloGan1">Anytime</h1>
+            <h1 id="message">Anyplace</h1>
+            <h1 id="message">Any device</h1>
+            </div>
+
             <div class="ui inverted vertical footer segment">
                 <div class="ui container">
                     <div class="ui stackable inverted divided equal height stackable grid">
-                        <div class="six wide column">
-                        <h4 class="ui inverted header">CONTACT THE TEAM</h4>
+                        <div class="eight wide column">
+                        <h4 class="ui inverted header">THE DEVELOPERS</h4>
                         <div class="ui inverted link list">
                             <a href="#" class="item">Cindy Lu</a>
                             <a href="#" class="item">Erica Jeong</a>
@@ -110,18 +120,11 @@ render()
                         </div>
                         </div>
                         <div class="eight wide column">
-                        <h4 class="ui inverted header">ABOUT THE DEVELOPERS</h4>
-                        <p> COVIA was developed by a group of CST students from BCIT. This application in 2020 was created
-                            for our 2800 projects class final project.</p>
+                        <h4 class="ui inverted header">PRESENTED BY</h4>
+                        <p> DTC_TEAM07_2020</p>
                         </div>
                     </div>
 
-                </div>
-                <div class = "ui container">
-                        <p> 
-
-                            DTC_TEAM07_2020
-                        </p>
                 </div>
             </div>
         </body>

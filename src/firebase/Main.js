@@ -7,6 +7,9 @@ import logo from './logo.png';
 import { Button, Header, Image, Modal } from 'semantic-ui-react';
 /* eslint-disable no-unused-expressions */
 import { BrowserRouter as Router, Route, Link , Switch } from 'react-router-dom';
+
+import CellVirusCleaning from './PhoneVirusLottie'
+
 class Main extends Component {
 constructor(props)
     {
@@ -50,18 +53,28 @@ render()
     }
     else{
     return(
-        
+      
     <div className="homepage-content">
       <Link to='/'> <img src={logo} className="logo" alt="logo" height="130" width="200"/> </Link>
-        <h3>Coronavirus Cases In the World</h3>
-        <h2>{number}</h2>
+
+      <div id = "homeBtn">
+      <div className =" ui container api">
+        <h3 id = "homeH1" >Coronavirus Cases In the World</h3>
+        <h2 id = "apiNumber">{number}</h2>
+      </div>
         <div className="home-buttons">
-            <Link to='/Single'> <button className="home-button ui button instagram" >Single-Player </button> </Link>
-            <Link to='/Two'> <button className="home-button ui button instagram" >Two Player </button></Link>
-            <button className="home-button ui button instagram" onClick={this.show('blurring')}>Rules</button>
-            <Link to='/Statistics'><button className="home-button ui button instagram" >Statistics </button></Link>
-            <Link to='/Question'><button className="home-button ui button instagram">Create Custom Question </button></Link>
-            <button onClick={this.logout} className="home-button ui button instagram">Logout</button>
+            <Link to='/Single'> <button className="home-button ui button instagram" > <i class = "chess pawn icon"> </i>Single-Player </button> </Link> 
+            <Link to='/Two'> <button className="home-button ui button instagram" ><i class = "chess icon"> </i>Two Player </button></Link>
+            <button className="home-button ui button instagram" onClick={this.show('blurring')}><i class = "attention icon"> </i>Rules</button> 
+            <Link to='/Statistics'><button className="home-button ui button instagram" ><i class = "chart pie icon"> </i>Statistics </button></Link>
+            <Link to='/Question'><button className="home-button ui button instagram"> <i class = "add icon"> </i> Create Custom Question </button></Link>
+            <button onClick={this.logout} className="home-button ui button instagram"><i class = "sign-out icon"> </i>Sign Out</button> 
+        </div>
+      </div>
+        <div className = "ui container"> 
+              <CellVirusCleaning />
+              <p>* remember to clean your screen after play!</p>
+              <br/>
         </div>
     
         {/* This is for the Rules Page(Modal Box) */}
