@@ -37,16 +37,29 @@ class Single extends Component {
     }
 
     nextQuestionHandler = () => {
+        const {userAnswer, answers, score} = this.state;
+        // Avoid Further Click
+        this.setState({
+            disabled: true
+        })
+        // If next question is the last one
         if (this.state.currentQuestion === QuizData.length - 1) {
             this.endHandler();
-        } else {
-        const {userAnswer, answers, score} = this.state;
-        this.setState({
-            currentQuestion: this.state.currentQuestion + 1
-        })
-        console.log(this.state.currentQuestion)
-
+        } 
+        // After 2 seconds, switch to next question
+        else {
+        setTimeout(() => {
+            this.setState({
+                currentQuestion: this.state.currentQuestion + 1
+            });
+            console.log(this.state.currentQuestion);
+        }, 2000);
+        
+        // Get 200 marks if the remaining time is > or = 10
+        // If you want to change the background color of correct option, modify the 'green' to others
+        // Origin Background: background: linear-gradient(157.81deg, rgba(32, 139, 216, 0.3) 15%,rgba(173, 107, 204, 0.4361) 73%);
         if (userAnswer === answers) {
+            $('.selected').css("cssText", 'background: green!important');
             if(this.state.time >= 10){
                 this.setState({
                     score: score + 200
@@ -57,8 +70,16 @@ class Single extends Component {
                 })
             }
         }
+        // If choose wrong option
+        else{
+            $('.selected').css("cssText", 'background: red!important');
+        }
+        // Remove background of the selected option
+        setTimeout(() => {
+            $('.selected').removeAttr("style");
+        }, 1999);
         this.setState({
-            time: 15
+            time: 17
         })
     }
 }
@@ -86,25 +107,36 @@ class Single extends Component {
 
     endHandler = () => {
         const {userAnswer, answers, score} = this.state;
+        this.setState({
+            disabled: true
+        })
+        // End the game in 2 seconds
         if (this.state.currentQuestion === QuizData.length - 1) {
-            this.setState({
-                endQuiz: true
-            })
+            setTimeout(() => {
+                this.setState({
+                    endQuiz: true
+                })
+            }, 2000);
         }
 
         if (userAnswer === answers) {
+            $('.selected').css("cssText", 'background: green!important');
             if(this.state.time >= 10){
                 this.setState({
                     score: score + 400
          })
-        }else{
-                this.setState({
-                    score: score + this.state.time * 40
-                })
-            }
+            }else{
+                    this.setState({
+                        score: score + this.state.time * 40
+                    })
+                }
         }
+        else{
+            $('.selected').css("cssText", 'background: red!important');
+        }
+
         this.setState({
-            time: -2
+            time: 2
         })
     }
 
@@ -122,7 +154,7 @@ class Single extends Component {
                 if(this.state.time === -1){
                     this.nextQuestionHandler()
                     this.setState({
-                        time: 5
+                        time: 2
                     })
                 }
                 else if(this.state.time < -1) {
@@ -133,7 +165,7 @@ class Single extends Component {
           }, 1000)
     }
     changeTimeColor = () => {
-        if(this.state.time > 18){
+        if(this.state.time > 15){
             $('.clock').css('color', 'yellow')
         }
         if(this.state.time > 10 || this.state.time < 15){
@@ -199,7 +231,7 @@ class Single extends Component {
                     <div className='ui orange circular label large'>
         <span className="clock">{time}</span>
                     </div>
-                    <div className='ui horizontal inverted divider'>Your Score is {score}</div>
+                    <div className='ui horizontal inverted divider'>Your Score is <span className="ui red header">{score} </span></div>
                     <img src={leeke} className="leeke" alt="leeke" height="60" width='60'/>
                     <h5>{questions}</h5>
                     <span> {`Questions ${currentQuestion} out of ${QuizData.length - 1}`}</span>
