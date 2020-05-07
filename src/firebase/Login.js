@@ -55,7 +55,7 @@ render()
                 Test your knowledge about COVID-19 yourself or compete with your friends!<br/> 
                 Welcome to COVIA world.</p>
 
-            <Link to='/about'>   <button class="ui basic inverted button">Learn More About Us </button>    </Link>
+            <Link to='/about'>   <button class="ui basic inverted huge button">Learn More About Us </button>    </Link>
                 <br/>
 
             </div>
