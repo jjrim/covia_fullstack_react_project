@@ -7,14 +7,14 @@ import Main from './Main';
 import { isCompositeComponentWithType } from 'react-dom/test-utils';
 import { QuizData } from './QuizData';
 import $ from 'jquery'
-
+import leeke from './leeke.png'
+import { Icon } from 'semantic-ui-react'
 class Single extends Component {
     state = {
         userAnswer: null,
         currentQuestion: 0,
         options: [],
         endQuiz: false,
-        quitQuiz: false,
         score: 0,
         disabled: true,
         time: 15
@@ -33,27 +33,42 @@ class Single extends Component {
 
     componentDidMount() {
         this.loadQuiz();
-        this.timer()
+        // this.timer();
     }
 
     nextQuestionHandler = () => {
-        const {userAnswer, answer, score} = this.state;
+
+        if (this.state.currentQuestion === QuizData.length - 1) {
+            this.endHandler();
+        } else {
+        const {userAnswer, answers, score} = this.state;
         this.setState({
             currentQuestion: this.state.currentQuestion + 1,
             time: 15
         })
-        // console.log(this.state.currentQuestion)
+        console.log(this.state.currentQuestion)
 
-        if (userAnswer === answer) {
+        if (userAnswer === answers) {
+            if(this.state.time >= 10){
             this.setState({
-                score: score + 1
+                score: score + 200
             })
         }
+            else{
+                this.setState({
+                    score: score + this.state.time * 20
+                })
+            }
     }
-    componentDidUpdate(props, state) {
+        this.setState({
+            time: 15
+        })
+    }
+}
+    componentDidUpdate(prevProps, prevState) {
         this.changeTimeColor()
         const {currentQuestion} = this.state;
-        if (this.state.currentQuestion !== state.currentQuestion) {
+        if (this.state.currentQuestion !== prevState.currentQuestion) {
             this.setState(() => {
                 return {
                     disabled: true,
@@ -66,33 +81,37 @@ class Single extends Component {
     }
 
     checkAnswer = answer => {   
-        this.setState({userAnswer:answer})
-        if(this.state.time > 10){
-            this.setState({
-                disabled: true
-            })
-        }
-        else{
         this.setState({
+            userAnswer:answer,
             disabled: false
         })
     }
-    }
-
     endHandler = () => {
+        const {userAnswer, answers, score} = this.state;
         if (this.state.currentQuestion === QuizData.length - 1) {
             this.setState({
                 endQuiz: true
             })
             
         }
+
+        if (userAnswer === answers) {
+            if(this.state.time >= 10){
+                this.setState({
+                    score: score + 400
+                })
+        }
+            else{
+                this.setState({
+                    score: score + this.state.time * 40
+                })
+            }
     }
-    
-    quitHandler = () => {
         this.setState({
-            quitQuiz: true
+            time: -2
         })
     }
+    
 
     // Add timer for the game
     // Also, NextQuestionHandle is also invoked in the timer
@@ -107,6 +126,9 @@ class Single extends Component {
                         time: 15
                     })
                 }
+                else if(this.state.time < -1) {
+                    
+                }
             }
             );
           }, 1000)
@@ -116,7 +138,7 @@ class Single extends Component {
             $('.clock').css('color', 'yellow')
         }
         if(this.state.time > 10 || this.state.time < 15){
-            $('.clock').css('color', '#000000')
+            $('.clock').css('color', 'red')
         }
 
         if(this.state.time <= 10){
@@ -159,24 +181,15 @@ class Single extends Component {
     };
 
     render () {
-        const {questions, options, currentQuestion, userAnswer, endQuiz, quitQuiz, score, time} = this.state;
+        const {questions, options, currentQuestion, userAnswer, endQuiz, time, score} = this.state;
 
             if(endQuiz) {
                 return (
                     <div>
-                        <h1>Game Over. Your final score is {this.state.score} points</h1>
-                        <p></p>
+                        <br></br>
+                        <h1 className='ui orange header large'>Game Over. Your final score is {this.state.score} points</h1>
                         <Link to="/"><button>Go Back</button></Link>
                         <Link to='/'>   <button onClick={this.logout}>Log Out</button> </Link> 
-                    </div>
-                )
-            }
-
-            if(quitQuiz) {
-                return (
-                    <div>
-                        <h1>Your score is: </h1>
-                        <Link to="/"><button>Go Back</button></Link>
                     </div>
                 )
             }
@@ -185,21 +198,24 @@ class Single extends Component {
             <Fragment>
                 <title>Question</title>
                 <div className="question">
+       <Link to='/'>  <Icon size='huge' name='arrow left' className='quit'/>  </Link>       
+       <Link to='/'>  <Icon size='huge' name='sign-out' className='home' onClick={this.logout}/>  </Link>  
                     <div className='ui orange circular label large'>
         <span className="clock">{time}</span>
                     </div>
+                    <div className='ui horizontal inverted divider'>Your Score is {score}</div>
+                    <img src={leeke} className="leeke" alt="leeke" height="60" width='60'/>
                     <h5>{questions}</h5>
-                    <span> {`Questions ${currentQuestion} out of ${QuizData.length-1}`}</span>
+                    <span> {`Questions ${currentQuestion} out of ${QuizData.length - 1}`}</span>
                     {options.map(option => (
                         <p key={option.id} className= {`ui floating message options ${userAnswer === option ? "selected" : null}`} onClick ={() => this.checkAnswer(option)}>
                             {option}
                         </p>
                     ))}
-                    <br /><br /><br /><br />
+                    <br /><br />
                     <div className="button-container">
-                        {currentQuestion < QuizData.length - 1 && <button disabled={this.state.disabled} onClick={this.nextQuestionHandler}>Next</button>}
-                        {currentQuestion < QuizData.length - 1 && <button onClick={this.quitHandler}>Quit</button>}
-                        {currentQuestion === QuizData.length - 1 && <button onClick={this.endHandler}>End</button>}
+                        {currentQuestion < QuizData.length - 1 && <button disabled={this.state.disabled} onClick={this.nextQuestionHandler} className='ui orange button'>Next</button>}
+                        {currentQuestion === QuizData.length - 1 && <button onClick={this.endHandler} className='ui orange button'>End</button>}
                     </div>
                 </div>
             </Fragment>

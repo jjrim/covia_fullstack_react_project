@@ -6,6 +6,7 @@
     width: 80%;
     margin: auto;
     padding: 1em;
+    position: relative;
 }
 
 .clock {
@@ -57,11 +58,19 @@ h5 {
 }
 
 .button-container button {
-    background-color: tomato;
     box-shadow: snow;
     text-align: center;
     border-radius: 1em;
     padding: 1em;
-    color: white;
     cursor: pointer;
+}
+
+.quit{
+    position: absolute;
+    left: 0;
+}
+
+.home{
+    position: absolute;
+    right: 0;
 }
