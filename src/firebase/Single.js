@@ -7,6 +7,7 @@ import Main from './Main';
 import { isCompositeComponentWithType } from 'react-dom/test-utils';
 import { QuizData } from './QuizData';
 import { Icon } from 'semantic-ui-react'
+import $ from 'jquery'
 class Single extends Component {
     state = {
         userAnswer: null,
@@ -31,11 +32,10 @@ class Single extends Component {
 
     componentDidMount() {
         this.loadQuiz();
-        // this.timer();
+        this.timer();
     }
 
     nextQuestionHandler = () => {
-
         if (this.state.currentQuestion === QuizData.length - 1) {
             this.endHandler();
         } else {
@@ -62,6 +62,7 @@ class Single extends Component {
     }
 }
     componentDidUpdate(prevProps, prevState) {
+        this.changeTimeColor()
         const {currentQuestion} = this.state;
         if (this.state.currentQuestion !== prevState.currentQuestion) {
             this.setState(() => {
@@ -130,7 +131,21 @@ class Single extends Component {
             );
           }, 1000)
     }
+    changeTimeColor = () => {
+        if(this.state.time > 18){
+            $('.clock').css('color', 'yellow')
+        }
+        if(this.state.time > 10 || this.state.time < 15){
+            $('.clock').css('color', 'red')
+        }
 
+        if(this.state.time <= 10){
+            $('.clock').css('color', '#016936')
+        }
+        if(this.state.time <= 4){
+            $('.clock').css('color', '#B03060')
+        }
+    }
     // componentDidMount () {
     //     const {question, currentQuestion, nextQuestion} = this.state;
     //     this.displayQuestions(question, currentQuestion, nextQuestion);
