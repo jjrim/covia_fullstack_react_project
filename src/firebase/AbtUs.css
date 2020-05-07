@@ -1,20 +1,18 @@
 #abtUpperDiv{
     background: linear-gradient(157.81deg, rgba(32, 139, 216, 0.3) 15%,rgba(173, 107, 204, 0.4361) 73%);
-    padding: 10em;
+    padding: 3em;
 }
 
 #abtP{
     color: white;
-    text-align: center;
-    font-size: 1.5em; 
+    font-size: large; 
     font-weight: normal; 
     margin-top: 0.5em;
 }
 
 #introPara{
     color: white;
-    text-align: center;
-    font-size: 2em; 
+    font-size: 1.5em; 
     font-weight: normal; 
     margin-top: 0.5em;
 }
@@ -31,14 +29,15 @@
     margin-bottom: 5em;
 }
 
-h2{
-    background: linear-gradient(83deg, rgba(32, 139, 216, 0.3) 15%,rgba(173, 107, 204, 0.4361) 80%);
+#headerTransitionColor{
+    background: linear-gradient(178.0deg, rgba(32, 139, 216, 0.3) 15%,rgba(173, 107, 204, 0.4361) 80%);
     background-clip: text;
     -webkit-text-fill-color: transparent;
     font-size: 2.5em;
+    margin-bottom: 2em;
 }
 #abtStoryDiv{
     margin-top: 3em;
-    background: linear-gradient(57.81deg, rgba(32, 139, 216, 0.3) 15%,rgba(173, 107, 204, 0.4361) 73%);
-    padding: 10em;
+    background: linear-gradient(12.3deg, rgba(32, 139, 216, 0.4) 80%,rgba(173, 107, 204, 0.4361) 20%);
+    padding: 3em;
 }
