@@ -22,7 +22,7 @@ class Login extends Component {
         fire.auth().signInWithEmailAndPassword(this.state.email,this.state.password).then((u)=>{
             console.log(u)
         }).catch((err)=>{
-            console.log(err);
+            alert("Username/Password do not match with record, please try again.");
         })
     }
     signup(e){
@@ -30,7 +30,7 @@ class Login extends Component {
         fire.auth().createUserWithEmailAndPassword(this.state.email,this.state.password).then((u)=>{
             console.log(u)
         }).catch((err)=>{
-            console.log(err);
+            alert("The email address is already in use by another account. Please use another email address to sign up with.");
         })
     }
     handleChange(e){
