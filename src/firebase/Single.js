@@ -182,9 +182,10 @@ class Single extends Component {
             if(endQuiz) {
                 return (
                     <div>
-                        <h1>Game Over. Your final score is {this.state.score} points</h1>
-                        <p></p>
+                        <br></br>
+                        <h1 className='ui orange header large'>Game Over. Your final score is {this.state.score} points</h1>
                         <Link to="/"><button>Go Back</button></Link>
+                        <Link to='/'>   <button onClick={this.logout}>Log Out</button> </Link> 
                     </div>
                 )
             }
