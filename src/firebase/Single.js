@@ -260,8 +260,8 @@ class Single extends Component {
                         </div>
                         <div className='ui horizontal huge inverted divider'><span className="ui inverted huge header">Your Score is: </span> <span className="ui purple huge header">{score} </span></div>
                         <img src={leeke} className="leeke" alt="leeke" height="60" width='60'/>
-                        <h5 id = "singleQuestion">{questions}</h5>
-                        <div id = "singleQuestionSpan"> 
+                        <div id = "singleQuestionDiv" className = "ui container"> <h5 id = "singleQuestion">{questions}</h5></div>
+                        <div id = "singleQuestionSpan" className = "ui container"> 
                             <span className = "ui large inverted header"> {`Questions ${currentQuestion + 1} out of ${this.state.random.length}`}</span>
                         </div>
                         {options.map(option => (
@@ -269,7 +269,6 @@ class Single extends Component {
                                 {option}
                             </p>
                         ))}
-                        <br /><br />
                         <div className="button-container">
                             {currentQuestion < this.state.random.length - 1 && <button disabled={this.state.disabled} onClick={this.nextQuestionHandler} className='ui purple huge button'>Next</button>}
                             {currentQuestion === this.state.random.length - 1 && <button onClick={this.endHandler} className='ui purple huge button'>End</button>}
