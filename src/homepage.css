@@ -1,10 +1,8 @@
 .homepage-content{
     position: relative;
-    width: 414px;
-    height: 921px;
     background: #FFFFFF;
     margin: auto;
-    background: linear-gradient(157.81deg, rgba(32, 139, 216, 0.19) 43.58%, rgba(204, 224, 239, 0) 85.03%);
+    background: linear-gradient(12.3deg, rgba(32, 139, 216, 0.25) 80%,rgba(173, 107, 204, 0.4361) 20%);
     text-align: center;
 }
 
@@ -15,9 +13,38 @@
 }
 
 .home-button{
-    background:rgba(196, 196, 196, 0.31);
     height: 70px;
     width: 220px;
     border-radius: 20px;
     font-family: Myanmar Sans Pro;
+}
+
+#homeH1{
+    color: white;
+    text-align: center;
+    font-size: 2em; 
+    margin-top: 0.5em;
+}
+
+#apiNumber{
+    color: white;
+    font-size: 3em; 
+}
+
+.api{
+    text-shadow: 1px 1px 5px #7209b7;
+    margin-bottom: 2em;
+}
+
+#homeBtn{
+    background-color: rgba(196, 196, 196, 0.2);
+    padding-top: 2em;
+    padding-bottom: 4em;
+    margin: 3em;
+    border-radius: 1.5em;
+    box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.4);
+
+}
+.questionSingleSpan{
+    margin-bottom: 2em;
 }
