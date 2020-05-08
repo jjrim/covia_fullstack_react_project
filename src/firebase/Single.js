@@ -17,16 +17,23 @@ class Single extends Component {
         endQuiz: false,
         score: 0,
         disabled: true,
-        time: 15
+        time: 15,
+        random: []
     }
 
         loadQuiz = () => {
-            const {currentQuestion} = this.state;
+            let newArray = QuizData.sort(() => {
+                return 0.5 - Math.random()
+            })
+            let fiveQuestions = newArray.slice(QuizData, 5)
+            // eslint-disable-next-line react/no-direct-mutation-state
+            this.state.random = fiveQuestions
+            const {currentQuestion, random} = this.state;
             this.setState(() => {
                 return {
-                    questions: QuizData[currentQuestion].question,
-                    options: QuizData[currentQuestion].options,
-                    answers: QuizData[currentQuestion].answer
+                    questions: random[currentQuestion].question,
+                    options: random[currentQuestion].options,
+                    answers: random[currentQuestion].answer
                 }
             })
         }
@@ -43,7 +50,7 @@ class Single extends Component {
             disabled: true
         })
         // If next question is the last one
-        if (this.state.currentQuestion === QuizData.length - 1) {
+        if (this.state.currentQuestion === this.state.random.length - 1) {
             this.endHandler();
         } 
         // After 2 seconds, switch to next question
@@ -92,12 +99,13 @@ class Single extends Component {
         this.changeTimeColor()
         const {currentQuestion} = this.state;
         if (this.state.currentQuestion !== prevState.currentQuestion) {
+            let { random } = this.state
             this.setState(() => {
                 return {
                     disabled: true,
-                    questions: QuizData[currentQuestion].question,
-                    options: QuizData[currentQuestion].options,
-                    answers: QuizData[currentQuestion].answer
+                    questions: random[currentQuestion].question,
+                    options: random[currentQuestion].options,
+                    answers: random[currentQuestion].answer
                 };
             })
         }
@@ -116,7 +124,7 @@ class Single extends Component {
             disabled: true
         })
         // End the game in 2 seconds
-        if (this.state.currentQuestion === QuizData.length - 1) {
+        if (this.state.currentQuestion === this.state.random.length - 1) {
             setTimeout(() => {
                 this.setState({
                     endQuiz: true
@@ -254,7 +262,7 @@ class Single extends Component {
                         <img src={leeke} className="leeke" alt="leeke" height="60" width='60'/>
                         <h5 id = "singleQuestion">{questions}</h5>
                         <div id = "singleQuestionSpan"> 
-                            <span className = "ui large inverted header"> {`Questions ${currentQuestion + 1} out of ${QuizData.length}`}</span>
+                            <span className = "ui large inverted header"> {`Questions ${currentQuestion + 1} out of ${this.state.random.length}`}</span>
                         </div>
                         {options.map(option => (
                             <p key={option.id} className= {`ui floating message options ${userAnswer === option ? "selected" : null}`} onClick ={() => this.checkAnswer(option)}>
@@ -263,8 +271,8 @@ class Single extends Component {
                         ))}
                         <br /><br />
                         <div className="button-container">
-                            {currentQuestion < QuizData.length - 1 && <button disabled={this.state.disabled} onClick={this.nextQuestionHandler} className='ui purple huge button'>Next</button>}
-                            {currentQuestion === QuizData.length - 1 && <button onClick={this.endHandler} className='ui purple huge button'>End</button>}
+                            {currentQuestion < this.state.random.length - 1 && <button disabled={this.state.disabled} onClick={this.nextQuestionHandler} className='ui purple huge button'>Next</button>}
+                            {currentQuestion === this.state.random.length - 1 && <button onClick={this.endHandler} className='ui purple huge button'>End</button>}
                         </div>
                     </div> 
                 </div>
