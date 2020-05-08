@@ -19,8 +19,8 @@ export const QuizData = [
     },
     {
         id: 3,
-        question: 'Which people are in more danger from COVID-19?',
-        options: ['European people', 'Children or older people', 'People with underlying health problems'],
+        question: 'Who is at higher risk?',
+        options: ['normal people', 'Children or older people', 'People with underlying health problems'],
         answer: 'People with underlying health problems'
     },
     {
