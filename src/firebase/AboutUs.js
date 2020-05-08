@@ -38,7 +38,7 @@ const AboutUs = () =>{
                                     <div class="content">
                                     <div class="header">Cindy</div>
                                     <div class="meta">Term 1 CST Student</div>
-                                    <div class="description">Description</div>
+                                    <div class="description">An unemployed biology student ended up learning to code.</div>
                                     <div class="extra">
                                         <a class="mailto" href="mailto:cindy.lu18@hotmail.com"><i class = "envelope outline large icon"> </i> </a>
                                     </div>
@@ -53,7 +53,7 @@ const AboutUs = () =>{
                                     <div class="content">
                                     <div class="header">Erica</div>
                                     <div class="meta">Term 2 CST Student</div>
-                                    <div class="description">Description</div>
+                                    <div class="description">Have a plan to build a web/mobile application during summer vacation.</div>
                                     <div class="extra">
                                         <a class="mailto" href="mailto:heejaerica@gmail.com"><i class = "envelope outline large icon"> </i> </a>
                                     </div>
@@ -70,7 +70,7 @@ const AboutUs = () =>{
                                     <div class="content">
                                     <div class="header">Jay</div>
                                     <div class="meta">Term 2 CST Student</div>
-                                    <div class="description">Description</div>
+                                    <div class="description">BCIT CST student interested in data science, data analytics, machine learning. Future python developer.</div>
                                     <div class="extra">
                                         <a class="mailto" href="mailto:jjyyrim@gmail.com"><i class = "envelope outline large icon"> </i> </a>
                                     </div>
@@ -85,7 +85,7 @@ const AboutUs = () =>{
                                     <div class="content">
                                     <div class="header">Luke</div>
                                     <div class="meta">Term 1 CST Student</div>
-                                    <div class="description">Description</div>
+                                    <div class="description">Want to stay alive after the coronavirus crisis.</div>
                                     <div class="extra">
                                         <a class="mailto" href="mailto:skystar505836915@gmail.com"><i class = "envelope outline large icon"> </i> </a>
                                     </div>
@@ -114,9 +114,10 @@ const AboutUs = () =>{
                 </p>
 
                 <p id = "abtP">
+                As a team, 
+                we want to help people get through the COVID-19 crisis.<br/>
                 We want to design an application that is suitable for all ages and gender.<br/>
                 We hope to see an 80-year-old grandma is able to play this game with her 8-year-old grandson. <br/>
-                We want this application can be single-user and multi-user.<br/>
                 We hope it can unite our loved ones by encouraging online socializing while raising awareness about Coronavirus.
                 </p>
 
