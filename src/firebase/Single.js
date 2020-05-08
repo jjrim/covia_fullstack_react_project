@@ -59,7 +59,7 @@ class Single extends Component {
         // If you want to change the background color of correct option, modify the 'green' to others
         // Origin Background: background: linear-gradient(157.81deg, rgba(32, 139, 216, 0.3) 15%,rgba(173, 107, 204, 0.4361) 73%);
         if (userAnswer === answers) {
-            $('.selected').css("cssText", 'background: green!important');
+            $('.selected').css("cssText", 'background: #77bfa3 !important');
             if(this.state.time >= 10){
                 this.setState({
                     score: score + 200
@@ -77,7 +77,7 @@ class Single extends Component {
         }
         // If choose wrong option
         else{
-            $('.selected').css("cssText", 'background: red!important');
+            $('.selected').css("cssText", 'background: #ef476f !important');
         }
         // Remove background of the selected option
         setTimeout(() => {
@@ -125,7 +125,7 @@ class Single extends Component {
         }
 
         if (userAnswer === answers) {
-            $('.selected').css("cssText", 'background: green!important');
+            $('.selected').css("cssText", 'background: #77bfa3 !important');
             if(this.state.time >= 10){
                 this.setState({
                     score: score + 400
@@ -143,7 +143,7 @@ class Single extends Component {
                 }
         }
         else{
-            $('.selected').css("cssText", 'background: red!important');
+            $('.selected').css("cssText", 'background: #ef476f !important');
         }
 
         if(this.state.time <= 0){
@@ -240,28 +240,33 @@ class Single extends Component {
 
         return (
             <Fragment>
-                <title>Question</title>
-                <div className="question">
-       <Link to='/'>  <Icon size='huge' name='arrow left' className='quit'/>  </Link>       
-       <Link to='/'>  <Icon size='huge' name='sign-out' className='home' onClick={this.logout}/>  </Link>  
-                    <div className='ui orange circular label large'>
-        <span className="clock">{time}</span>
-                    </div>
-                    <div className='ui horizontal inverted divider'>Your Score is <span className="ui red header">{score} </span></div>
-                    <img src={leeke} className="leeke" alt="leeke" height="60" width='60'/>
-                    <h5>{questions}</h5>
-                    <span> {`Questions ${currentQuestion} out of ${QuizData.length - 1}`}</span>
-                    {options.map(option => (
-                        <p key={option.id} className= {`ui floating message options ${userAnswer === option ? "selected" : null}`} onClick ={() => this.checkAnswer(option)}>
-                            {option}
-                        </p>
-                    ))}
-                    <br /><br />
-                    <div className="button-container">
-                        {currentQuestion < QuizData.length - 1 && <button disabled={this.state.disabled} onClick={this.nextQuestionHandler} className='ui orange button'>Next</button>}
-                        {currentQuestion === QuizData.length - 1 && <button onClick={this.endHandler} className='ui orange button'>End</button>}
-                    </div>
+                <div className = "ui vertical container singlePage">
+                    <title>Question</title>
+                    <div className="question">
+                        <Link to='/'>  <Icon size='huge' name='arrow left' className='quit'/>  </Link>       
+                        <Link to='/'>  <Icon size='huge' name='sign-out' className='home' onClick={this.logout}/>  </Link>  
+                        <div className='ui basic inverted circular label large'>
+                        <span className="clock">{time}</span>
+                        </div>
+                        <div className='ui horizontal huge inverted divider'><span className="ui inverted huge header">Your Score is: </span> <span className="ui purple huge header">{score} </span></div>
+                        <img src={leeke} className="leeke" alt="leeke" height="60" width='60'/>
+                        <h5 id = "singleQuestion">{questions}</h5>
+                        <div id = "singleQuestionSpan"> 
+                            <span className = "ui large inverted header"> {`Questions ${currentQuestion + 1} out of ${QuizData.length}`}</span>
+                        </div>
+                        {options.map(option => (
+                            <p key={option.id} className= {`ui floating message options ${userAnswer === option ? "selected" : null}`} onClick ={() => this.checkAnswer(option)}>
+                                {option}
+                            </p>
+                        ))}
+                        <br /><br />
+                        <div className="button-container">
+                            {currentQuestion < QuizData.length - 1 && <button disabled={this.state.disabled} onClick={this.nextQuestionHandler} className='ui purple huge button'>Next</button>}
+                            {currentQuestion === QuizData.length - 1 && <button onClick={this.endHandler} className='ui purple huge button'>End</button>}
+                        </div>
+                    </div> 
                 </div>
+                
             </Fragment>
         );
     }
