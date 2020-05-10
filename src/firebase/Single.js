@@ -18,7 +18,8 @@ class Single extends Component {
         score: 0,
         disabled: true,
         time: 15,
-        random: []
+        random: [],
+        isClicked: false
     }
 
         loadQuiz = () => {
@@ -57,7 +58,8 @@ class Single extends Component {
         else {
         setTimeout(() => {
             this.setState({
-                currentQuestion: this.state.currentQuestion + 1
+                currentQuestion: this.state.currentQuestion + 1,
+                isClicked: false
             });
             console.log(this.state.currentQuestion);
         }, 2000);
@@ -88,7 +90,7 @@ class Single extends Component {
         }
         // Remove background of the selected option
         setTimeout(() => {
-            $('.selected').removeAttr("style");
+            $('.options').removeAttr("style");
         }, 1999);
         this.setState({
             time: 17
@@ -114,14 +116,21 @@ class Single extends Component {
     checkAnswer = answer => {
         this.setState({
             userAnswer: answer,
-            disabled: false
         })
+
+        if(!(this.state.isClicked)){
+            this.setState({
+                disabled: false,
+                isClicked: true
+            })
+        }
     }
 
     endHandler = () => {
         const {userAnswer, answers, score} = this.state;
         this.setState({
-            disabled: true
+            disabled: true,
+            isClicked: true
         })
         // End the game in 2 seconds
         if (this.state.currentQuestion === this.state.random.length - 1) {
