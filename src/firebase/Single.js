@@ -10,10 +10,18 @@ import { Icon } from 'semantic-ui-react'
 import $ from 'jquery'
 import leeke from './leeke.png'
 
+// Shuffle the questions
 let newArray = QuizData.sort(() => {
     return 0.5 - Math.random()
 })
 let fiveQuestions = newArray.slice(QuizData, 5)
+// Shuffle the options
+for(let i = 0; i < 5; i++){
+    fiveQuestions[i].options.sort( () => {
+        return 0.5 - Math.random()
+    })
+}
+console.log(fiveQuestions)
 class Single extends Component {
     state = {
         userAnswer: null,
