@@ -9,6 +9,11 @@ import { QuizData } from './QuizData';
 import { Icon } from 'semantic-ui-react'
 import $ from 'jquery'
 import leeke from './leeke.png'
+
+let newArray = QuizData.sort(() => {
+    return 0.5 - Math.random()
+})
+let fiveQuestions = newArray.slice(QuizData, 5)
 class Single extends Component {
     state = {
         userAnswer: null,
@@ -18,17 +23,11 @@ class Single extends Component {
         score: 0,
         disabled: true,
         time: 15,
-        random: [],
+        random: fiveQuestions,
         isClicked: false
     }
 
         loadQuiz = () => {
-            let newArray = QuizData.sort(() => {
-                return 0.5 - Math.random()
-            })
-            let fiveQuestions = newArray.slice(QuizData, 5)
-            // eslint-disable-next-line react/no-direct-mutation-state
-            this.state.random = fiveQuestions
             const {currentQuestion, random} = this.state;
             this.setState(() => {
                 return {
@@ -280,7 +279,7 @@ class Single extends Component {
                         ))}
                         <div className="button-container">
                             {currentQuestion < this.state.random.length - 1 && <button disabled={this.state.disabled} onClick={this.nextQuestionHandler} className='ui purple huge button'>Next</button>}
-                            {currentQuestion === this.state.random.length - 1 && <button onClick={this.endHandler} className='ui purple huge button'>End</button>}
+                            {currentQuestion === this.state.random.length - 1 && <button disabled={this.state.disabled} onClick={this.endHandler} className='ui purple huge button'>End</button>}
                         </div>
                     </div> 
                 </div>
