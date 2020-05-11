@@ -24,6 +24,9 @@ io.on('connect', (socket) => {
     })
 })
 
-app.listen(PORT, () => {
+let onlineUsers = {};
+
+
+server.listen(PORT, () => {
     console.log(`Server has started on PORT ${PORT}`)
 })
