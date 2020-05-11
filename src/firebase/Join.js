@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
-export default class Two extends Component {
+
+export default class Join extends Component {
     render() {
         return (
             <div>
-                Hello World
+                I am join
+                <br></br>
+            <Link to="Two"><button></button></Link>
             </div>
         )
     }
 }
-
