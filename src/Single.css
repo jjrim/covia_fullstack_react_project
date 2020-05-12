@@ -98,3 +98,9 @@
 #singleQuestionDiv{
     margin-bottom: 3em;
 }
+
+#singleCountDownMsg{
+    color: red;
+    font-size: xx-large;
+    visibility:hidden;
+}
