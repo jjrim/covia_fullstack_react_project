@@ -105,6 +105,7 @@ class Single extends Component {
     }
 }
     componentDidUpdate(prevProps, prevState) {
+        this.alertUserTime()
         this.changeTimeColor()
         const {currentQuestion} = this.state;
         if (this.state.currentQuestion !== prevState.currentQuestion) {
@@ -219,6 +220,17 @@ class Single extends Component {
             $('.clock').css('color', '#B03060')
         }
     }
+    
+    alertUserTime = () =>{
+        if(this.state.time < 6){
+            $('#singleCountDownMsg').css('visibility', 'visible')
+        }else{
+            $('#singleCountDownMsg').css('visibility', 'hidden')
+        }
+        
+    } 
+
+
     // componentDidMount () {
     //     const {question, currentQuestion, nextQuestion} = this.state;
     //     this.displayQuestions(question, currentQuestion, nextQuestion);
@@ -277,6 +289,10 @@ class Single extends Component {
                         <div className='ui horizontal huge inverted divider'><span className="ui inverted huge header">Your Score is: </span> <span className="ui purple huge header">{score} </span></div>
                         <img src={leeke} className="leeke" alt="leeke" height="60" width='60'/>
                         <div id = "singleQuestionDiv" className = "ui container"> <h5 id = "singleQuestion">{questions}</h5></div>
+
+                        <div id = "singleCountDownDiv">
+                            <h1 id = "singleCountDownMsg"> You only have {time} second left! </h1>
+                        </div>
                         <div id = "singleQuestionSpan" className = "ui container"> 
                             <span className = "ui large inverted header"> {`Questions ${currentQuestion + 1} out of ${this.state.random.length}`}</span>
                         </div>
