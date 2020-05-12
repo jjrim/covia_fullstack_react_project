@@ -222,8 +222,13 @@ class Single extends Component {
     }
     
     alertUserTime = () =>{
-        if(this.state.time < 6){
-            $('#singleCountDownMsg').css('visibility', 'visible')
+        if(this.state.time < 6 && this.state.time > 0){
+            if (this.state.currentQuestion ==4 && this.state.isClicked){
+                $('#singleCountDownMsg').css('visibility', 'hidden')
+            }else{
+                $('#singleCountDownMsg').css('visibility', 'visible')
+            }
+           
         }else{
             $('#singleCountDownMsg').css('visibility', 'hidden')
         }
@@ -275,6 +280,10 @@ class Single extends Component {
                     </div>
                 )
             }
+            if (endQuiz && this.state.score == 0){
+                console.log('u sucks')
+            }
+
 
         return (
             <Fragment>
