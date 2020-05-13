@@ -18,7 +18,8 @@ class Login extends Component {
         this.signup = this.signup.bind(this);
         this.state={
             email : "",
-            password : ""
+            password : "",
+            isClicked: 0
         }
     }
     login(e){
@@ -48,8 +49,14 @@ class Login extends Component {
 render()
 {  
     const imageClick = () => {
+        if(this.state.isClicked >= 4){
         $('#eggDiv').css('display', 'block');
         $('#featureDiv').css('display', 'none');
+        }
+
+        this.setState({
+            isClicked: this.state.isClicked + 1
+        })
       }
 
     return(
@@ -58,7 +65,7 @@ render()
             <div id = "upperDiv"> 
                 <br />
                 <br />
-                <img src={logo} className="App-logo" alt="logo"/>
+          <div onClick={() => imageClick()}>      <img src={logo} className="App-logo" alt="logo"/>  </div>
                 <h2 class="ui inverted header" id = "loginAbt">ABOUT COVIA</h2>
 
                 <p id ="explanation">Since COVID-19 is spread out as a pandemic disease,<br/> 
@@ -74,7 +81,7 @@ render()
 
             
             <div id = "loginDiv" class = "ui container"> 
-                <h1 id="message" onClick={() => imageClick()}>COVIA WORLD</h1>
+                <h1 id="message">COVIA WORLD</h1>
                 <h3 id="signInMsg">Log-in to your account</h3>
                 <form>
                 
@@ -109,7 +116,7 @@ render()
                 </form>
             </div>
 
-            <div class="ui container " id = "eggDiv"> 
+            <div class="eggdiv ui container" id = "eggDiv"> 
                 <Game />
             </div>
 
