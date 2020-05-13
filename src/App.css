@@ -95,3 +95,36 @@
   -webkit-text-fill-color: transparent;
   font-size: 2em;
 }
+
+
+
+.square {
+  background: #fff;
+  border: 1px solid #999;
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 34px;
+  height: 34px;
+  padding: 0;
+  text-align: center;
+  width: 34px;
+}
+
+.square:focus {
+  outline: none;
+}
+
+.game-board {
+  display: flex;
+  width: 150px;
+  margin: 0 auto;
+  padding-left: 2em;
+}
+
+
+#eggDiv{
+  margin-top: 3em;
+  display: none;
+  margin-bottom: 4em;
+}
