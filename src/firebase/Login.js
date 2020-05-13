@@ -4,6 +4,10 @@ import fire from './fire.js';
 import 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import MultiUserPlaying from './MultiPlayerLottie'
+import Game from './EasterEgg'
+import $ from 'jquery'
+
+
 
 class Login extends Component {
     constructor(props)
@@ -39,8 +43,14 @@ class Login extends Component {
         })
     }
 
+    
+
 render()
 {  
+    const imageClick = () => {
+        $('#eggDiv').css('display', 'block');
+        $('#featureDiv').css('display', 'none');
+      }
 
     return(
         <div>
@@ -48,7 +58,7 @@ render()
             <div id = "upperDiv"> 
                 <br />
                 <br />
-                <img src={logo} className="App-logo" alt="logo" />
+                <img src={logo} className="App-logo" alt="logo"/>
                 <h2 class="ui inverted header" id = "loginAbt">ABOUT COVIA</h2>
 
                 <p id ="explanation">Since COVID-19 is spread out as a pandemic disease,<br/> 
@@ -64,7 +74,7 @@ render()
 
             
             <div id = "loginDiv" class = "ui container"> 
-                <h1 id="message">COVIA WORLD</h1>
+                <h1 id="message" onClick={() => imageClick()}>COVIA WORLD</h1>
                 <h3 id="signInMsg">Log-in to your account</h3>
                 <form>
                 
@@ -99,7 +109,11 @@ render()
                 </form>
             </div>
 
-            <div id = "featureDiv"> 
+            <div class="ui container " id = "eggDiv"> 
+                <Game />
+            </div>
+
+            <div id = "featureDiv" > 
             <MultiUserPlaying />
             <h1 id="sloGan0">Anyone</h1>
             <h1 id="sloGan1">Anytime</h1>
