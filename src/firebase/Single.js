@@ -10,6 +10,8 @@ import { Icon } from 'semantic-ui-react'
 import $ from 'jquery'
 import leeke from './leeke.png'
 import CreateUser from "../components/create-user.component";
+import Music from './ButtonClicked'
+
 
 
 // Shuffle the questions
@@ -24,6 +26,8 @@ for(let i = 0; i < 5; i++){
     })
 }
 console.log(fiveQuestions)
+
+
 class Single extends Component {
     state = {
         userAnswer: null,
@@ -238,6 +242,8 @@ class Single extends Component {
     } 
 
 
+
+
     // componentDidMount () {
     //     const {question, currentQuestion, nextQuestion} = this.state;
     //     this.displayQuestions(question, currentQuestion, nextQuestion);
@@ -299,7 +305,9 @@ class Single extends Component {
                         <div className='ui basic inverted circular label large'>
                         <span className="clock">{time}</span>
                         </div>
-                        <div className='ui horizontal huge inverted divider'><span className="ui inverted huge header">Your Score is: </span> <span className="ui purple huge header">{score} </span></div>
+                        <div className='ui horizontal huge inverted divider'>
+                        <Music />
+                        <span className="ui inverted huge header">Your Score is: </span> <span className="ui purple huge header">{score} </span></div>
                         <img src={leeke} className="leeke" alt="leeke" height="60" width='60'/>
                         <div id = "singleQuestionDiv" className = "ui container"> <h5 id = "singleQuestion">{questions}</h5></div>
 
