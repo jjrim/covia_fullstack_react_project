@@ -9,6 +9,8 @@ import { QuizData } from './QuizData';
 import { Icon } from 'semantic-ui-react'
 import $ from 'jquery'
 import leeke from './leeke.png'
+import CreateUser from "../components/create-user.component";
+
 
 // Shuffle the questions
 let newArray = QuizData.sort(() => {
@@ -275,6 +277,8 @@ class Single extends Component {
                         <h1 className='ui blue header large'>Game Over. <br/>Your final score is {this.state.score} points</h1>
                         <br/>
                         <br/>
+                        <CreateUser />
+
                         <Link to="/"><button className = "ui teal button">Go Back</button></Link>
                         <Link to='/'>   <button className = "ui violet button" onClick={this.logout}>Log Out</button> </Link> 
                     </div>
@@ -310,6 +314,9 @@ class Single extends Component {
                                 {option}
                             </p>
                         ))}
+
+
+
                         <div className="button-container">
                             {currentQuestion < this.state.random.length - 1 && <button disabled={this.state.disabled} onClick={this.nextQuestionHandler} className='ui purple huge button'>Next</button>}
                             {currentQuestion === this.state.random.length - 1 && <button disabled={this.state.disabled} onClick={this.endHandler} className='ui purple huge button'>End</button>}
