@@ -1,33 +1,26 @@
 import React, { Component, Fragment } from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import io from 'socket.io-client';
+import queryString from 'query-string';
 import $ from 'jquery'
 import "../Single.css";
 import fire from "./fire";
 import Main from './Main';
-import { QuizData } from './QuizData';
+import { QuizData } from './Twoquizdata';
 import { Icon } from 'semantic-ui-react'
 import leeke from './leeke.png'
-// Shuffle the questions
-let newArray = QuizData.sort(() => {
-    return 0.5 - Math.random()
-})
-let fiveQuestions = newArray.slice(QuizData, 5)
-// Shuffle the options
-for(let i = 0; i < 5; i++){
-    fiveQuestions[i].options.sort( () => {
-        return 0.5 - Math.random()
-    })
-}
 
 const PORT = 'localhost:5000/'
-
+let socket = io(PORT)
 export default class Two extends Component {
     constructor(props){
         super(props);
-
+        const { name, room} = queryString.parse(this.props.location.search)
         this.state = {
-            username: null,
+            username: name,
+            room: room,
+            friend: null,
+            friendScore: 0,
             status: 'disconnected',
             userAnswer: null,
             currentQuestion: 0,
@@ -36,11 +29,12 @@ export default class Two extends Component {
             score: 0,
             disabled: true,
             time: 15,
-            random: fiveQuestions,
+            random: QuizData,
             isClicked: false,
-            isStart: false
+            isNext: false
         }
-
+        this.initSocket()
+        
     }
 
     startGame(){
@@ -53,9 +47,8 @@ export default class Two extends Component {
     }
 
     initSocket(){
-        const { username, status, isClicked} = this.state
+        const { username, room, status, isClicked, score} = this.state
         
-            let socket = io(PORT)
             socket.on('connect', () => {
                 console.log('Data received')
             });
@@ -63,15 +56,18 @@ export default class Two extends Component {
                 console.log('I am out!')
             });
 
+            socket.emit('join', { username, room })
+
+           
+            // socket.on('sendFriendName', ({ friend }) => {
+            //     this.setState({
+            //         friend: friend
+            //     })
+            
+            // })
+
             socket.on('addUser', (data) =>{
                 console.log(this.state.username)
-            })
-
-            socket.on('start', ( {start} ) => {
-                this.setState({
-                    isStart: start
-                })
-                this.timer()
             })
 
             socket.emit('addUser', { username }, ( quizdata ) => {
@@ -79,7 +75,15 @@ export default class Two extends Component {
                 console.log(quizdata)
                 console.log(socket)
             })
-            
+
+            socket.emit('sendUserName', { username })
+
+            socket.on('addUser', ({ username }) => {
+                this.setState({
+                    friend: username
+                })
+                console.log(this.state.friend)
+            })
     }
 
 
@@ -94,13 +98,14 @@ export default class Two extends Component {
         })
     }
     componentDidMount() {
-        this.loadQuiz();
-       
+        this.loadQuiz()
+        this.timer()
+        
     }
 nextQuestionHandler = () => {
     const {userAnswer, answers, score} = this.state;
     this.setState({
-        disabled: true
+        disabled: true,
     })
     if (this.state.currentQuestion === this.state.random.length - 1) {
         this.endHandler();
@@ -116,18 +121,12 @@ nextQuestionHandler = () => {
     if (userAnswer === answers) {
         $('.selected').css("cssText", 'background: #77bfa3 !important');
         if(this.state.time >= 10){
-            this.setState({
-                score: score + 200
-     })}
+            this.state.score = this.state.score + 200}
         else if(this.state.time <= 0){
-            this.setState({
-                score: score 
-            })
+            this.state.score = this.state.score
         }
         else{
-            this.setState({
-                score: score + this.state.time * 20
-            })
+            this.state.score = this.state.score + this.state.time * 20
         }
     }
     else{
@@ -137,10 +136,18 @@ nextQuestionHandler = () => {
         $('.options').removeAttr("style");
     }, 1999);
     this.setState({
-        time: 17
+        time: 17,
     })
+    this.sendScore()
 }
-}
+}   
+    // Send Score
+    sendScore(){
+        const { score } = this.state
+        socket.emit("sendScore", ({ score }), ( twoScore ) => {
+            console.log(score)
+        } )
+    }
     componentDidUpdate(prevProps, prevState) {
         this.changeTimeColor()
         const {currentQuestion} = this.state;
@@ -220,7 +227,6 @@ nextQuestionHandler = () => {
     };
 
     timer = () => {
-        if(this.state.isStart){
         setInterval(() => {
             this.setState((preState) =>({
               time: preState.time - 1,
@@ -237,7 +243,7 @@ nextQuestionHandler = () => {
             }
             );
           }, 1000)
-        }
+
     }
     changeTimeColor = () => {
         if(this.state.time > 15){
@@ -257,19 +263,7 @@ nextQuestionHandler = () => {
     // Single Page Over
 
     render() {
-        let { username } = this.state
-        if( username === null ){
-            return (
-                <div>
-                    <br></br>
-                 Name:   <input className="name ui input instagram"></input>
-                    <br></br><br></br>
-                <button className="ui button instagram" onClick={() =>{ this.startGame(); this.initSocket()}}>Join</button>
-                </div>
-            )
-        }
-        else{
-            const {questions, options, currentQuestion, userAnswer, endQuiz, time, score} = this.state;
+            const {questions, options, currentQuestion, userAnswer, endQuiz, time, score, username, friend, friendScore} = this.state;
 
             if(endQuiz) {
                 return (
@@ -294,7 +288,8 @@ nextQuestionHandler = () => {
                         <div className='ui basic inverted circular label large'>
                         <span className="clock">{time}</span>
                         </div>
-                        <div className='ui horizontal huge inverted divider'><span className="ui inverted huge header">Your Score is: </span> <span className="ui purple huge header">{score} </span></div>
+                        <div className='ui horizontal huge inverted divider'><span className="ui inverted huge header">{username}: </span> <span className="ui purple huge header">{score} </span></div>
+                        <div className='ui horizontal huge inverted divider'><span className="ui inverted huge header">{friend}: </span> <span className="ui purple huge header">{friendScore} </span></div>
                         <img src={leeke} className="leeke" alt="leeke" height="60" width='60'/>
                         <div id = "singleQuestionDiv" className = "ui container"> <h5 id = "singleQuestion">{questions}</h5></div>
                         <div id = "singleQuestionSpan" className = "ui container"> 
@@ -314,7 +309,6 @@ nextQuestionHandler = () => {
                 
             </Fragment>
         );
-    }
     }
 
 }

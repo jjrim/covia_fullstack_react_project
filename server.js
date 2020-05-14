@@ -8,43 +8,24 @@ const server = http.createServer(app);
 const io = socketio(server)
 const router = express.Router()
 const { QuizData } = require('./database')
+
+
+
+
+console.log(QuizData);
+
+
 const users = [];
-
-
-// Local Test Bank
-
-// Shuffle the questions
-let newArray = QuizData.sort(() => {
-    return 0.5 - Math.random()
-})
-let fiveQuestions = newArray.slice(QuizData, 5)
-// Shuffle the options
-for(let i = 0; i < 5; i++){
-    fiveQuestions[i].options.sort( () => {
-        return 0.5 - Math.random()
-    })
-}
-
-console.log(fiveQuestions);
-
-const newGame = (leftPlayer) => ({
-    
-    leftPlayer,
-    rightPlayer: null
-
-})
-
-
-
-const addUser = ( { id, name } ) => {
+const addUser = ( { id, name, room } ) => {
     name = name.trim().toLowerCase()
-    const existingUser = users.find((user) => user.name === name)
+    room = room.trim().toLowerCase()
+    const existingUser = users.find((user) => user.name === name && user.room === room)
 
     if(existingUser){
         return { error: 'Username is taken'}
     }
 
-    const user = { id, name }
+    const user = { id, name, room}
     users.push(user)
     return { user }
 
@@ -61,6 +42,11 @@ const removeUser = (id) => {
 
 const getUser = (id) => users.find( (user) => user.id === id )
 
+const getUsersInRoom = (room) => users.filter((user) => user.room === room)
+
+
+let userList = []
+
 
 router.get('/', (req, res) => {
     res.send('Server is running')
@@ -73,18 +59,28 @@ app.use(router)
 io.on('connect', (socket) => {
     console.log('New user comes!')
 
-
+    socket.on('join',({ username, room }) => {
+        socket.broadcast.to(username.room).emit('addUser', { username })
+        socket.join(username.room)
+    })
     
     socket.on('disconnect', () => {
         console.log('User had left')
     })
     socket.emit('start', { start: true })
 
-    socket.on('addUser', ({ username }, callback) =>{
-        console.log(username);
-        callback(
-            
-        )
+    socket.on('sendScore', ( { score }) => {
+        console.log(score)
+        socket.broadcast.emit('sendScore', score)
+    })
+
+    socket.emit('loadQuiz', (QuizData))
+
+    socket.on('sendUserName', ({ username }) => {
+        console.log("New User:", username)
+        let friend = username
+        socket.broadcast.to(username.room).emit('sendFriendName', friend)
+        console.log('Friend: ', friend)
     })
 })
 
