@@ -17,6 +17,7 @@
     "react": "^16.13.1",
     "react-chartjs-2": "^2.9.0",
     "react-chartjs2": "^1.2.1",
+    "react-datepicker": "^2.15.0",
     "react-dom": "^16.13.1",
     "react-firebase": "^2.2.8",
     "react-load-script": "0.0.6",
