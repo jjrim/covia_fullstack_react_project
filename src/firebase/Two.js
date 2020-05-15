@@ -10,7 +10,7 @@ import { QuizData } from './Twoquizdata';
 import { Icon } from 'semantic-ui-react'
 import leeke from './leeke.png'
 
-const PORT = 'localhost:5000/'
+const PORT = process.env.PORT
 let socket = io(PORT)
 export default class Two extends Component {
     constructor(props){
