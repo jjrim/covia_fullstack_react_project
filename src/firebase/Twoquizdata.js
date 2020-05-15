@@ -1,4 +1,4 @@
-const QuizData = [
+export const QuizData = [
     {
         id: 0,
         question: 'What can we do to protect ourselves?',
@@ -28,7 +28,5 @@ const QuizData = [
         question: 'Where do you have to wear a mask??',
         options: ['When you go for grocery shopping', 'When you are alone at Home', 'Always'],
         answer: 'When you go for grocery shopping'
-    },
-];
-
-module.exports = { QuizData }
+    }
+]
