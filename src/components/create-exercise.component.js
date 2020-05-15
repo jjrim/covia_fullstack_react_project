@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
 export default class CreateExercise extends Component {
@@ -8,16 +7,21 @@ export default class CreateExercise extends Component {
     super(props);
 
     this.onChangeUsername = this.onChangeUsername.bind(this);
-    this.onChangeDescription = this.onChangeDescription.bind(this);
-    this.onChangeDuration = this.onChangeDuration.bind(this);
-    this.onChangeDate = this.onChangeDate.bind(this);
+    this.onChangeQuestion = this.onChangeQuestion.bind(this);
+    this.onChangeOption1 = this.onChangeOption1.bind(this);
+    this.onChangeOption2 = this.onChangeOption2.bind(this);
+    this.onChangeOption3 = this.onChangeOption3.bind(this);
+    this.onChangeAnswer = this.onChangeAnswer.bind(this);
+
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
       username: '',
-      description: '',
-      duration: 0,
-      date: new Date(),
+      question: '',
+      option1: '',
+      option2: '',
+      option3: '',
+      answer: '',
       users: []
     }
   }
@@ -44,32 +48,48 @@ export default class CreateExercise extends Component {
     })
   }
 
-  onChangeDescription(e) {
+  onChangeQuestion(e) {
     this.setState({
-      description: e.target.value
+      question: e.target.value
     })
   }
 
-  onChangeDuration(e) {
+  onChangeOption1(e) {
     this.setState({
-      duration: e.target.value
+      option1: e.target.value
     })
   }
 
-  onChangeDate(date) {
+  onChangeOption2(e) {
     this.setState({
-      date: date
+      option2: e.target.value
     })
   }
+
+  onChangeOption3(e) {
+    this.setState({
+      option3: e.target.value
+    })
+  }
+
+  
+  onChangeAnswer(e) {
+    this.setState({
+      answer: e.target.value
+    })
+  }
+
 
   onSubmit(e) {
     e.preventDefault();
 
     const exercise = {
       username: this.state.username,
-      description: this.state.description,
-      duration: this.state.duration,
-      date: this.state.date
+      question: this.state.question,
+      option1: this.state.option1,
+      option2: this.state.option2,
+      option3: this.state.option3,
+      answer: this.state.answer
     }
 
     console.log(exercise);
@@ -103,32 +123,52 @@ export default class CreateExercise extends Component {
           </select>
         </div>
         <div className="form-group"> 
-          <label>Description: </label>
+          <label>Question: </label>
           <input  type="text"
               required
               className="form-control"
-              value={this.state.description}
-              onChange={this.onChangeDescription}
+              value={this.state.question}
+              onChange={this.onChangeQuestion}
               />
         </div>
-        <div className="form-group">
-          <label>Duration (in minutes): </label>
-          <input 
-              type="text" 
+        <div className="form-group"> 
+          <label>Option1: </label>
+          <input  type="text"
+              required
               className="form-control"
-              value={this.state.duration}
-              onChange={this.onChangeDuration}
+              value={this.state.option1}
+              onChange={this.onChangeOption1}
               />
         </div>
-        <div className="form-group">
-          <label>Date: </label>
-          <div>
-            <DatePicker
-              selected={this.state.date}
-              onChange={this.onChangeDate}
-            />
-          </div>
+        <div className="form-group"> 
+          <label>Option2: </label>
+          <input  type="text"
+              required
+              className="form-control"
+              value={this.state.option2}
+              onChange={this.onChangeOption2}
+              />
         </div>
+        <div className="form-group"> 
+          <label>Option3: </label>
+          <input  type="text"
+              required
+              className="form-control"
+              value={this.state.option3}
+              onChange={this.onChangeOption3}
+              />
+        </div>
+        <div className="form-group"> 
+          <label>Answer: </label>
+          <input  type="text"
+              required
+              className="form-control"
+              value={this.state.answer}
+              onChange={this.onChangeAnswer}
+              />
+        </div>
+      
+
 
         <div className="form-group">
           <input type="submit" value="Create Exercise Log" className="btn btn-primary" />
