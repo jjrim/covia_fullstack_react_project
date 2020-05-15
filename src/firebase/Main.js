@@ -19,7 +19,7 @@ constructor(props)
     this.state= {
         number:[],
         isLoaded: false,
-        open: false,
+        open: true,
     };
     
 
