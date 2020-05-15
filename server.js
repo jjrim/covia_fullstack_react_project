@@ -16,16 +16,14 @@ console.log(QuizData);
 
 
 const users = [];
-const addUser = ( { id, name, room } ) => {
-    name = name.trim().toLowerCase()
-    room = room.trim().toLowerCase()
-    const existingUser = users.find((user) => user.name === name && user.room === room)
+const addUser = ( { id, username, room } ) => {
+    const existingUser = users.find((user) => user.name === username && user.room === room)
 
     if(existingUser){
         return { error: 'Username is taken'}
     }
 
-    const user = { id, name, room}
+    const user = { id, username, room}
     users.push(user)
     return { user }
 
@@ -59,7 +57,9 @@ app.use(router)
 io.on('connect', (socket) => {
     console.log('New user comes!')
 
-    socket.on('join',({ username, room }) => {
+    socket.on('join',({ username, room }, callback) => {
+        const  { user } = addUser( { id: socket.id, username, room})
+
         socket.broadcast.to(username.room).emit('addUser', { username })
         socket.join(username.room)
     })
@@ -81,6 +81,17 @@ io.on('connect', (socket) => {
         let friend = username
         socket.broadcast.to(username.room).emit('sendFriendName', friend)
         console.log('Friend: ', friend)
+    })
+
+    socket.on('sendRoomOwner', ({ username }) => {
+        let friend = username
+        socket.to(username.room).emit('sendRoomOwnertoFriend', friend)
+    }
+    )
+
+    socket.on('sendMyName', ( { username }) => {
+        let friend = username;
+        socket.broadcast.to(username.room).emit('receiveRoomOwnerName', friend)
     })
 })
 

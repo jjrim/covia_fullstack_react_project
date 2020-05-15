@@ -33,7 +33,7 @@ export default class Two extends Component {
             isClicked: false,
             isNext: false
         }
-        this.initSocket()
+        
         
     }
 
@@ -46,8 +46,13 @@ export default class Two extends Component {
         })
     }
 
+    sendName(){
+        const { username, room, status, isClicked, score, friend} = this.state
+        socket.emit('sendMyName', { username })
+    }
+
     initSocket(){
-        const { username, room, status, isClicked, score} = this.state
+        const { username, room, status, isClicked, score, friend} = this.state
         
             socket.on('connect', () => {
                 console.log('Data received')
@@ -58,24 +63,6 @@ export default class Two extends Component {
 
             socket.emit('join', { username, room })
 
-           
-            // socket.on('sendFriendName', ({ friend }) => {
-            //     this.setState({
-            //         friend: friend
-            //     })
-            
-            // })
-
-            socket.on('addUser', (data) =>{
-                console.log(this.state.username)
-            })
-
-            socket.emit('addUser', { username }, ( quizdata ) => {
-                // this.timer()
-                console.log(quizdata)
-                console.log(socket)
-            })
-
             socket.emit('sendUserName', { username })
 
             socket.on('addUser', ({ username }) => {
@@ -84,8 +71,19 @@ export default class Two extends Component {
                 })
                 console.log(this.state.friend)
             })
+
+            console.log('Me:', username, ' My Friend: ', friend)
+
+            socket.on('receiveRoomOwnerName', ( friend )=> {
+                this.setState({
+                    friend: friend
+                })
+            })
     }
 
+    componentWillUpdate(){
+        
+    }
 
     loadQuiz = () => {
         const {currentQuestion, random} = this.state;
@@ -100,6 +98,7 @@ export default class Two extends Component {
     componentDidMount() {
         this.loadQuiz()
         this.timer()
+        this.initSocket()
         
     }
 nextQuestionHandler = () => {
@@ -283,7 +282,8 @@ nextQuestionHandler = () => {
                 <div className = "ui vertical container singlePage">
                     <title>Question</title>
                     <div className="question">
-                        <Link to='/'>  <Icon size='huge' name='arrow left' className='quit'/>  </Link>       
+                        <Link to='/'>  <Icon size='huge' name='arrow left' className='quit'/>  </Link>    
+                        <button onClick={() => this.sendName()}>Send Message</button>   
                         <Link to='/'>  <Icon size='huge' name='sign-out' className='home' onClick={this.logout}/>  </Link>  
                         <div className='ui basic inverted circular label large'>
                         <span className="clock">{time}</span>
