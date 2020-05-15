@@ -9,15 +9,20 @@ router.route('/').get((req, res) => {
 
 router.route('/add').post((req, res) => {
   const username = req.body.username;
-  const description = req.body.description;
-  const duration = Number(req.body.duration);
-  const date = Date.parse(req.body.date);
+  const question = req.body.question;
+  const option1 = req.body.option1;
+  const option2 = req.body.option2;
+  const option3 = req.body.option3;
+  const answer = req.body.answer;
+
 
   const newExercise = new Exercise({
     username,
-    description,
-    duration,
-    date,
+    question,
+    option1,
+    option2,
+    option3,
+    answer
   });
 
   newExercise.save()

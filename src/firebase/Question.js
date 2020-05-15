@@ -7,6 +7,7 @@ import EditExercise from "../components/edit-exercise.component";
 import CreateExercise from "../components/create-exercise.component";
 import CreateUser from "../components/create-user.component";
 
+
 export default function Question() {
     return (
         <Router>
@@ -17,6 +18,7 @@ export default function Question() {
       <Route path="/edit/:id" component={EditExercise} />
       <Route path="/create" component={CreateExercise} />
       <Route path="/user" component={CreateUser} />
+
         </div>
         </Router>
     )

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import "react-datepicker/dist/react-datepicker.css";
 
 export default class CreateExercise extends Component {
   constructor(props) {
@@ -171,7 +170,7 @@ export default class CreateExercise extends Component {
 
 
         <div className="form-group">
-          <input type="submit" value="Create Exercise Log" className="btn btn-primary" />
+          <input type="submit" value="Create Custom Question" className="btn btn-primary" />
         </div>
       </form>
     </div>
