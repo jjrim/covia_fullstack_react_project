@@ -53,7 +53,7 @@ class Single extends Component {
     }
         clickPlay = () => {
         this.setState({ clickPlay: true})
-          this.clickAudio.play();
+        this.clickAudio.play();
         }
 
         bgmPlay = () => {
@@ -213,9 +213,12 @@ class Single extends Component {
         })
     }
 
-    logout(){
+    logout = () => {
+        this.bgmPause();
         fire.auth().signOut();
     };
+
+
 
     // Add timer for the game
     // Also, NextQuestionHandle is also invoked in the timer
@@ -313,8 +316,8 @@ class Single extends Component {
                         <br/>
                         <CreateUser />
 
-                        <Link to="/"><button className = "ui teal button" onClick={this.bgmPause}>Go Back</button></Link>
-                        <Link to='/'>   <button className = "ui violet button" onClick={this.logout && this.bgmPause}>Log Out</button> </Link> 
+                        <Link to="/"><button className = "ui inverted blue button" onClick={this.bgmPause}>Go Back</button></Link>
+                        <Link to='/'>   <button className = "ui inverted violet button" onClick={this.logout}>Log Out</button> </Link> 
                     </div>
                     
                 )
@@ -334,11 +337,11 @@ class Single extends Component {
                         <div className='ui basic inverted circular label large'>
                         <span className="clock">{time}</span>
                         </div>
-                        <div className='ui horizontal huge inverted divider'>
-                        <div>
+                        <div id = "bgmDiv">
                             <button class="ui violet small button" onClick={this.bgmPlay}><i class = "play icon" ></i>Play Music</button>
                             <button class="ui teal small button" onClick={this.bgmPause}><i class = "pause icon" ></i>Pause Music</button> 
                         </div>
+                        <div className='ui horizontal huge inverted divider'>
                         <span className="ui inverted huge header">Your Score is: </span> <span className="ui purple huge header">{score} </span></div>
                         <img src={leeke} className="leeke" alt="leeke" height="60" width='60'/>
                         <div id = "singleQuestionDiv" className = "ui container"> <h5 id = "singleQuestion">{questions}</h5></div>
