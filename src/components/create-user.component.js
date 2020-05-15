@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import '../join.css'
 
 export default class CreateUser extends Component {
   constructor(props) {
@@ -39,10 +40,10 @@ export default class CreateUser extends Component {
   render() {
     return (
       <div>
-        <h3>Create New User</h3>
+        <h3 class="ui purple large header">Create New User</h3>
         <form onSubmit={this.onSubmit}>
           <div className="form-group"> 
-            <label>Username: </label>
+            <label class="ui header">Username: </label>
             <input  type="text"
                 required
                 className="form-control"
@@ -50,8 +51,8 @@ export default class CreateUser extends Component {
                 onChange={this.onChangeUsername}
                 />
           </div>
-          <div className="form-group">
-            <input type="submit" value="Create User" className="btn btn-primary" />
+          <div className="form-group" id = "createUserBtn">
+            <input type="submit" value="Create User" class="ui violet button" />
           </div>
         </form>
       </div>
