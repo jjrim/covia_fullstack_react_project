@@ -18,8 +18,8 @@ constructor(props)
     super(props)
     this.state= {
         number:[],
-        isLoaded: false,
-        open: true,
+        isLoaded: true,
+        open: false,
     };
     
 
