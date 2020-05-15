@@ -53,7 +53,7 @@ class Single extends Component {
     }
         clickPlay = () => {
         this.setState({ clickPlay: true})
-          this.clickAudio.play();
+        this.clickAudio.play();
         }
 
         bgmPlay = () => {
@@ -213,9 +213,12 @@ class Single extends Component {
         })
     }
 
-    logout(){
+    logout = () => {
+        this.bgmPause();
         fire.auth().signOut();
     };
+
+
 
     // Add timer for the game
     // Also, NextQuestionHandle is also invoked in the timer
@@ -314,7 +317,7 @@ class Single extends Component {
                         <CreateUser />
 
                         <Link to="/"><button className = "ui inverted blue button" onClick={this.bgmPause}>Go Back</button></Link>
-                        <Link to='/'>   <button className = "ui inverted violet button" onClick={this.logout && this.bgmPause}>Log Out</button> </Link> 
+                        <Link to='/'>   <button className = "ui inverted violet button" onClick={this.logout}>Log Out</button> </Link> 
                     </div>
                     
                 )

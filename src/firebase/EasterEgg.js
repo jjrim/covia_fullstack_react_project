@@ -1,5 +1,5 @@
 import React from 'react';
-import $ from 'jquery'
+
 
 
 function Square(props) {
@@ -22,15 +22,15 @@ class Board extends React.Component {
     }
 
     render() {
-        const rowCount = 3;
-        const colCount = 3;
+        const rowLength = 3;
+        const colLength = 3;
         return (
             <div>
-                {[...new Array(rowCount)].map((row, rowIndex) => {
+                {[...new Array(rowLength)].map((row, rowIndex) => {
                     return (
                         <div key={rowIndex} className="board-row">
-                            {[...new Array(colCount)].map((col, colIndex) => {
-                                return this.renderSquare(rowIndex * colCount + colIndex);
+                            {[...new Array(colLength)].map((col, colIndex) => {
+                                return this.renderSquare(rowIndex * colLength + colIndex);
                             })}
                         </div>
                     );
