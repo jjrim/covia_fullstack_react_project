@@ -1,5 +1,5 @@
 const express = require('express');
-const app = express();
+const app = express.createServer(express.logger());
 const randomString = require('randomstring')
 const socketio = require('socket.io');
 const http = require('http')
@@ -9,7 +9,7 @@ const io = socketio(server)
 const router = express.Router()
 const { QuizData } = require('./database')
 
-
+app.use(express.static(__dirname + '/public'))
 
 
 console.log(QuizData);
