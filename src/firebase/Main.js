@@ -18,7 +18,7 @@ constructor(props)
     super(props)
     this.state= {
         number:[],
-        isLoaded: true,
+        isLoaded: false,
         open: false,
     };
     
@@ -36,6 +36,16 @@ componentDidMount(){
         })
     })
     
+    // if the API sucks, after 2 seconds would cancel loading and show the homepage
+    setTimeout(() => {
+      this.cancelLoad()
+    }, 2000);
+}
+
+cancelLoad = () => {
+  this.setState({
+    isLoaded: true
+  })
 }
 
 show = (dimmer) => () => this.setState({ dimmer, open: true})
