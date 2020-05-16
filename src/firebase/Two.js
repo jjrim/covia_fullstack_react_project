@@ -10,8 +10,8 @@ import { QuizData } from './Twoquizdata';
 import { Icon } from 'semantic-ui-react'
 import leeke from './leeke.png'
 
-const PORT = 'localhost:5000/'
-let socket = io(PORT)
+const PORT = process.env.PORT || ":5000"
+let socket = io.connect('https://covia-server.herokuapp.com')
 export default class Two extends Component {
     constructor(props){
         super(props);
@@ -33,7 +33,6 @@ export default class Two extends Component {
             isClicked: false,
             isNext: false
         }
-        
         
     }
 
@@ -99,7 +98,6 @@ export default class Two extends Component {
         this.loadQuiz()
         this.timer()
         this.initSocket()
-        
     }
 nextQuestionHandler = () => {
     const {userAnswer, answers, score} = this.state;

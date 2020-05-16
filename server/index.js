@@ -1,19 +1,14 @@
 const express = require('express');
 const app = express();
-const randomString = require('randomstring')
+const cors = require('cors')
 const socketio = require('socket.io');
 const http = require('http')
 const PORT = process.env.PORT || 5000
 const server = http.createServer(app);
 const io = socketio(server)
 const router = express.Router()
-const { QuizData } = require('./database')
 
-
-
-
-console.log(QuizData);
-
+app.use(cors())
 
 const users = [];
 const addUser = ( { id, username, room } ) => {
@@ -73,8 +68,6 @@ io.on('connect', (socket) => {
         console.log(score)
         socket.broadcast.emit('sendScore', score)
     })
-
-    socket.emit('loadQuiz', (QuizData))
 
     socket.on('sendUserName', ({ username }) => {
         console.log("New User:", username)
