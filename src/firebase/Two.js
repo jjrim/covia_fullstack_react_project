@@ -11,7 +11,7 @@ import { Icon } from 'semantic-ui-react'
 import leeke from './leeke.png'
 
 const PORT = process.env.PORT || ":5000"
-let socket = io.connect('https://covia-server.herokuapp.com')
+let socket = io(PORT)
 export default class Two extends Component {
     constructor(props){
         super(props);
