@@ -1,5 +1,5 @@
 const express = require('express');
-const app = express.createServer(express.logger());
+const app = express();
 const randomString = require('randomstring')
 const socketio = require('socket.io');
 const http = require('http')
@@ -12,10 +12,9 @@ const { QuizData } = require('./database')
 app.use(express.static(__dirname + '/public'))
 
 io.configure(function () { 
-    io.set("transports", ["xhr-polling"]); 
-    io.set("polling duration", 10); 
-  });
-  
+  io.set("transports", ["xhr-polling"]); 
+  io.set("polling duration", 10); 
+});
 console.log(QuizData);
 
 
