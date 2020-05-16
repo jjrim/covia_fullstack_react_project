@@ -7,10 +7,6 @@ const PORT = process.env.PORT || 5000
 const server = http.createServer(app);
 const io = socketio(server)
 const router = express.Router()
-const { QuizData } = require('./database')
-
-app.use(express.static(__dirname + 'public'))
-
 
 
 const users = [];
@@ -71,8 +67,6 @@ io.on('connect', (socket) => {
         console.log(score)
         socket.broadcast.emit('sendScore', score)
     })
-
-    socket.emit('loadQuiz', (QuizData))
 
     socket.on('sendUserName', ({ username }) => {
         console.log("New User:", username)
