@@ -11,6 +11,13 @@ import $ from 'jquery'
 import leeke from './leeke.png'
 import CreateUser from "../components/create-user.component";
 
+// sound effects
+import ClickSound from './SoundClips/Button_Clicking.mp3'
+import Bgm from './SoundClips/Bgm.mp3'
+
+
+
+
 
 // Shuffle the questions
 let newArray = QuizData.sort(() => {
@@ -24,7 +31,12 @@ for(let i = 0; i < 5; i++){
     })
 }
 console.log(fiveQuestions)
+
+
 class Single extends Component {
+    clickAudio = new Audio(ClickSound);
+    bgmAudio = new Audio(Bgm);
+
     state = {
         userAnswer: null,
         currentQuestion: 0,
@@ -34,8 +46,25 @@ class Single extends Component {
         disabled: true,
         time: 15,
         random: fiveQuestions,
-        isClicked: false
+        isClicked: false,
+        clickPlay:false,
+        bgmPlay:false,
+        bgmPause:true,
     }
+        clickPlay = () => {
+        this.setState({ clickPlay: true})
+        this.clickAudio.play();
+        }
+
+        bgmPlay = () => {
+            this.setState({ bgmPlay: true, bgmPause: false })
+            this.bgmAudio.play();
+        }
+        bgmPause = () => {
+            this.setState({ bgmPlay: false, bgmPause: true })
+              this.bgmAudio.pause();
+        }
+    
 
         loadQuiz = () => {
             const {currentQuestion, random} = this.state;
@@ -124,6 +153,7 @@ class Single extends Component {
     }
 
     checkAnswer = answer => {
+        this.clickPlay();
         this.setState({
             userAnswer: answer,
         })
@@ -183,9 +213,12 @@ class Single extends Component {
         })
     }
 
-    logout(){
+    logout = () => {
+        this.bgmPause();
         fire.auth().signOut();
     };
+
+
 
     // Add timer for the game
     // Also, NextQuestionHandle is also invoked in the timer
@@ -225,7 +258,7 @@ class Single extends Component {
     
     alertUserTime = () =>{
         if(this.state.time < 6 && this.state.time > 0){
-            if (this.state.currentQuestion ==4 && this.state.isClicked){
+            if (this.state.currentQuestion === 4 && this.state.isClicked){
                 $('#singleCountDownMsg').css('visibility', 'hidden')
             }else{
                 $('#singleCountDownMsg').css('visibility', 'visible')
@@ -236,6 +269,10 @@ class Single extends Component {
         }
         
     } 
+
+    
+
+
 
 
     // componentDidMount () {
@@ -279,12 +316,13 @@ class Single extends Component {
                         <br/>
                         <CreateUser />
 
-                        <Link to="/"><button className = "ui teal button">Go Back</button></Link>
-                        <Link to='/'>   <button className = "ui violet button" onClick={this.logout}>Log Out</button> </Link> 
+                        <Link to="/"><button className = "ui inverted blue button" onClick={this.bgmPause}>Go Back</button></Link>
+                        <Link to='/'>   <button className = "ui inverted violet button" onClick={this.logout}>Log Out</button> </Link> 
                     </div>
+                    
                 )
             }
-            if (endQuiz && this.state.score == 0){
+            if (endQuiz && this.state.score === 0){
                 console.log('u sucks')
             }
 
@@ -294,12 +332,17 @@ class Single extends Component {
                 <div className = "ui vertical container singlePage">
                     <title>Question</title>
                     <div className="question">
-                        <Link to='/'>  <Icon size='huge' name='arrow left' className='quit'/>  </Link>       
-                        <Link to='/'>  <Icon size='huge' name='sign-out' className='home' onClick={this.logout}/>  </Link>  
+                        <Link to='/'>  <Icon size='huge' name='arrow left' className='quit'  onClick={this.bgmPause} />  </Link>       
+                        <Link to='/'>  <Icon size='huge' name='sign-out' className='home' onClick={this.logout && this.bgmPause}/>  </Link>  
                         <div className='ui basic inverted circular label large'>
                         <span className="clock">{time}</span>
                         </div>
-                        <div className='ui horizontal huge inverted divider'><span className="ui inverted huge header">Your Score is: </span> <span className="ui purple huge header">{score} </span></div>
+                        <div id = "bgmDiv">
+                            <button class="ui violet small button" onClick={this.bgmPlay}><i class = "play icon" ></i>Play Music</button>
+                            <button class="ui teal small button" onClick={this.bgmPause}><i class = "pause icon" ></i>Pause Music</button> 
+                        </div>
+                        <div className='ui horizontal huge inverted divider'>
+                        <span className="ui inverted huge header">Your Score is: </span> <span className="ui purple huge header">{score} </span></div>
                         <img src={leeke} className="leeke" alt="leeke" height="60" width='60'/>
                         <div id = "singleQuestionDiv" className = "ui container"> <h5 id = "singleQuestion">{questions}</h5></div>
 

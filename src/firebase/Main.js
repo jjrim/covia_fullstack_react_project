@@ -32,7 +32,7 @@ componentDidMount(){
     .then(json => {
         this.setState({
             isLoaded: true,
-            number: json.results[0].total_cases,
+            number: json.results[0].total_new_cases_today,
         })
     })
     
@@ -66,7 +66,7 @@ render()
       </div>
         <div className="home-buttons">
             <Link to='/Single'> <button className="home-button ui button instagram" > <i class = "chess pawn icon"> </i>Single-Player </button> </Link> 
-            <Link to='/Two'> <button className="home-button ui button instagram" ><i class = "chess icon"> </i>Two Player </button></Link>
+            <Link to='/mul/Join'> <button className="home-button ui button instagram" ><i class = "chess icon"> </i>Two Player </button></Link>
             <button className="home-button ui button instagram" onClick={this.show('blurring')}><i class = "attention icon"> </i>Rules</button> 
             <Link to='/Statistics'><button className="home-button ui button instagram" ><i class = "chart pie icon"> </i>Statistics </button></Link>
             <Link to='/Question'><button className="home-button ui button instagram"> <i class = "add icon"> </i> Create Custom Question </button></Link>
