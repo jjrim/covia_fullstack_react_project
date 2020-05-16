@@ -9,7 +9,7 @@ const io = socketio(server)
 const router = express.Router()
 const { QuizData } = require('./database')
 
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + 'public'))
 
 
 
