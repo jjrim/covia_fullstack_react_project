@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/26154ea4-811b-4af3-9df9-92a5aecf480a/resourceGroups/Ameimei/providers/Microsoft.Web/sites/covia",
+    "appService.deploySubpath": ""
+}

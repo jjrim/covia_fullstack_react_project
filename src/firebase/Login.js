@@ -4,6 +4,10 @@ import fire from './fire.js';
 import 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import MultiUserPlaying from './MultiPlayerLottie'
+import Game from './EasterEgg'
+import $ from 'jquery'
+
+
 
 class Login extends Component {
     constructor(props)
@@ -14,7 +18,8 @@ class Login extends Component {
         this.signup = this.signup.bind(this);
         this.state={
             email : "",
-            password : ""
+            password : "",
+            isClicked: 0
         }
     }
     login(e){
@@ -39,8 +44,20 @@ class Login extends Component {
         })
     }
 
+    
+
 render()
 {  
+    const imageClick = () => {
+        if(this.state.isClicked >= 4){
+        $('#eggDiv').css('display', 'block');
+        $('#featureDiv').css('display', 'none');
+        }
+
+        this.setState({
+            isClicked: this.state.isClicked + 1
+        })
+      }
 
     return(
         <div>
@@ -48,7 +65,7 @@ render()
             <div id = "upperDiv"> 
                 <br />
                 <br />
-                <img src={logo} className="App-logo" alt="logo" />
+          <div onClick={() => imageClick()}>      <img src={logo} className="App-logo" alt="logo"/>  </div>
                 <h2 class="ui inverted header" id = "loginAbt">ABOUT COVIA</h2>
 
                 <p id ="explanation">Since COVID-19 is spread out as a pandemic disease,<br/> 
@@ -99,7 +116,11 @@ render()
                 </form>
             </div>
 
-            <div id = "featureDiv"> 
+            <div class="eggdiv ui container" id = "eggDiv"> 
+                <Game />
+            </div>
+
+            <div id = "featureDiv" > 
             <MultiUserPlaying />
             <h1 id="sloGan0">Anyone</h1>
             <h1 id="sloGan1">Anytime</h1>

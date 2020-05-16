@@ -9,7 +9,34 @@ import { QuizData } from './QuizData';
 import { Icon } from 'semantic-ui-react'
 import $ from 'jquery'
 import leeke from './leeke.png'
+import CreateUser from "../components/create-user.component";
+
+// sound effects
+import ClickSound from './SoundClips/Button_Clicking.mp3'
+import Bgm from './SoundClips/Bgm.mp3'
+
+
+
+
+
+// Shuffle the questions
+let newArray = QuizData.sort(() => {
+    return 0.5 - Math.random()
+})
+let fiveQuestions = newArray.slice(QuizData, 5)
+// Shuffle the options
+for(let i = 0; i < 5; i++){
+    fiveQuestions[i].options.sort( () => {
+        return 0.5 - Math.random()
+    })
+}
+console.log(fiveQuestions)
+
+
 class Single extends Component {
+    clickAudio = new Audio(ClickSound);
+    bgmAudio = new Audio(Bgm);
+
     state = {
         userAnswer: null,
         currentQuestion: 0,
@@ -18,16 +45,28 @@ class Single extends Component {
         score: 0,
         disabled: true,
         time: 15,
-        random: []
+        random: fiveQuestions,
+        isClicked: false,
+        clickPlay:false,
+        bgmPlay:false,
+        bgmPause:true,
     }
+        clickPlay = () => {
+        this.setState({ clickPlay: true})
+        this.clickAudio.play();
+        }
+
+        bgmPlay = () => {
+            this.setState({ bgmPlay: true, bgmPause: false })
+            this.bgmAudio.play();
+        }
+        bgmPause = () => {
+            this.setState({ bgmPlay: false, bgmPause: true })
+              this.bgmAudio.pause();
+        }
+    
 
         loadQuiz = () => {
-            let newArray = QuizData.sort(() => {
-                return 0.5 - Math.random()
-            })
-            let fiveQuestions = newArray.slice(QuizData, 5)
-            // eslint-disable-next-line react/no-direct-mutation-state
-            this.state.random = fiveQuestions
             const {currentQuestion, random} = this.state;
             this.setState(() => {
                 return {
@@ -57,7 +96,8 @@ class Single extends Component {
         else {
         setTimeout(() => {
             this.setState({
-                currentQuestion: this.state.currentQuestion + 1
+                currentQuestion: this.state.currentQuestion + 1,
+                isClicked: false
             });
             console.log(this.state.currentQuestion);
         }, 2000);
@@ -88,7 +128,7 @@ class Single extends Component {
         }
         // Remove background of the selected option
         setTimeout(() => {
-            $('.selected').removeAttr("style");
+            $('.options').removeAttr("style");
         }, 1999);
         this.setState({
             time: 17
@@ -96,6 +136,7 @@ class Single extends Component {
     }
 }
     componentDidUpdate(prevProps, prevState) {
+        this.alertUserTime()
         this.changeTimeColor()
         const {currentQuestion} = this.state;
         if (this.state.currentQuestion !== prevState.currentQuestion) {
@@ -112,16 +153,24 @@ class Single extends Component {
     }
 
     checkAnswer = answer => {
+        this.clickPlay();
         this.setState({
             userAnswer: answer,
-            disabled: false
         })
+
+        if(!(this.state.isClicked)){
+            this.setState({
+                disabled: false,
+                isClicked: true
+            })
+        }
     }
 
     endHandler = () => {
         const {userAnswer, answers, score} = this.state;
         this.setState({
-            disabled: true
+            disabled: true,
+            isClicked: true
         })
         // End the game in 2 seconds
         if (this.state.currentQuestion === this.state.random.length - 1) {
@@ -164,9 +213,12 @@ class Single extends Component {
         })
     }
 
-    logout(){
+    logout = () => {
+        this.bgmPause();
         fire.auth().signOut();
     };
+
+
 
     // Add timer for the game
     // Also, NextQuestionHandle is also invoked in the timer
@@ -203,6 +255,26 @@ class Single extends Component {
             $('.clock').css('color', '#B03060')
         }
     }
+    
+    alertUserTime = () =>{
+        if(this.state.time < 6 && this.state.time > 0){
+            if (this.state.currentQuestion === 4 && this.state.isClicked){
+                $('#singleCountDownMsg').css('visibility', 'hidden')
+            }else{
+                $('#singleCountDownMsg').css('visibility', 'visible')
+            }
+           
+        }else{
+            $('#singleCountDownMsg').css('visibility', 'hidden')
+        }
+        
+    } 
+
+    
+
+
+
+
     // componentDidMount () {
     //     const {question, currentQuestion, nextQuestion} = this.state;
     //     this.displayQuestions(question, currentQuestion, nextQuestion);
@@ -242,25 +314,41 @@ class Single extends Component {
                         <h1 className='ui blue header large'>Game Over. <br/>Your final score is {this.state.score} points</h1>
                         <br/>
                         <br/>
-                        <Link to="/"><button className = "ui teal button">Go Back</button></Link>
-                        <Link to='/'>   <button className = "ui violet button" onClick={this.logout}>Log Out</button> </Link> 
+                        <CreateUser />
+
+                        <Link to="/"><button className = "ui inverted blue button" onClick={this.bgmPause}>Go Back</button></Link>
+                        <Link to='/'>   <button className = "ui inverted violet button" onClick={this.logout}>Log Out</button> </Link> 
                     </div>
+                    
                 )
             }
+            if (endQuiz && this.state.score === 0){
+                console.log('u sucks')
+            }
+
 
         return (
             <Fragment>
                 <div className = "ui vertical container singlePage">
                     <title>Question</title>
                     <div className="question">
-                        <Link to='/'>  <Icon size='huge' name='arrow left' className='quit'/>  </Link>       
-                        <Link to='/'>  <Icon size='huge' name='sign-out' className='home' onClick={this.logout}/>  </Link>  
+                        <Link to='/'>  <Icon size='huge' name='arrow left' className='quit'  onClick={this.bgmPause} />  </Link>       
+                        <Link to='/'>  <Icon size='huge' name='sign-out' className='home' onClick={this.logout && this.bgmPause}/>  </Link>  
                         <div className='ui basic inverted circular label large'>
                         <span className="clock">{time}</span>
                         </div>
-                        <div className='ui horizontal huge inverted divider'><span className="ui inverted huge header">Your Score is: </span> <span className="ui purple huge header">{score} </span></div>
+                        <div id = "bgmDiv">
+                            <button class="ui violet small button" onClick={this.bgmPlay}><i class = "play icon" ></i>Play Music</button>
+                            <button class="ui teal small button" onClick={this.bgmPause}><i class = "pause icon" ></i>Pause Music</button> 
+                        </div>
+                        <div className='ui horizontal huge inverted divider'>
+                        <span className="ui inverted huge header">Your Score is: </span> <span className="ui purple huge header">{score} </span></div>
                         <img src={leeke} className="leeke" alt="leeke" height="60" width='60'/>
                         <div id = "singleQuestionDiv" className = "ui container"> <h5 id = "singleQuestion">{questions}</h5></div>
+
+                        <div id = "singleCountDownDiv">
+                            <h1 id = "singleCountDownMsg"> You only have {time} second left! </h1>
+                        </div>
                         <div id = "singleQuestionSpan" className = "ui container"> 
                             <span className = "ui large inverted header"> {`Questions ${currentQuestion + 1} out of ${this.state.random.length}`}</span>
                         </div>
@@ -269,9 +357,12 @@ class Single extends Component {
                                 {option}
                             </p>
                         ))}
+
+
+
                         <div className="button-container">
                             {currentQuestion < this.state.random.length - 1 && <button disabled={this.state.disabled} onClick={this.nextQuestionHandler} className='ui purple huge button'>Next</button>}
-                            {currentQuestion === this.state.random.length - 1 && <button onClick={this.endHandler} className='ui purple huge button'>End</button>}
+                            {currentQuestion === this.state.random.length - 1 && <button disabled={this.state.disabled} onClick={this.endHandler} className='ui purple huge button'>End</button>}
                         </div>
                     </div> 
                 </div>

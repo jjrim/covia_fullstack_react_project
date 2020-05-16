@@ -8,28 +8,36 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "chart.js": "^2.9.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "firebase": "^7.14.2",
     "jquery": "^3.5.0",
     "lottie-web": "^5.6.8",
-    "nodemon": "^2.0.3",
+    "mongoose": "^5.9.14",
+    "nodemon": "^2.0.4",
+    "randomstring": "^1.1.5",
     "react": "^16.13.1",
     "react-chartjs-2": "^2.9.0",
     "react-chartjs2": "^1.2.1",
+    "react-datepicker": "^2.15.0",
     "react-dom": "^16.13.1",
     "react-firebase": "^2.2.8",
     "react-load-script": "0.0.6",
     "react-lottie": "^1.2.3",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.1",
+    "react-scripts": "^3.4.1",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.2"
+    "semantic-ui-react": "^0.88.2",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "nodemon server.js"
   },
   "eslintConfig": {
     "extends": "react-app"

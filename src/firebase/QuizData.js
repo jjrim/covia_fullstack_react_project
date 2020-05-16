@@ -50,7 +50,7 @@ export const QuizData = [
     {
         id: 8,
         question: 'Which is the first city shut down due to COVID-19?',
-        options: ['Wuhan, China', 'Tokyo, Japa', 'Vancouver, Canada'],
+        options: ['Wuhan, China', 'Tokyo, Japan', 'Vancouver, Canada'],
         answer: 'Wuhan, China'
     }
     ,
