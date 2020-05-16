@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const cors = require('cors')
-const randomString = require('randomstring')
 const socketio = require('socket.io');
 const http = require('http')
 const PORT = process.env.PORT || 5000
