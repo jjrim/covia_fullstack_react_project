@@ -32,7 +32,7 @@ componentDidMount(){
     .then(json => {
         this.setState({
             isLoaded: true,
-            number: json.results[0].total_new_cases_today,
+            number: json.results[0].total_cases,
         })
     })
     
