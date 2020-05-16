@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors')
 const randomString = require('randomstring')
 const socketio = require('socket.io');
 const http = require('http')
@@ -8,6 +9,7 @@ const server = http.createServer(app);
 const io = socketio(server)
 const router = express.Router()
 
+app.use(cors())
 
 const users = [];
 const addUser = ( { id, username, room } ) => {
