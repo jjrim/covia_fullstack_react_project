@@ -8,6 +8,16 @@ import Game from './EasterEgg'
 import $ from 'jquery'
 
 
+function openInNewTab() {
+    var win = window.open(`https://twitter.com/intent/tweet?text=${twitterInput()}&hashtags=CoviaLife`, '_blank');
+    win.focus();
+}
+
+function twitterInput(){
+    let oldItem = document.getElementById('tweetInput').value;
+    return oldItem
+}
+
 
 class Login extends Component {
     constructor(props)
@@ -126,6 +136,16 @@ render()
             <h1 id="sloGan1">Anytime</h1>
             <h1 id="message">Anyplace</h1>
             <h1 id="message">Any device</h1>
+            </div>
+
+
+            <div id = "twitterDiv" class = "ui container">
+            <div class="ui huge input">
+            <input id ='tweetInput'  type="text" name="title" onchange={twitterInput} placeholder = "Hi!" />
+
+            </div>
+            <br/>
+            <button class="ui teal button" id = "tweetBtn" onClick = {openInNewTab}> Tweet About Us <i class = "twitter icon"></i></button>
             </div>
 
             <div class="ui inverted vertical footer segment">
