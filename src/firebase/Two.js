@@ -15,7 +15,7 @@ import ClickSound from './SoundClips/Button_Clicking.mp3'
 import Bgm from './SoundClips/Bgm.mp3'
 
 const PORT = process.env.PORT || ":5000"
-let socket = io(PORT)
+let socket = io.connect('https://covia-server.herokuapp.com/')
 
 // Shuffle the questions
 let newArray = QuizData.sort(() => {
