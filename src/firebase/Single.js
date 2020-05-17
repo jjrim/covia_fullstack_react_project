@@ -100,7 +100,7 @@ class Single extends Component {
                 isClicked: false
             });
             console.log(this.state.currentQuestion);
-        }, 2000);
+        }, 1000);
         
         // Get 200 marks if the remaining time is > or = 10
         // If you want to change the background color of correct option, modify the 'green' to others
@@ -129,9 +129,9 @@ class Single extends Component {
         // Remove background of the selected option
         setTimeout(() => {
             $('.options').removeAttr("style");
-        }, 1999);
+        }, 999);
         this.setState({
-            time: 17
+            time: 16
         })
     }
 }
@@ -178,7 +178,7 @@ class Single extends Component {
                 this.setState({
                     endQuiz: true
                 })
-            }, 2000);
+            }, 1000);
         }
 
         if (userAnswer === answers) {
@@ -230,7 +230,7 @@ class Single extends Component {
                 if(this.state.time === -1){
                     this.nextQuestionHandler()
                     this.setState({
-                        time: 17
+                        time: 16
                     })
                 }
                 else if(this.state.time < -1) {

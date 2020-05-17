@@ -10,6 +10,7 @@ import Staying from './StayHome';
 import DevelopingApp from './AppDev'
 
 
+
 const AboutUs = () =>{
     return(
         <body className="App-body">
@@ -124,11 +125,14 @@ const AboutUs = () =>{
                 <p id = "abtP">
                     And then, we have COVIA.
                 </p>
-
                 <br/>
                 <Link to='/'>   <button class="ui basic inverted button huge">Back</button>    </Link>
+                <br/>
+
 
             </div>
+
+
 
 
         </body>

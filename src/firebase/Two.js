@@ -10,30 +10,67 @@ import { QuizData } from './Twoquizdata';
 import { Icon } from 'semantic-ui-react'
 import leeke from './leeke.png'
 
+// sound effects
+import ClickSound from './SoundClips/Button_Clicking.mp3'
+import Bgm from './SoundClips/Bgm.mp3'
+
 const PORT = process.env.PORT || ":5000"
-let socket = io.connect('https://covia-server.herokuapp.com')
+let socket = io(PORT)
+
+// Shuffle the questions
+let newArray = QuizData.sort(() => {
+    return 0.5 - Math.random()
+})
+let fiveQuestions = newArray.slice(QuizData, 5)
+// Shuffle the options
+for(let i = 0; i < 5; i++){
+    fiveQuestions[i].options.sort( () => {
+        return 0.5 - Math.random()
+    })
+}
+console.log(fiveQuestions)
 export default class Two extends Component {
+    clickAudio = new Audio(ClickSound);
+    bgmAudio = new Audio(Bgm);
     constructor(props){
         super(props);
         const { name, room} = queryString.parse(this.props.location.search)
         this.state = {
             username: name,
             room: room,
-            friend: null,
+            friend: 'No One',
             friendScore: 0,
             status: 'disconnected',
             userAnswer: null,
             currentQuestion: 0,
+            clickPlay:false,
+            bgmPlay:false,
+            bgmPause:true,
             options: [],
             endQuiz: false,
             score: 0,
             disabled: true,
             time: 15,
-            random: QuizData,
+            random: fiveQuestions,
             isClicked: false,
-            isNext: false
+            isNext: false,
+            isStart: false
         }
         
+    }
+
+    clickPlay = () => {
+        this.setState({ clickPlay: true})
+        this.clickAudio.play();
+        }
+
+    bgmPlay = () => {
+        this.setState({ bgmPlay: true, bgmPause: false })
+        this.bgmAudio.play();
+    }
+    bgmPause = () => {
+        this.setState({ bgmPlay: false, bgmPause: true })
+            this.bgmAudio.pause();
     }
 
     startGame(){
@@ -65,6 +102,9 @@ export default class Two extends Component {
             socket.emit('sendUserName', { username })
 
             socket.on('addUser', ({ username }) => {
+                if(this.state.username === username){
+                    username = username + '_1'
+                }
                 this.setState({
                     friend: username
                 })
@@ -74,15 +114,30 @@ export default class Two extends Component {
             console.log('Me:', username, ' My Friend: ', friend)
 
             socket.on('receiveRoomOwnerName', ( friend )=> {
+                if(friend === this.state.username){
+                    friend = friend + '_1'
+                }
                 this.setState({
                     friend: friend
                 })
             })
     }
 
-    componentWillUpdate(){
-        
+
+    // Send Score
+    sendScore(){
+        let { score, username } = this.state
+        socket.emit("sendScore", ({ score, username }))
     }
+    
+    // Receive Score
+    receiveScore(){
+        socket.on("receiveScore", ( friendScore ) => {
+            this.state.friendScore = friendScore
+        })
+    }
+
+    
 
     loadQuiz = () => {
         const {currentQuestion, random} = this.state;
@@ -94,10 +149,12 @@ export default class Two extends Component {
             }
         })
     }
+
+
     componentDidMount() {
         this.loadQuiz()
-        this.timer()
         this.initSocket()
+        this.receiveScore()
     }
 nextQuestionHandler = () => {
     const {userAnswer, answers, score} = this.state;
@@ -138,14 +195,11 @@ nextQuestionHandler = () => {
     this.sendScore()
 }
 }   
-    // Send Score
-    sendScore(){
-        const { score } = this.state
-        socket.emit("sendScore", ({ score }), ( twoScore ) => {
-            console.log(score)
-        } )
-    }
+    
+
+    
     componentDidUpdate(prevProps, prevState) {
+        this.alertUserTime()
         this.changeTimeColor()
         const {currentQuestion} = this.state;
         if (this.state.currentQuestion !== prevState.currentQuestion) {
@@ -162,6 +216,7 @@ nextQuestionHandler = () => {
     }
 
     checkAnswer = answer => {
+        this.clickPlay();
         this.setState({
             userAnswer: answer,
         })
@@ -174,7 +229,7 @@ nextQuestionHandler = () => {
         }
     }
     endHandler = () => {
-        const {userAnswer, answers, score} = this.state;
+        const {userAnswer, answers, score, friendScore} = this.state;
         this.setState({
             disabled: true,
             isClicked: true
@@ -208,40 +263,54 @@ nextQuestionHandler = () => {
         else{
             $('.selected').css("cssText", 'background: #ef476f !important');
         }
+        this.sendScore()
 
         if(this.state.time <= 0){
             this.setState({
                 endQuiz: true
             })
-        }
+    }
         this.setState({
             time: 3
         })
     }
 
     logout(){
+        this.bgmPause();
         fire.auth().signOut();
     };
 
     timer = () => {
-        setInterval(() => {
-            this.setState((preState) =>({
-              time: preState.time - 1,
-            }), () =>{
-                if(this.state.time === -1){
-                    this.nextQuestionHandler()
-                    this.setState({
-                        time: 17
-                    })
-                }
-                else if(this.state.time < -1) {
-                    
-                }
-            }
-            );
-          }, 1000)
+        if(!this.state.isStart){
+            if(this.state.friend !== 'No One'){
 
+                this.setState({
+                    isStart: true
+                })
+
+            setInterval(() => {
+                this.setState((preState) =>({
+                time: preState.time - 1,
+                }), () =>{
+                    if(this.state.time === -1){
+                        this.nextQuestionHandler()
+                        this.setState({
+                            time: 17
+                        })
+                    }
+                    else if(this.state.time < -1) {
+                        
+                    }
+                }
+                );
+            }, 1000)
+            }
+    }   else{
+        console.log('Guess what, Game is already started, so this function would not be invoked again!')
     }
+    }
+
+
     changeTimeColor = () => {
         if(this.state.time > 15){
             $('.clock').css('color', 'yellow')
@@ -257,44 +326,84 @@ nextQuestionHandler = () => {
             $('.clock').css('color', '#B03060')
         }
     }
+
+    alertUserTime = () =>{
+        if(this.state.time < 6 && this.state.time > 0){
+            if (this.state.currentQuestion === 4 && this.state.isClicked){
+                $('#singleCountDownMsg').css('visibility', 'hidden')
+            }else{
+                $('#singleCountDownMsg').css('visibility', 'visible')
+            }
+           
+        }else{
+            $('#singleCountDownMsg').css('visibility', 'hidden')
+        }
+        
+    } 
+
+
+
     // Single Page Over
 
     render() {
-            const {questions, options, currentQuestion, userAnswer, endQuiz, time, score, username, friend, friendScore} = this.state;
-
+            let {questions, options, currentQuestion, userAnswer, endQuiz, time, score, username, friend, friendScore} = this.state;
+            // Win
             if(endQuiz) {
+                if(score >= friendScore){
                 return (
                     <div class = "ui center aligned container" id = "singleGameEnd">
                         <br></br>
                         <h1 className='ui blue header large'>Game Over. <br/>Your final score is {this.state.score} points</h1>
+                        <h1 className='ui blue header large'>{friend}'s score is {this.state.friendScore} points</h1>
                         <br/>
-                        <br/>
-                        <Link to="/"><button className = "ui teal button">Go Back</button></Link>
-                        <Link to='/'>   <button className = "ui violet button" onClick={this.logout}>Log Out</button> </Link> 
+                        <h1 className='ui blue header large'>YOU WIN</h1>
+                        <Link to="/"><button className = "ui inverted blue button" onClick={this.bgmPause}>Go Back</button></Link>
+                        <Link to='/'>   <button className = "ui inverted violet button" onClick={this.logout}>Log Out</button> </Link> 
                     </div>
                 )
             }
-
+            else{
+                return (
+                    <div class = "ui center aligned container" id = "singleGameEnd">
+                        <br></br>
+                        <h1 className='ui blue header large'>Game Over. <br/>Your final score is {this.state.score} points</h1>
+                        <h1 className='ui blue header large'>{friend}'s score is {this.state.friendScore} points</h1>
+                        <br/>
+                        <h1 className='ui blue header large'>YOU LOSE</h1>
+                        <Link to="/"><button className = "ui inverted blue button" onClick={this.bgmPause}>Go Back</button></Link>
+                        <Link to='/'>   <button className = "ui inverted violet button" onClick={this.logout}>Log Out</button> </Link> 
+                    </div>
+                )
+            }
+        }
         return (
             <Fragment>
                 <div className = "ui vertical container singlePage">
                     <title>Question</title>
                     <div className="question">
-                        <Link to='/'>  <Icon size='huge' name='arrow left' className='quit'/>  </Link>    
-                        <button onClick={() => this.sendName()}>Send Message</button>   
-                        <Link to='/'>  <Icon size='huge' name='sign-out' className='home' onClick={this.logout}/>  </Link>  
+                        <Link to='/'>  <Icon size='huge' name='arrow left' className='quit'  onClick={this.bgmPause} />  </Link>       
+                        <Link to='/'>  <Icon size='huge' name='sign-out' className='home' onClick={this.logout && this.bgmPause}/>  </Link> 
                         <div className='ui basic inverted circular label large'>
                         <span className="clock">{time}</span>
+                        </div>
+                        <div id = "bgmDiv">
+                            <button class="ui violet small button" onClick={this.bgmPlay}><i class = "play icon" ></i>Play Music</button>
+                            <button class="ui teal small button" onClick={this.bgmPause}><i class = "pause icon" ></i>Pause Music</button> 
                         </div>
                         <div className='ui horizontal huge inverted divider'><span className="ui inverted huge header">{username}: </span> <span className="ui purple huge header">{score} </span></div>
                         <div className='ui horizontal huge inverted divider'><span className="ui inverted huge header">{friend}: </span> <span className="ui purple huge header">{friendScore} </span></div>
                         <img src={leeke} className="leeke" alt="leeke" height="60" width='60'/>
                         <div id = "singleQuestionDiv" className = "ui container"> <h5 id = "singleQuestion">{questions}</h5></div>
+
+                        <div id = "singleCountDownDiv">
+                            <h1 id = "singleCountDownMsg"> You only have {time} second left! </h1>
+                        </div>
+
                         <div id = "singleQuestionSpan" className = "ui container"> 
                             <span className = "ui large inverted header"> {`Questions ${currentQuestion + 1} out of ${this.state.random.length}`}</span>
                         </div>
                         {options.map(option => (
-                            <p key={option.id} className= {`ui floating message options ${userAnswer === option ? "selected" : null}`} onClick ={() => this.checkAnswer(option)}>
+                            <p key={option.id} className= {`ui floating message options ${userAnswer === option ? "selected" : null}`} onClick ={() => {this.checkAnswer(option); this.sendName(); this.timer()}}>
                                 {option}
                             </p>
                         ))}
