@@ -102,6 +102,9 @@ export default class Two extends Component {
             socket.emit('sendUserName', { username })
 
             socket.on('addUser', ({ username }) => {
+                if(this.state.username === username){
+                    username = username + '_1'
+                }
                 this.setState({
                     friend: username
                 })
@@ -111,6 +114,9 @@ export default class Two extends Component {
             console.log('Me:', username, ' My Friend: ', friend)
 
             socket.on('receiveRoomOwnerName', ( friend )=> {
+                if(friend === this.state.username){
+                    friend = friend + '_1'
+                }
                 this.setState({
                     friend: friend
                 })
