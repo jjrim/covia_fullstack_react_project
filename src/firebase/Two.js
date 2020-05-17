@@ -38,7 +38,7 @@ export default class Two extends Component {
         this.state = {
             username: name,
             room: room,
-            friend: null,
+            friend: 'No One',
             friendScore: 0,
             status: 'disconnected',
             userAnswer: null,
@@ -54,6 +54,7 @@ export default class Two extends Component {
             random: fiveQuestions,
             isClicked: false,
             isNext: false,
+            isStart: false
         }
         
     }
@@ -142,9 +143,10 @@ export default class Two extends Component {
             }
         })
     }
+
+
     componentDidMount() {
         this.loadQuiz()
-        this.timer()
         this.initSocket()
         this.receiveScore()
     }
@@ -273,24 +275,36 @@ nextQuestionHandler = () => {
     };
 
     timer = () => {
-        setInterval(() => {
-            this.setState((preState) =>({
-              time: preState.time - 1,
-            }), () =>{
-                if(this.state.time === -1){
-                    this.nextQuestionHandler()
-                    this.setState({
-                        time: 17
-                    })
-                }
-                else if(this.state.time < -1) {
-                    
-                }
-            }
-            );
-          }, 1000)
+        if(!this.state.isStart){
+            if(this.state.friend !== 'No One'){
 
+                this.setState({
+                    isStart: true
+                })
+
+            setInterval(() => {
+                this.setState((preState) =>({
+                time: preState.time - 1,
+                }), () =>{
+                    if(this.state.time === -1){
+                        this.nextQuestionHandler()
+                        this.setState({
+                            time: 17
+                        })
+                    }
+                    else if(this.state.time < -1) {
+                        
+                    }
+                }
+                );
+            }, 1000)
+            }
+    }   else{
+        console.log('Guess what, Game is already started, so this function would not be invoked again!')
     }
+    }
+
+
     changeTimeColor = () => {
         if(this.state.time > 15){
             $('.clock').css('color', 'yellow')
@@ -378,12 +392,12 @@ nextQuestionHandler = () => {
                         <div id = "singleCountDownDiv">
                             <h1 id = "singleCountDownMsg"> You only have {time} second left! </h1>
                         </div>
-                        
+
                         <div id = "singleQuestionSpan" className = "ui container"> 
                             <span className = "ui large inverted header"> {`Questions ${currentQuestion + 1} out of ${this.state.random.length}`}</span>
                         </div>
                         {options.map(option => (
-                            <p key={option.id} className= {`ui floating message options ${userAnswer === option ? "selected" : null}`} onClick ={() => {this.checkAnswer(option); this.sendName()}}>
+                            <p key={option.id} className= {`ui floating message options ${userAnswer === option ? "selected" : null}`} onClick ={() => {this.checkAnswer(option); this.sendName(); this.timer()}}>
                                 {option}
                             </p>
                         ))}
