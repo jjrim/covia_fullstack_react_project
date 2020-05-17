@@ -10,6 +10,10 @@ import { QuizData } from './Twoquizdata';
 import { Icon } from 'semantic-ui-react'
 import leeke from './leeke.png'
 
+// sound effects
+import ClickSound from './SoundClips/Button_Clicking.mp3'
+import Bgm from './SoundClips/Bgm.mp3'
+
 const PORT = process.env.PORT || ":5000"
 let socket = io(PORT)
 
@@ -26,6 +30,8 @@ for(let i = 0; i < 5; i++){
 }
 console.log(fiveQuestions)
 export default class Two extends Component {
+    clickAudio = new Audio(ClickSound);
+    bgmAudio = new Audio(Bgm);
     constructor(props){
         super(props);
         const { name, room} = queryString.parse(this.props.location.search)
@@ -37,6 +43,9 @@ export default class Two extends Component {
             status: 'disconnected',
             userAnswer: null,
             currentQuestion: 0,
+            clickPlay:false,
+            bgmPlay:false,
+            bgmPause:true,
             options: [],
             endQuiz: false,
             score: 0,
@@ -47,6 +56,20 @@ export default class Two extends Component {
             isNext: false,
         }
         
+    }
+
+    clickPlay = () => {
+        this.setState({ clickPlay: true})
+        this.clickAudio.play();
+        }
+
+    bgmPlay = () => {
+        this.setState({ bgmPlay: true, bgmPause: false })
+        this.bgmAudio.play();
+    }
+    bgmPause = () => {
+        this.setState({ bgmPlay: false, bgmPause: true })
+            this.bgmAudio.pause();
     }
 
     startGame(){
@@ -168,6 +191,7 @@ nextQuestionHandler = () => {
 
     
     componentDidUpdate(prevProps, prevState) {
+        this.alertUserTime()
         this.changeTimeColor()
         const {currentQuestion} = this.state;
         if (this.state.currentQuestion !== prevState.currentQuestion) {
@@ -184,6 +208,7 @@ nextQuestionHandler = () => {
     }
 
     checkAnswer = answer => {
+        this.clickPlay();
         this.setState({
             userAnswer: answer,
         })
@@ -243,6 +268,7 @@ nextQuestionHandler = () => {
     }
 
     logout(){
+        this.bgmPause();
         fire.auth().signOut();
     };
 
@@ -280,6 +306,23 @@ nextQuestionHandler = () => {
             $('.clock').css('color', '#B03060')
         }
     }
+
+    alertUserTime = () =>{
+        if(this.state.time < 6 && this.state.time > 0){
+            if (this.state.currentQuestion === 4 && this.state.isClicked){
+                $('#singleCountDownMsg').css('visibility', 'hidden')
+            }else{
+                $('#singleCountDownMsg').css('visibility', 'visible')
+            }
+           
+        }else{
+            $('#singleCountDownMsg').css('visibility', 'hidden')
+        }
+        
+    } 
+
+
+
     // Single Page Over
 
     render() {
@@ -294,8 +337,8 @@ nextQuestionHandler = () => {
                         <h1 className='ui blue header large'>{friend}'s score is {this.state.friendScore} points</h1>
                         <br/>
                         <h1 className='ui blue header large'>YOU WIN</h1>
-                        <Link to="/"><button className = "ui teal button">Go Back</button></Link>
-                        <Link to='/'>   <button className = "ui violet button" onClick={this.logout}>Log Out</button> </Link> 
+                        <Link to="/"><button className = "ui inverted blue button" onClick={this.bgmPause}>Go Back</button></Link>
+                        <Link to='/'>   <button className = "ui inverted violet button" onClick={this.logout}>Log Out</button> </Link> 
                     </div>
                 )
             }
@@ -307,8 +350,8 @@ nextQuestionHandler = () => {
                         <h1 className='ui blue header large'>{friend}'s score is {this.state.friendScore} points</h1>
                         <br/>
                         <h1 className='ui blue header large'>YOU LOSE</h1>
-                        <Link to="/"><button className = "ui teal button">Go Back</button></Link>
-                        <Link to='/'>   <button className = "ui violet button" onClick={this.logout}>Log Out</button> </Link> 
+                        <Link to="/"><button className = "ui inverted blue button" onClick={this.bgmPause}>Go Back</button></Link>
+                        <Link to='/'>   <button className = "ui inverted violet button" onClick={this.logout}>Log Out</button> </Link> 
                     </div>
                 )
             }
@@ -318,11 +361,14 @@ nextQuestionHandler = () => {
                 <div className = "ui vertical container singlePage">
                     <title>Question</title>
                     <div className="question">
-                        <Link to='/'>  <Icon size='huge' name='arrow left' className='quit'/>  </Link>    
-                        <button onClick={() => this.sendName()}>Send Message</button>   
-                        <Link to='/'>  <Icon size='huge' name='sign-out' className='home' onClick={this.logout}/>  </Link>  
+                        <Link to='/'>  <Icon size='huge' name='arrow left' className='quit'  onClick={this.bgmPause} />  </Link>       
+                        <Link to='/'>  <Icon size='huge' name='sign-out' className='home' onClick={this.logout && this.bgmPause}/>  </Link> 
                         <div className='ui basic inverted circular label large'>
                         <span className="clock">{time}</span>
+                        </div>
+                        <div id = "bgmDiv">
+                            <button class="ui violet small button" onClick={this.bgmPlay}><i class = "play icon" ></i>Play Music</button>
+                            <button class="ui teal small button" onClick={this.bgmPause}><i class = "pause icon" ></i>Pause Music</button> 
                         </div>
                         <div className='ui horizontal huge inverted divider'><span className="ui inverted huge header">{username}: </span> <span className="ui purple huge header">{score} </span></div>
                         <div className='ui horizontal huge inverted divider'><span className="ui inverted huge header">{friend}: </span> <span className="ui purple huge header">{friendScore} </span></div>
@@ -332,7 +378,7 @@ nextQuestionHandler = () => {
                             <span className = "ui large inverted header"> {`Questions ${currentQuestion + 1} out of ${this.state.random.length}`}</span>
                         </div>
                         {options.map(option => (
-                            <p key={option.id} className= {`ui floating message options ${userAnswer === option ? "selected" : null}`} onClick ={() => this.checkAnswer(option)}>
+                            <p key={option.id} className= {`ui floating message options ${userAnswer === option ? "selected" : null}`} onClick ={() => {this.checkAnswer(option); this.sendName()}}>
                                 {option}
                             </p>
                         ))}
