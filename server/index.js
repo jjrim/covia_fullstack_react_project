@@ -64,10 +64,10 @@ io.on('connect', (socket) => {
     })
     socket.emit('start', { start: true })
 
-    socket.on('sendScore', ( { score }) => {
-        console.log(score)
-        socket.broadcast.emit('sendScore', score)
-    })
+    // socket.on('sendScore', ( { score }) => {
+    //     console.log(score)
+    //     socket.broadcast.emit('sendScore', score)
+    // })
 
     socket.on('sendUserName', ({ username }) => {
         console.log("New User:", username)
@@ -85,6 +85,12 @@ io.on('connect', (socket) => {
     socket.on('sendMyName', ( { username }) => {
         let friend = username;
         socket.broadcast.to(username.room).emit('receiveRoomOwnerName', friend)
+    })
+
+    socket.on('sendScore', ( { score, username }) => {
+        let friendScore = score
+        console.log(score)
+        socket.broadcast.to(username.room).emit("receiveScore", friendScore)
     })
 })
 

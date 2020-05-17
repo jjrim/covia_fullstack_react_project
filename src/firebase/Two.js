@@ -12,6 +12,19 @@ import leeke from './leeke.png'
 
 const PORT = process.env.PORT || ":5000"
 let socket = io(PORT)
+
+// Shuffle the questions
+let newArray = QuizData.sort(() => {
+    return 0.5 - Math.random()
+})
+let fiveQuestions = newArray.slice(QuizData, 5)
+// Shuffle the options
+for(let i = 0; i < 5; i++){
+    fiveQuestions[i].options.sort( () => {
+        return 0.5 - Math.random()
+    })
+}
+console.log(fiveQuestions)
 export default class Two extends Component {
     constructor(props){
         super(props);
@@ -29,9 +42,9 @@ export default class Two extends Component {
             score: 0,
             disabled: true,
             time: 15,
-            random: QuizData,
+            random: fiveQuestions,
             isClicked: false,
-            isNext: false
+            isNext: false,
         }
         
     }
@@ -80,9 +93,21 @@ export default class Two extends Component {
             })
     }
 
-    componentWillUpdate(){
-        
+
+    // Send Score
+    sendScore(){
+        let { score, username } = this.state
+        socket.emit("sendScore", ({ score, username }))
     }
+    
+    // Receive Score
+    receiveScore(){
+        socket.on("receiveScore", ( friendScore ) => {
+            this.state.friendScore = friendScore
+        })
+    }
+
+    
 
     loadQuiz = () => {
         const {currentQuestion, random} = this.state;
@@ -98,6 +123,7 @@ export default class Two extends Component {
         this.loadQuiz()
         this.timer()
         this.initSocket()
+        this.receiveScore()
     }
 nextQuestionHandler = () => {
     const {userAnswer, answers, score} = this.state;
@@ -138,13 +164,9 @@ nextQuestionHandler = () => {
     this.sendScore()
 }
 }   
-    // Send Score
-    sendScore(){
-        const { score } = this.state
-        socket.emit("sendScore", ({ score }), ( twoScore ) => {
-            console.log(score)
-        } )
-    }
+    
+
+    
     componentDidUpdate(prevProps, prevState) {
         this.changeTimeColor()
         const {currentQuestion} = this.state;
@@ -174,7 +196,7 @@ nextQuestionHandler = () => {
         }
     }
     endHandler = () => {
-        const {userAnswer, answers, score} = this.state;
+        const {userAnswer, answers, score, friendScore} = this.state;
         this.setState({
             disabled: true,
             isClicked: true
@@ -208,12 +230,13 @@ nextQuestionHandler = () => {
         else{
             $('.selected').css("cssText", 'background: #ef476f !important');
         }
+        this.sendScore()
 
         if(this.state.time <= 0){
             this.setState({
                 endQuiz: true
             })
-        }
+    }
         this.setState({
             time: 3
         })
@@ -260,21 +283,36 @@ nextQuestionHandler = () => {
     // Single Page Over
 
     render() {
-            const {questions, options, currentQuestion, userAnswer, endQuiz, time, score, username, friend, friendScore} = this.state;
-
+            let {questions, options, currentQuestion, userAnswer, endQuiz, time, score, username, friend, friendScore} = this.state;
+            // Win
             if(endQuiz) {
+                if(score >= friendScore){
                 return (
                     <div class = "ui center aligned container" id = "singleGameEnd">
                         <br></br>
                         <h1 className='ui blue header large'>Game Over. <br/>Your final score is {this.state.score} points</h1>
+                        <h1 className='ui blue header large'>{friend}'s score is {this.state.friendScore} points</h1>
                         <br/>
-                        <br/>
+                        <h1 className='ui blue header large'>YOU WIN</h1>
                         <Link to="/"><button className = "ui teal button">Go Back</button></Link>
                         <Link to='/'>   <button className = "ui violet button" onClick={this.logout}>Log Out</button> </Link> 
                     </div>
                 )
             }
-
+            else{
+                return (
+                    <div class = "ui center aligned container" id = "singleGameEnd">
+                        <br></br>
+                        <h1 className='ui blue header large'>Game Over. <br/>Your final score is {this.state.score} points</h1>
+                        <h1 className='ui blue header large'>{friend}'s score is {this.state.friendScore} points</h1>
+                        <br/>
+                        <h1 className='ui blue header large'>YOU LOSE</h1>
+                        <Link to="/"><button className = "ui teal button">Go Back</button></Link>
+                        <Link to='/'>   <button className = "ui violet button" onClick={this.logout}>Log Out</button> </Link> 
+                    </div>
+                )
+            }
+        }
         return (
             <Fragment>
                 <div className = "ui vertical container singlePage">
