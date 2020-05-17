@@ -374,6 +374,11 @@ nextQuestionHandler = () => {
                         <div className='ui horizontal huge inverted divider'><span className="ui inverted huge header">{friend}: </span> <span className="ui purple huge header">{friendScore} </span></div>
                         <img src={leeke} className="leeke" alt="leeke" height="60" width='60'/>
                         <div id = "singleQuestionDiv" className = "ui container"> <h5 id = "singleQuestion">{questions}</h5></div>
+
+                        <div id = "singleCountDownDiv">
+                            <h1 id = "singleCountDownMsg"> You only have {time} second left! </h1>
+                        </div>
+                        
                         <div id = "singleQuestionSpan" className = "ui container"> 
                             <span className = "ui large inverted header"> {`Questions ${currentQuestion + 1} out of ${this.state.random.length}`}</span>
                         </div>
