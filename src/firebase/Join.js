@@ -18,13 +18,15 @@ const Join = () => {
                 <div class="ui small icon input"><input placeholder="Room" className="joinInput" type="text" onChange={(event) => setRoom(event.target.value)}></input></div>
                 <br></br>
             </div>
-            <Link onClick={event => (!name || ! room) ? event.preventDefault() : null}  to={`/mul/Two?name=${name}&room=${room}`}>
+            <Link onClick={event => ((!name || !room)|| (!name && !room)) ? event.preventDefault() : null}  to={`/mul/Two?name=${name}&room=${room}`}>
             <button class="ui purple button" type="submit">Enter the game</button>
             <br></br>
-         <Link to="/">   <button class="ui purple button">Home</button>  </Link>
-             <br></br>
-         <Link to="/" onClick={() => { fire.auth().signOut();}}>   <button class="ui purple button">Sign Out</button>  </Link>
             </Link>
+            <div id = "homeOrQuitBtn">
+            <Link to="/">   <button class="ui inverted blue large button">Home</button>  </Link>
+            <Link to="/" onClick={() => { fire.auth().signOut();}}>   <button class="ui inverted purple large button">  Sign Out  </button>  </Link>
+            </div>
+           
         </div>
 
 
