@@ -13,6 +13,8 @@ import leeke from './leeke.png'
 // sound effects
 import ClickSound from './SoundClips/Button_Clicking.mp3'
 import Bgm from './SoundClips/Bgm.mp3'
+import Right from './SoundClips/right.mp3'
+import Wrong from './SoundClips/wrong.wav'
 
 const PORT = process.env.PORT || ":5000"
 let socket = io(PORT)
@@ -32,6 +34,8 @@ console.log(fiveQuestions)
 export default class Two extends Component {
     clickAudio = new Audio(ClickSound);
     bgmAudio = new Audio(Bgm);
+    right = new Audio(Right)
+    Wrong = new Audio(Wrong)
     constructor(props){
         super(props);
         const { name, room} = queryString.parse(this.props.location.search)
@@ -71,6 +75,16 @@ export default class Two extends Component {
     bgmPause = () => {
         this.setState({ bgmPlay: false, bgmPause: true })
             this.bgmAudio.pause();
+    }
+
+    rightPlay = () => {
+        this.setState({ rightPlay: true })
+        this.right.play()
+    }
+
+    wrongPlay = () => {
+        this.setState({ wrongPlay: true })
+        this.Wrong.play()
     }
 
     startGame(){
@@ -173,6 +187,7 @@ nextQuestionHandler = () => {
         console.log(this.state.currentQuestion);
     }, 2000);
     if (userAnswer === answers) {
+        this.rightPlay()
         $('.selected').css("cssText", 'background: #77bfa3 !important');
         if(this.state.time >= 10){
             this.state.score = this.state.score + 200}
@@ -184,6 +199,7 @@ nextQuestionHandler = () => {
         }
     }
     else{
+        this.wrongPlay()
         $('.selected').css("cssText", 'background: #ef476f !important');
     }
     setTimeout(() => {
@@ -243,6 +259,7 @@ nextQuestionHandler = () => {
         }
 
         if (userAnswer === answers) {
+            this.rightPlay()
             $('.selected').css("cssText", 'background: #77bfa3 !important');
             if(this.state.time >= 10){
                 this.setState({
@@ -261,6 +278,7 @@ nextQuestionHandler = () => {
                 }
         }
         else{
+            this.wrongPlay()
             $('.selected').css("cssText", 'background: #ef476f !important');
         }
         this.sendScore()
