@@ -40,12 +40,13 @@ var randomQuestions = [];
 axios.get('http://localhost:8000/exercises/')
 .then(response => {
     let randomNumber = [];
-    while (randomNumber.length !=5) {
+    while (randomNumber.length !== 5) {
         let e = Math.floor(Math.random() * (response.data.length - 1)) + 0
         if (!randomNumber.includes(e)) {
             randomNumber.push(e)
         }
     }
+    console.log(response)
     randomNumber.forEach(element => {
         randomQuestions.push({
             username: response.data[element].username,
@@ -54,8 +55,14 @@ axios.get('http://localhost:8000/exercises/')
             answer: response.data[element].answer
         })
     });
-    console.log(randomQuestions); 
-    this.state.random = randomQuestions;
+    console.log('Questions(No shuffle Options): ', randomQuestions); 
+    for(let i = 0; i < 5; i++){
+        randomQuestions[i].options.sort( () => {
+            return 0.5 - Math.random()
+        })
+    }
+
+    console.log('Questions(shuffle Options): ', randomQuestions); 
      console.log(randomQuestions);
 })
 .catch(function (error) {
@@ -83,7 +90,7 @@ class Single extends Component {
         bgmPlay:false,
         bgmPause:true,
         rightPlay: false,
-        wrongPlay: false
+        wrongPlay: false,
     }
 
 
@@ -124,8 +131,6 @@ class Single extends Component {
         }
 
     componentDidMount() {
-       
-        
         this.loadQuiz();
         this.timer();
     }
