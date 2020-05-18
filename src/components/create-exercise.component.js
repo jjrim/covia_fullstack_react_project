@@ -25,6 +25,8 @@ export default class CreateExercise extends Component {
     }
   }
 
+  
+
   componentDidMount() {
     axios.get('http://localhost:8000/users/')
       .then(response => {
@@ -40,6 +42,8 @@ export default class CreateExercise extends Component {
       })
 
   }
+
+  
 
   onChangeUsername(e) {
     this.setState({
@@ -71,14 +75,12 @@ export default class CreateExercise extends Component {
     })
   }
 
-  
   onChangeAnswer(e) {
     this.setState({
       answer: e.target.value
     })
   }
-
-
+  
   onSubmit(e) {
     e.preventDefault();
 

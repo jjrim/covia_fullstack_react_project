@@ -5,11 +5,12 @@ import "../Single.css";
 import fire from "./fire";
 import Main from './Main';
 import { isCompositeComponentWithType } from 'react-dom/test-utils';
-import { QuizData } from './QuizData';
+// import { QuizData } from './QuizData';
 import { Icon } from 'semantic-ui-react'
 import $ from 'jquery'
 import leeke from './leeke.png'
 import CreateUser from "../components/create-user.component";
+import axios from 'axios'
 
 // sound effects
 import ClickSound from './SoundClips/Button_Clicking.mp3'
@@ -18,19 +19,47 @@ import Bgm from './SoundClips/Bgm.mp3'
 
 
 
-
 // Shuffle the questions
-let newArray = QuizData.sort(() => {
-    return 0.5 - Math.random()
-})
-let fiveQuestions = newArray.slice(QuizData, 5)
+// let newArray = QuizData.sort(() => {
+//     return 0.5 - Math.random()
+// })
+// let fiveQuestions = newArray.slice(QuizData, 5)
+// let sampleQuestions = [];
+
 // Shuffle the options
-for(let i = 0; i < 5; i++){
-    fiveQuestions[i].options.sort( () => {
-        return 0.5 - Math.random()
-    })
-}
-console.log(fiveQuestions)
+// for(let i = 0; i < 5; i++){
+//     fiveQuestions[i].options.sort( () => {
+//         return 0.5 - Math.random()
+//     })
+// }
+// console.log(fiveQuestions)
+
+var randomQuestions = [];
+
+axios.get('http://localhost:8000/exercises/')
+.then(response => {
+    let randomNumber = [];
+    while (randomNumber.length !=5) {
+        let e = Math.floor(Math.random() * (response.data.length - 1)) + 0
+        if (!randomNumber.includes(e)) {
+            randomNumber.push(e)
+        }
+    }
+    randomNumber.forEach(element => {
+        randomQuestions.push({
+            username: response.data[element].username,
+            question: response.data[element].question,
+            options: [response.data[element].option1, response.data[element].option2, response.data[element].option3],
+            answer: response.data[element].answer
+        })
+    });
+    console.log(randomQuestions); 
+    this.state.random = randomQuestions;
+     console.log(randomQuestions);
+})
+.catch(function (error) {
+  console.log(error);
+}) 
 
 
 class Single extends Component {
@@ -45,12 +74,14 @@ class Single extends Component {
         score: 0,
         disabled: true,
         time: 15,
-        random: fiveQuestions,
+        random: randomQuestions,
         isClicked: false,
         clickPlay:false,
         bgmPlay:false,
         bgmPause:true,
     }
+
+
         clickPlay = () => {
         this.setState({ clickPlay: true})
         this.clickAudio.play();
@@ -78,6 +109,8 @@ class Single extends Component {
         }
 
     componentDidMount() {
+       
+        
         this.loadQuiz();
         this.timer();
     }
@@ -305,9 +338,34 @@ class Single extends Component {
     // }
 
     render () {
-        const {questions, options, currentQuestion, userAnswer, endQuiz, time, score} = this.state;
-
+        const {questions, options, currentQuestion, userAnswer, endQuiz, time, score} = this.state; 
             if(endQuiz) {
+                randomQuestions = [];
+
+                axios.get('http://localhost:8000/exercises/')
+                .then(response => {
+                    let randomNumber = [];
+                    while (randomNumber.length !=5) {
+                        let e = Math.floor(Math.random() * (response.data.length - 1)) + 0
+                        if (!randomNumber.includes(e)) {
+                            randomNumber.push(e)
+                        }
+                    }
+                    randomNumber.forEach(element => {
+                        randomQuestions.push({
+                            username: response.data[element].username,
+                            question: response.data[element].question,
+                            options: [response.data[element].option1, response.data[element].option2, response.data[element].option3],
+                            answer: response.data[element].answer
+                        })
+                    });
+                    console.log(randomQuestions); 
+                    this.state.random = randomQuestions;
+                     console.log(randomQuestions);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                })
                 return (
                     <div class = "ui center aligned container" id = "singleGameEnd">
                         <br></br>
@@ -350,7 +408,7 @@ class Single extends Component {
                             <h1 id = "singleCountDownMsg"> You only have {time} second left! </h1>
                         </div>
                         <div id = "singleQuestionSpan" className = "ui container"> 
-                            <span className = "ui large inverted header"> {`Questions ${currentQuestion + 1} out of ${this.state.random.length}`}</span>
+                            <span className = "ui large inverted header"> {`Questions ${currentQuestion + 1} out of 5`}</span>
                         </div>
                         {options.map(option => (
                             <p key={option.id} className= {`ui floating message options ${userAnswer === option ? "selected" : null}`} onClick ={() => this.checkAnswer(option)}>
