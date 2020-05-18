@@ -15,7 +15,8 @@ import axios from 'axios'
 // sound effects
 import ClickSound from './SoundClips/Button_Clicking.mp3'
 import Bgm from './SoundClips/Bgm.mp3'
-
+import Right from './SoundClips/right.mp3'
+import Wrong from './SoundClips/wrong.wav'
 
 
 
@@ -39,12 +40,13 @@ var randomQuestions = [];
 axios.get('http://localhost:8000/exercises/')
 .then(response => {
     let randomNumber = [];
-    while (randomNumber.length !=5) {
+    while (randomNumber.length !== 5) {
         let e = Math.floor(Math.random() * (response.data.length - 1)) + 0
         if (!randomNumber.includes(e)) {
             randomNumber.push(e)
         }
     }
+    console.log(response)
     randomNumber.forEach(element => {
         randomQuestions.push({
             username: response.data[element].username,
@@ -53,8 +55,14 @@ axios.get('http://localhost:8000/exercises/')
             answer: response.data[element].answer
         })
     });
-    console.log(randomQuestions); 
-    this.state.random = randomQuestions;
+    console.log('Questions(No shuffle Options): ', randomQuestions); 
+    for(let i = 0; i < 5; i++){
+        randomQuestions[i].options.sort( () => {
+            return 0.5 - Math.random()
+        })
+    }
+
+    console.log('Questions(shuffle Options): ', randomQuestions); 
      console.log(randomQuestions);
 })
 .catch(function (error) {
@@ -65,6 +73,8 @@ axios.get('http://localhost:8000/exercises/')
 class Single extends Component {
     clickAudio = new Audio(ClickSound);
     bgmAudio = new Audio(Bgm);
+    right = new Audio(Right)
+    Wrong = new Audio(Wrong)
 
     state = {
         userAnswer: null,
@@ -79,6 +89,8 @@ class Single extends Component {
         clickPlay:false,
         bgmPlay:false,
         bgmPause:true,
+        rightPlay: false,
+        wrongPlay: false,
     }
 
 
@@ -95,6 +107,16 @@ class Single extends Component {
             this.setState({ bgmPlay: false, bgmPause: true })
               this.bgmAudio.pause();
         }
+
+        rightPlay = () => {
+            this.setState({ rightPlay: true })
+            this.right.play()
+        }
+
+        wrongPlay = () => {
+            this.setState({ wrongPlay: true })
+            this.Wrong.play()
+        }
     
 
         loadQuiz = () => {
@@ -109,8 +131,6 @@ class Single extends Component {
         }
 
     componentDidMount() {
-       
-        
         this.loadQuiz();
         this.timer();
     }
@@ -139,6 +159,7 @@ class Single extends Component {
         // If you want to change the background color of correct option, modify the 'green' to others
         // Origin Background: background: linear-gradient(157.81deg, rgba(32, 139, 216, 0.3) 15%,rgba(173, 107, 204, 0.4361) 73%);
         if (userAnswer === answers) {
+            this.rightPlay()
             $('.selected').css("cssText", 'background: #77bfa3 !important');
             if(this.state.time >= 10){
                 this.setState({
@@ -157,6 +178,7 @@ class Single extends Component {
         }
         // If choose wrong option
         else{
+            this.wrongPlay()
             $('.selected').css("cssText", 'background: #ef476f !important');
         }
         // Remove background of the selected option
@@ -215,6 +237,7 @@ class Single extends Component {
         }
 
         if (userAnswer === answers) {
+            this.rightPlay()
             $('.selected').css("cssText", 'background: #77bfa3 !important');
             if(this.state.time >= 10){
                 this.setState({
@@ -233,6 +256,7 @@ class Single extends Component {
                 }
         }
         else{
+            this.wrongPlay()
             $('.selected').css("cssText", 'background: #ef476f !important');
         }
 
