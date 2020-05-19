@@ -3,6 +3,22 @@ import { Link } from 'react-router-dom';
 import '../join.css'
 import fire from "./fire";
 
+/*******************************************************************************************************************************
+            Citing From:
+https://www.youtube.com/watch?v=ZwFA3YMfkoc  -- Build and Deploy a Realtime Chat Application - Socket.io, Node.js, and React.js
+
+This video taught me how to use REACT HOOK to create a Join Room page
+
+And also, it let me know how to send and receive data between client and server through Socket.io
+
+Since this video only taught me how to make the Chatting room rather than the Game, I spent so many time on the Multi-player Page 
+
+In the server/index.js, I use his method to create a function that adds user to the room
+
+            Luke Mei
+
+********************************************************************************************************************************/
+
 
 const Join = () => {
     const [name, setName] = useState('');

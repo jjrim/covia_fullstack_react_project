@@ -24,23 +24,6 @@ const addUser = ( { id, username, room } ) => {
 
 }
 
-const removeUser = (id) => {
-    const index = users.findIndex((user) => user.id === id);
-
-    if(index !== -1){
-        return users.splice(index, 1)[0]
-    }
-}
-
-
-const getUser = (id) => users.find( (user) => user.id === id )
-
-const getUsersInRoom = (room) => users.filter((user) => user.room === room)
-
-
-let userList = []
-
-
 router.get('/', (req, res) => {
     res.send('Server is running')
 })
@@ -63,11 +46,6 @@ io.on('connect', (socket) => {
         console.log('User had left')
     })
     socket.emit('start', { start: true })
-
-    // socket.on('sendScore', ( { score }) => {
-    //     console.log(score)
-    //     socket.broadcast.emit('sendScore', score)
-    // })
 
     socket.on('sendUserName', ({ username }) => {
         console.log("New User:", username)
