@@ -11,6 +11,9 @@ const userSchema = new Schema({
     trim: true,
     minlength: 3
   },
+  score: {
+    type: Number
+  },
 }, {
   timestamps: true,
 });
