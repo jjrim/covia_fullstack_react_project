@@ -7,10 +7,13 @@ export default class CreateUser extends Component {
     super(props);
 
     this.onChangeUsername = this.onChangeUsername.bind(this);
+    this.onChangeUserScore = this.onChangeUserScore.bind(this);
+
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
-      username: ''
+      username: '',
+      score: 0
     }
   }
 
@@ -20,11 +23,18 @@ export default class CreateUser extends Component {
     })
   }
 
+  onChangeUserScore(e) {
+    this.setState({
+      score: e.target.value
+    })
+  }
+
   onSubmit(e) {
     e.preventDefault();
 
     const user = {
-      username: this.state.username
+      username: this.state.username,
+      score: this.state.score
     }
 
     console.log(user);
@@ -33,7 +43,8 @@ export default class CreateUser extends Component {
       .then(res => console.log(res.data));
 
     this.setState({
-      username: ''
+      username: '',
+      score: 0
     })
   }
 
@@ -44,7 +55,15 @@ export default class CreateUser extends Component {
         <h3 class="ui purple large header">Create New User</h3>
         <form onSubmit={this.onSubmit}>
           <div className="form-group"> 
-            <label class="ui header">Username: </label>
+            <label class="ui header">Score: </label>
+            <input  type="text"
+                required
+                className="form-control"
+                value={this.state.score}
+                onChange={this.onChangeUserScore}
+                />
+          </div>
+          <label class="ui header">Username: </label>
             <input  type="text"
                 required
                 className="form-control"
