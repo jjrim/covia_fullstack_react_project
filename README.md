@@ -1,68 +1,51 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Covia App Documentation
 
-## Available Scripts
+### Live on: https://covia.herokuapp.com/
+### Test plan: https://docs.google.com/spreadsheets/d/1lEzNY608hqBYMJP-z6VGBPWVmc0KbzmYbEAqUhN5Vis/edit?usp=sharing
 
-In the project directory, you can run:
+### Project Purpose
 
-### `npm start`
+- COVIA was developed by a group of CST students from BCIT. This application in 2020 was created
+  for our 2800 projects class final project.
+- We designed “COVIA'' as a quiz game app that is made to supply people with more information about COVID-19 while interacting with other people online during the COVID-19 crisis. 
+---
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Team Members
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+- Cindy Lu cindylu26810@gmail.com
+- Erica Jeong heejaerica@gmail.com
+- Jay Rim jjyyrim@gmail.com
+- Luke Mei skystar505836915@gmail.com
+---
 
-### `npm test`
+### Tools and Technologies
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Axios
+- React.js
+- Node.js
+- Express.js
+- Firebase
+- LottieFiles
+- MongoDB Atlas
+- Semantic UI
+- Socket.io
+- HTML/CSS
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+### Run this app locally
+- clone this repository to local (download the zip/ clone to github desktop)
+- Open the project with VsCode (Visual Studio Code)
+- Open a terminal in VsCode, split it into three
+- Run database - In the first terminal     
+  1 `cd backend`  
+  2 `npm install`  
+  3 `node server.js`   
+- Run multi-player server - In the second terminal   
+  1 `cd server`   
+  2 `npm install`     
+  3 `npm start`   
+- Run overall app -  In the last terminal   
+  1 `npm install`    
+  2 `npm start`   
+- If not automatically open, in your browser, navigate to http://localhost:3000/ (port is 3000 if you copied the config)
