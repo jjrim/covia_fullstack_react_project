@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import fire from "../firebase/fire";
+import "../CreateQuestions.css"
 
 const Exercise = props => (
   <tr>
@@ -61,12 +62,12 @@ export default class ExercisesList extends Component {
 
   render() {
     return (
-      <div>
-        <h3>Manage your questions here</h3>
-        <Link to="/Question"> <input type="button" value="Question Page"/>  </Link>
-        <Link to="/"> <input type="button" value="Homepage"/>  </Link>
-        <Link to="/" onClick={this.logout}> <input type="button" value="Sign Out"/>  </Link>
-        <table className="table">
+      <div id = "viewListedQstionPage">
+        <h3 class="ui blue huge header">Manage your questions here</h3>
+        <Link to="/Question"> <input type="button" value="Question Page" class="ui inverted violet button"/>  </Link>
+        <Link to="/"> <input type="button" value="Homepage" class="ui inverted violet button"/>  </Link>
+        <Link to="/" onClick={this.logout}> <input type="button" value="Sign Out" class="ui inverted violet button"/>  </Link>
+        <table className="ui table">
           <thead className="thead-light">
             <tr>
             <th>username</th>
