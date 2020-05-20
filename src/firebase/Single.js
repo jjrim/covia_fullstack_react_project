@@ -5,7 +5,6 @@ import "../Single.css";
 import fire from "./fire";
 import Main from './Main';
 import { isCompositeComponentWithType } from 'react-dom/test-utils';
-// import { QuizData } from './QuizData';
 import { Icon } from 'semantic-ui-react'
 import $ from 'jquery'
 import leeke from './leeke.png'
@@ -18,22 +17,6 @@ import Bgm from './SoundClips/Bgm.mp3'
 import Right from './SoundClips/right.mp3'
 import Wrong from './SoundClips/wrong.wav'
 
-
-
-// Shuffle the questions
-// let newArray = QuizData.sort(() => {
-//     return 0.5 - Math.random()
-// })
-// let fiveQuestions = newArray.slice(QuizData, 5)
-// let sampleQuestions = [];
-
-// Shuffle the options
-// for(let i = 0; i < 5; i++){
-//     fiveQuestions[i].options.sort( () => {
-//         return 0.5 - Math.random()
-//     })
-// }
-// console.log(fiveQuestions)
 
 var randomQuestions = [];
 
@@ -330,40 +313,6 @@ class Single extends Component {
         }
         
     } 
-
-    
-
-
-
-
-    // componentDidMount () {
-    //     const {question, currentQuestion, nextQuestion} = this.state;
-    //     this.displayQuestions(question, currentQuestion, nextQuestion);
-    // }
-
-    // displayQuestions = (question = this.state.question, currentQuestion, nextQuestion) => {
-    //     let {currentQuestionIndex} = this.state;
-    //     if (isCompositeComponentWithType(this.state.question)) {
-    //         question = this.state.question;
-    //         currentQuestion = question[currentQuestionIndex];
-    //         nextQuestion = question[currentQuestionIndex + 1];
-    //         const answer = currentQuestion.answer;
-    //         this.setState({
-    //             currentQuestion,
-    //             nextQuestion,
-    //             answer
-    //         });
-    //     }
-
-    // startTimer = () => {
-    //     const countDown = Date.now() + 30000;
-    //     this.interval = setInterval(() => {
-    //         const now = new Date();
-    //         const distance = countDown = now;
-
-            
-    //     })
-    // }
 
     render () {
         const {questions, options, currentQuestion, userAnswer, endQuiz, time, score} = this.state; 
