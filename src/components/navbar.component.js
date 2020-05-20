@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import "../CreateQuestions.css"
-import WrittingQuestion from '../firebase/CreateQuestionLottie'
+import WrittingQuestion from '../lottie-elements/CreateQuestionLottie'
 import fire from "../firebase/fire";
 export default class Navbar extends Component {
 

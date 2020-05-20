@@ -1,21 +1,21 @@
 import React from 'react'
 import Lottie from 'react-lottie'
-import * as stayHome from './Animation/StayHome.json'
+import * as appDev from '../firebase/Animation/AppDev.json'
 
 const defaultOptions = {
     loop: true,
     autoplay: true, 
-    animationData: stayHome.default,
+    animationData: appDev.default,
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid slice'
     }
   };
 
-const Staying = () =>{
+const DevelopingApp = () =>{
     return(
         <div>
-            <Lottie options={defaultOptions} height = {200} width = {200}/>
+            <Lottie options={defaultOptions} height = {300} width = {300}/>
         </div>
     );
 }
-export default Staying; 
+export default DevelopingApp; 

@@ -1,13 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import './AbtUs.css';
+
+// import css
+import '../AbtUs.css';
+
+// import team member avatars
 import cindy from './TeamAvatar/Cindy.jpeg';
 import erica from './TeamAvatar/Erica.jpeg';
 import jay from './TeamAvatar/Jay.jpeg';
 import luke from './TeamAvatar/Luke.jpeg';
-import { Image } from 'semantic-ui-react'
-import Staying from './StayHome';
-import DevelopingApp from './AppDev'
+
+// Lottie elements
+import Staying from '../lottie-elements/StayHome';
+import DevelopingApp from '../lottie-elements/AppDev'
 
 
 

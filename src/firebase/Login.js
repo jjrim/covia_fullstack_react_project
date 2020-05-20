@@ -3,7 +3,7 @@ import logo from './logo.png';
 import fire from './fire.js';
 import 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import MultiUserPlaying from './MultiPlayerLottie'
+import MultiUserPlaying from '../lottie-elements/MultiPlayerLottie'
 import Game from './EasterEgg'
 import $ from 'jquery'
 

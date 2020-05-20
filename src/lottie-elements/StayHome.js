@@ -1,21 +1,21 @@
 import React from 'react'
 import Lottie from 'react-lottie'
-import * as readingRule from './Animation/Rule.json'
+import * as stayHome from '../firebase/Animation/StayHome.json'
 
 const defaultOptions = {
     loop: true,
     autoplay: true, 
-    animationData: readingRule.default,
+    animationData: stayHome.default,
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid slice'
     }
   };
 
-const ReadingRule = () =>{
+const Staying = () =>{
     return(
         <div>
-            <Lottie options={defaultOptions} height = {300} width = {300}/>
+            <Lottie options={defaultOptions} height = {200} width = {200}/>
         </div>
     );
 }
-export default ReadingRule; 
+export default Staying; 

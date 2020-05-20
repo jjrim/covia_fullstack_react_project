@@ -1,6 +1,6 @@
 import React from 'react'
 import Lottie from 'react-lottie'
-import * as cellVirusCleaning from './Animation/PhoneVirus.json'
+import * as cellVirusCleaning from '../firebase/Animation/PhoneVirus.json'
 
 const defaultOptions = {
     loop: true,
