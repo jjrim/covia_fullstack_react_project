@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import fire from "../firebase/fire";
 
 export default class CreateExercise extends Component {
   constructor(props) {
@@ -25,7 +27,9 @@ export default class CreateExercise extends Component {
     }
   }
 
-  
+  logout(){
+    fire.auth().signOut();
+};
 
   componentDidMount() {
     axios.get('http://localhost:8000/users/')
@@ -174,6 +178,11 @@ export default class CreateExercise extends Component {
 
         <div className="form-group">
           <input type="submit" value="Create Custom Question" className="btn btn-primary" />
+        </div>
+        <div className="form-group">
+        <Link to="/Question"> <input type="button" value="Question Page"/>  </Link>
+        <Link to="/"> <input type="button" value="Homepage"/>  </Link>
+        <Link to="/" onClick={this.logout}> <input type="button" value="Sign Out"/>  </Link>
         </div>
       </form>
     </div>

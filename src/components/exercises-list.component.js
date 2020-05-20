@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import fire from "../firebase/fire";
 
 const Exercise = props => (
   <tr>
@@ -47,17 +48,24 @@ export default class ExercisesList extends Component {
       exercises: this.state.exercises.filter(el => el._id !== id)
     })
   }
-
+  
   exerciseList() {
     return this.state.exercises.map(currentexercise => {
       return <Exercise exercise={currentexercise} deleteExercise={this.deleteExercise} key={currentexercise._id}/>;
     })
   }
 
+  logout(){
+    fire.auth().signOut();
+};
+
   render() {
     return (
       <div>
         <h3>Manage your questions here</h3>
+        <Link to="/Question"> <input type="button" value="Question Page"/>  </Link>
+        <Link to="/"> <input type="button" value="Homepage"/>  </Link>
+        <Link to="/" onClick={this.logout}> <input type="button" value="Sign Out"/>  </Link>
         <table className="table">
           <thead className="thead-light">
             <tr>
