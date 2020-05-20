@@ -32,7 +32,7 @@ app.use(router)
 
 
 
-io.on('connect', (socket) => {
+io.on('connection', (socket) => {
     console.log('New user comes!')
 
     socket.on('join',({ username, room }, callback) => {
@@ -45,7 +45,6 @@ io.on('connect', (socket) => {
     socket.on('disconnect', () => {
         console.log('User had left')
     })
-    socket.emit('start', { start: true })
 
     socket.on('sendUserName', ({ username }) => {
         console.log("New User:", username)
@@ -69,6 +68,20 @@ io.on('connect', (socket) => {
         let friendScore = score
         console.log(score)
         socket.broadcast.to(username.room).emit("receiveScore", friendScore)
+    })
+
+    socket.on('startAll', ( { isStart, username }) => {
+        console.log(isStart)
+        if(!isStart){
+            let start = true;
+            socket.to(username.room).emit("readyForStart", start)
+        }
+        
+    })
+
+    socket.on('sendQuiz', ( { random, username }) => {
+        console.log(random)
+        socket.broadcast.to(username.room).emit("receiveQuiz", random)
     })
 })
 
