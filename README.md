@@ -41,6 +41,8 @@
   1 `npm install`    
   2 `npm start`   
 - If not automatically open, in your browser, navigate to http://localhost:3000/ (port is 3000 if you copied the config)
+- Multi-player server url: https://covia-server.herokuapp.com/
+- Database server url: https://covia-backend.herokuapp.com/
 
 
 ### Run this app locally
