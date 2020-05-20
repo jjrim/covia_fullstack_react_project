@@ -59,7 +59,9 @@ export default class Two extends Component {
             isClicked: false,
             isNext: false,
             isStart: false,
-            isSend: false
+            isSend: false,
+            rightPlay: false,
+            wrongPlay: false,
         }
         
     }
@@ -324,7 +326,9 @@ nextQuestionHandler = () => {
                 }
         }
         else{
-            this.wrongPlay()
+            if(!this.state.endQuiz){
+                this.wrongPlay()
+            }
             $('.selected').css("cssText", 'background: #ef476f !important');
         }
         this.sendScore()
