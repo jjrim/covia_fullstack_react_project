@@ -12,17 +12,15 @@ app.use(cors())
 
 const users = [];
 const addUser = ( { id, username, room } ) => {
-    const existingUser = users.find((user) => user.name === username && user.room === room)
-
-    if(existingUser){
-        return { error: 'Username is taken'}
-    }
-
-    const user = { id, username, room}
+    const user = { id, username, room }
     users.push(user)
     return { user }
 
 }
+
+const getUser = id => users.find((user) => user.id === id)
+
+const getUsersInRoom = (room) => users.filter((user) => user.room === room)
 
 router.get('/', (req, res) => {
     res.send('Server is running')
@@ -35,11 +33,17 @@ app.use(router)
 io.on('connection', (socket) => {
     console.log('New user comes!')
 
-    socket.on('join',({ username, room }, callback) => {
+    socket.on('join',({ username, room }) => {
         const  { user } = addUser( { id: socket.id, username, room})
-
-        socket.broadcast.to(username.room).emit('addUser', { username })
-        socket.join(username.room)
+        console.log(username, ':', socket.id)
+        console.log('Room: ', room)
+        console.log(user)
+        console.log(users)
+        socket.broadcast.to(user.room).emit('addUser', { username })
+        // socket.join(username.room)
+        socket.join(user.room)
+        console.log('Room: ',user.room)
+        io.to(user.room).emit('roomData', { room: user.room, users:getUsersInRoom(user.room) })
     })
     
     socket.on('disconnect', () => {
@@ -48,40 +52,46 @@ io.on('connection', (socket) => {
 
     socket.on('sendUserName', ({ username }) => {
         console.log("New User:", username)
+        const user = getUser(socket.id)
         let friend = username
-        socket.broadcast.to(username.room).emit('sendFriendName', friend)
+        socket.to(user.room).emit('sendFriendName', friend)
         console.log('Friend: ', friend)
     })
 
     socket.on('sendRoomOwner', ({ username }) => {
+        const user = getUser(socket.id)
         let friend = username
-        socket.to(username.room).emit('sendRoomOwnertoFriend', friend)
+        socket.to(user.room).emit('sendRoomOwnertoFriend', friend)
     }
     )
 
     socket.on('sendMyName', ( { username }) => {
+        const user = getUser(socket.id)
         let friend = username;
-        socket.broadcast.to(username.room).emit('receiveRoomOwnerName', friend)
+        socket.broadcast.to(user.room).emit('receiveRoomOwnerName', friend)
     })
 
     socket.on('sendScore', ( { score, username }) => {
+        const user = getUser(socket.id)
         let friendScore = score
         console.log(score)
-        socket.broadcast.to(username.room).emit("receiveScore", friendScore)
+        socket.broadcast.to(user.room).emit("receiveScore", friendScore)
     })
 
     socket.on('startAll', ( { isStart, username }) => {
         console.log(isStart)
+        const user = getUser(socket.id)
         if(!isStart){
             let start = true;
-            socket.to(username.room).emit("readyForStart", start)
+            socket.to(user.room).emit("readyForStart", start)
         }
         
     })
 
     socket.on('sendQuiz', ( { random, username }) => {
+        const user = getUser(socket.id)
         console.log(random)
-        socket.broadcast.to(username.room).emit("receiveQuiz", random)
+        socket.broadcast.to(user.room).emit("receiveQuiz", random)
     })
 })
 
