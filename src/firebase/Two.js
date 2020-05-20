@@ -18,11 +18,15 @@ import Right from './SoundClips/right.mp3'
 import Wrong from './SoundClips/wrong.wav'
 
 const PORT = process.env.PORT || ":5000"
-let socket = io(PORT)
+
+// Multiplayer Server URL
+// Without it, please use io(PORT) to replace it. Go to server folder, type "npm start" to open the server
+let socket = io.connect("https://covia-server.herokuapp.com/")
 
 
 let randomQuestions = [];
 
+// Backend Server URL
 axios.get('https://covia-backend.herokuapp.com/exercises/')
 .then(response => {
     let randomNumber = [];
