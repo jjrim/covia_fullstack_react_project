@@ -14,7 +14,7 @@ const defaultOptions = {
 const WrittingQuestion = () =>{
     return(
         <div style = {{marginTop: '2 rem'}}>
-            <Lottie options={defaultOptions} height = {200} width = {200}/>
+            <Lottie options={defaultOptions} height = {150} width = {150}/>
         </div>
     );
 }
