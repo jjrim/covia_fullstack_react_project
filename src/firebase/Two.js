@@ -38,7 +38,7 @@ export default class Two extends Component {
     Wrong = new Audio(Wrong)
     constructor(props){
         super(props);
-        const { name, room} = queryString.parse(this.props.location.search)
+        const { name, room } = queryString.parse(this.props.location.search)
         this.state = {
             username: name,
             room: room,
@@ -58,7 +58,8 @@ export default class Two extends Component {
             random: fiveQuestions,
             isClicked: false,
             isNext: false,
-            isStart: false
+            isStart: false,
+            isSend: false
         }
         
     }
@@ -98,13 +99,13 @@ export default class Two extends Component {
 
     sendName(){
         const { username, room, status, isClicked, score, friend} = this.state
-        socket.emit('sendMyName', { username })
+        socket.emit('sendMyName', { username, room })
     }
 
     initSocket(){
         const { username, room, status, isClicked, score, friend} = this.state
         
-            socket.on('connect', () => {
+            socket.on('connection', () => {
                 console.log('Data received')
             });
             socket.on('disconnect', () => {
@@ -113,9 +114,9 @@ export default class Two extends Component {
 
             socket.emit('join', { username, room })
 
-            socket.emit('sendUserName', { username })
+            socket.emit('sendUserName', { username, room })
 
-            socket.on('addUser', ({ username }) => {
+            socket.on('addUser', ({ username, room }) => {
                 if(this.state.username === username){
                     username = username + '_1'
                 }
@@ -127,7 +128,7 @@ export default class Two extends Component {
 
             console.log('Me:', username, ' My Friend: ', friend)
 
-            socket.on('receiveRoomOwnerName', ( friend )=> {
+            socket.on('receiveRoomOwnerName', ( friend, room )=> {
                 if(friend === this.state.username){
                     friend = friend + '_1'
                 }
@@ -137,11 +138,50 @@ export default class Two extends Component {
             })
     }
 
+    // Players in the samt time
+    startAll(){
+        let { isStart, username, room } = this.state
+        if(this.state.friend !== 'No One'){
+            socket.emit('startAll', { isStart, username, room })
+            this.timer()
+        }
+    }
+
+    readyStart(){
+        let { isStart } = this.state
+        socket.on("readyForStart", ( start ) => {
+            console.log('Start the Game?', start)
+            if(start){
+                this.timer()
+            }
+        })
+    }
+
+    // Players in the same questions
+
+    sendQuiz(){
+        let { random, username, isSend, room } = this.state
+        if(!isSend){
+        socket.emit("sendQuiz", ( { random, username, room }))
+        this.setState({
+            isSend: true
+        })
+        }
+    }
+
+    receiveQuiz(){
+        socket.on("receiveQuiz", ( random ) => {
+            this.state.random = random
+            this.state.isSend = true
+            this.loadQuiz()
+        })
+    }
 
     // Send Score
     sendScore(){
-        let { score, username } = this.state
-        socket.emit("sendScore", ({ score, username }))
+        let { score, username, room } = this.state
+        socket.emit("sendScore", ({ score, username, room }))
+        
     }
     
     // Receive Score
@@ -151,7 +191,6 @@ export default class Two extends Component {
         })
     }
 
-    
 
     loadQuiz = () => {
         const {currentQuestion, random} = this.state;
@@ -166,9 +205,11 @@ export default class Two extends Component {
 
 
     componentDidMount() {
-        this.loadQuiz()
         this.initSocket()
         this.receiveScore()
+        this.readyStart()
+        this.receiveQuiz()
+        this.loadQuiz()
     }
 nextQuestionHandler = () => {
     const {userAnswer, answers, score} = this.state;
@@ -215,6 +256,7 @@ nextQuestionHandler = () => {
 
     
     componentDidUpdate(prevProps, prevState) {
+        this.startAlert()
         this.alertUserTime()
         this.changeTimeColor()
         const {currentQuestion} = this.state;
@@ -300,8 +342,6 @@ nextQuestionHandler = () => {
 
     timer = () => {
         if(!this.state.isStart){
-            if(this.state.friend !== 'No One'){
-
                 this.setState({
                     isStart: true
                 })
@@ -322,7 +362,7 @@ nextQuestionHandler = () => {
                 }
                 );
             }, 1000)
-            }
+            
     }   else{
         console.log('Guess what, Game is already started, so this function would not be invoked again!')
     }
@@ -359,12 +399,49 @@ nextQuestionHandler = () => {
         
     } 
 
-
+    startAlert = () => {
+        if(this.state.isStart){
+            $("#startAlert").css('visibility', 'hidden')
+        }
+        else{
+            $("#startAlert").css('visibility', 'visible')
+        }
+    }
 
     // Single Page Over
 
     render() {
             let {questions, options, currentQuestion, userAnswer, endQuiz, time, score, username, friend, friendScore} = this.state;
+            if(friend === 'No One'){
+                return(
+                    <Fragment>
+                    <div className = "ui vertical container singlePage">
+                        <title>Question</title>
+                        <div className="question">
+                            <Link to='/'>  <Icon size='huge' name='arrow left' className='quit'  onClick={this.bgmPause} />  </Link>       
+                            <Link to='/'>  <Icon size='huge' name='sign-out' className='home' onClick={this.logout && this.bgmPause}/>  </Link> 
+                            <div className='ui basic inverted circular label large'>
+                            <span className="clock">{time}</span>
+                            </div>
+                            <div id = "bgmDiv">
+                                <button class="ui violet small button" onClick={this.bgmPlay}><i class = "play icon" ></i>Play Music</button>
+                                <button class="ui teal small button" onClick={this.bgmPause}><i class = "pause icon" ></i>Pause Music</button> 
+                            </div>
+                            <div className='ui horizontal huge inverted divider'><span className="ui inverted huge header">{username}: </span> <span className="ui purple huge header">{score} </span></div>
+                            <div className='ui horizontal huge inverted divider'><span className="ui inverted huge header">{friend}: </span> <span className="ui purple huge header">{friendScore} </span></div>
+                            <img src={leeke} className="leeke" alt="leeke" height="60" width='60'/>
+                            <h1 className="ui large inverted header red ">Waiting for other player to join...</h1>
+                            <h1 className="ui large inverted header red ">To Start The Game, Click Any Options When Someone Joins In</h1>
+                            
+                            
+                        </div> 
+                    </div>
+                    
+                </Fragment>
+
+
+                )
+            }
             // Win
             if(endQuiz) {
                 if(score >= friendScore){
@@ -412,16 +489,18 @@ nextQuestionHandler = () => {
                         <div className='ui horizontal huge inverted divider'><span className="ui inverted huge header">{friend}: </span> <span className="ui purple huge header">{friendScore} </span></div>
                         <img src={leeke} className="leeke" alt="leeke" height="60" width='60'/>
                         <div id = "singleQuestionDiv" className = "ui container"> <h5 id = "singleQuestion">{questions}</h5></div>
-
+                        <div>
+                            <h1 className="ui large inverted header red " id="startAlert">Press Any Buttons To Start The Game</h1>
+                        </div>
                         <div id = "singleCountDownDiv">
                             <h1 id = "singleCountDownMsg"> You only have {time} second left! </h1>
                         </div>
 
                         <div id = "singleQuestionSpan" className = "ui container"> 
-                            <span className = "ui large inverted header"> {`Questions ${currentQuestion + 1} out of ${this.state.random.length}`}</span>
+                            <span className = "ui inverted header"> {`Questions ${currentQuestion + 1} out of ${this.state.random.length}`}</span>
                         </div>
                         {options.map(option => (
-                            <p key={option.id} className= {`ui floating message options ${userAnswer === option ? "selected" : null}`} onClick ={() => {this.checkAnswer(option); this.sendName(); this.timer()}}>
+                            <p key={option.id} className= {`ui floating message options ${userAnswer === option ? "selected" : null}`} onClick ={() => {this.checkAnswer(option); this.sendName(); this.startAll(); this.sendQuiz()}}>
                                 {option}
                             </p>
                         ))}
