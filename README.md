@@ -33,7 +33,18 @@
 
 ---
 
+### Run this app Easily
+- To run it easily, go to `Master branch`
+- clone this repository to local (download the zip/ clone to github desktop)
+- Open the project with VsCode (Visual Studio Code)
+- In the terminal, please type:
+  1 `npm install`    
+  2 `npm start`   
+- If not automatically open, in your browser, navigate to http://localhost:3000/ (port is 3000 if you copied the config)
+
+
 ### Run this app locally
+- To run it locally, go to `Local branch`
 - clone this repository to local (download the zip/ clone to github desktop)
 - Open the project with VsCode (Visual Studio Code)
 - Open a terminal in VsCode, split it into three
