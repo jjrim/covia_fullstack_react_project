@@ -62,7 +62,6 @@ export default class CreateUser extends Component {
                 value={this.state.score}
                 onChange={this.onChangeUserScore}
                 />
-          </div>
           <label class="ui header">Username: </label>
             <input  type="text"
                 required
