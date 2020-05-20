@@ -237,7 +237,9 @@ class Single extends Component {
         }
 
         if (userAnswer === answers) {
-            this.rightPlay()
+            if(!this.state.endQuiz){
+                this.rightPlay()
+            }
             $('.selected').css("cssText", 'background: #77bfa3 !important');
             if(this.state.time >= 10){
                 this.setState({
@@ -256,7 +258,9 @@ class Single extends Component {
                 }
         }
         else{
-            this.wrongPlay()
+            if(!this.state.endQuiz){
+                this.wrongPlay()
+            }
             $('.selected').css("cssText", 'background: #ef476f !important');
         }
 

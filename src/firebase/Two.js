@@ -228,7 +228,9 @@ nextQuestionHandler = () => {
         console.log(this.state.currentQuestion);
     }, 2000);
     if (userAnswer === answers) {
-        this.rightPlay()
+        if(!this.state.endQuiz){
+            this.rightPlay()
+        }
         $('.selected').css("cssText", 'background: #77bfa3 !important');
         if(this.state.time >= 10){
             this.state.score = this.state.score + 200}
@@ -240,7 +242,9 @@ nextQuestionHandler = () => {
         }
     }
     else{
-        this.wrongPlay()
+        if(!this.state.endQuiz){
+            this.wrongPlay()
+        }
         $('.selected').css("cssText", 'background: #ef476f !important');
     }
     setTimeout(() => {
