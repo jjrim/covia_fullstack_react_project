@@ -1,6 +1,6 @@
 import React from 'react'
 import Lottie from 'react-lottie'
-import * as writtingQuestion from './Animation/CreateQuestion.json'
+import * as writtingQuestion from '../firebase/Animation/CreateQuestion.json'
 
 const defaultOptions = {
     loop: true,

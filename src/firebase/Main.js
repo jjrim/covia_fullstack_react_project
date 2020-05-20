@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import React , { Component } from "react";
 import fire from "./fire";
-import Loading from './Loading'
+import Loading from '../lottie-elements/Loading'
 import "../homepage.css";
 import logo from './logo.png';
 import { Button, Header, Image, Modal } from 'semantic-ui-react';
@@ -9,8 +9,8 @@ import { Button, Header, Image, Modal } from 'semantic-ui-react';
 import { BrowserRouter as Router, Route, Link , Switch } from 'react-router-dom';
 
 /* Lottie elements*/
-import CellVirusCleaning from './PhoneVirusLottie'
-import ReadingRule from './RuleLottie'
+import CellVirusCleaning from '../lottie-elements/PhoneVirusLottie'
+import ReadingRule from '../lottie-elements/RuleLottie'
 
 class Main extends Component {
 constructor(props)

@@ -1,21 +1,21 @@
 import React from 'react'
 import Lottie from 'react-lottie'
-import * as appDev from './Animation/AppDev.json'
+import * as readingRule from '../firebase/Animation/Rule.json'
 
 const defaultOptions = {
     loop: true,
     autoplay: true, 
-    animationData: appDev.default,
+    animationData: readingRule.default,
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid slice'
     }
   };
 
-const DevelopingApp = () =>{
+const ReadingRule = () =>{
     return(
         <div>
             <Lottie options={defaultOptions} height = {300} width = {300}/>
         </div>
     );
 }
-export default DevelopingApp; 
+export default ReadingRule; 
