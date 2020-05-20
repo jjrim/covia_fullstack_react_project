@@ -9,6 +9,7 @@ import Main from './Main';
 import { QuizData } from './Twoquizdata';
 import { Icon } from 'semantic-ui-react'
 import leeke from './leeke.png'
+import axios from 'axios'
 
 // sound effects
 import ClickSound from './SoundClips/Button_Clicking.mp3'
@@ -19,18 +20,40 @@ import Wrong from './SoundClips/wrong.wav'
 const PORT = process.env.PORT || ":5000"
 let socket = io(PORT)
 
-// Shuffle the questions
-let newArray = QuizData.sort(() => {
-    return 0.5 - Math.random()
+
+let randomQuestions = [];
+
+axios.get('https://covia-backend.herokuapp.com/exercises/')
+.then(response => {
+    let randomNumber = [];
+    while (randomNumber.length !== 5) {
+        let e = Math.floor(Math.random() * (response.data.length - 1)) + 0
+        if (!randomNumber.includes(e)) {
+            randomNumber.push(e)
+        }
+    }
+    console.log(response)
+    randomNumber.forEach(element => {
+        randomQuestions.push({
+            username: response.data[element].username,
+            question: response.data[element].question,
+            options: [response.data[element].option1, response.data[element].option2, response.data[element].option3],
+            answer: response.data[element].answer
+        })
+    });
+    console.log('Questions(No shuffle Options): ', randomQuestions); 
+    for(let i = 0; i < 5; i++){
+        randomQuestions[i].options.sort( () => {
+            return 0.5 - Math.random()
+        })
+    }
+
+    console.log('Questions(shuffle Options): ', randomQuestions); 
+     console.log(randomQuestions);
 })
-let fiveQuestions = newArray.slice(QuizData, 5)
-// Shuffle the options
-for(let i = 0; i < 5; i++){
-    fiveQuestions[i].options.sort( () => {
-        return 0.5 - Math.random()
-    })
-}
-console.log(fiveQuestions)
+.catch(function (error) {
+  console.log(error);
+}) 
 export default class Two extends Component {
     clickAudio = new Audio(ClickSound);
     bgmAudio = new Audio(Bgm);
@@ -55,7 +78,7 @@ export default class Two extends Component {
             score: 0,
             disabled: true,
             time: 15,
-            random: fiveQuestions,
+            random: randomQuestions,
             isClicked: false,
             isNext: false,
             isStart: false,
@@ -307,7 +330,9 @@ nextQuestionHandler = () => {
         }
 
         if (userAnswer === answers) {
-            this.rightPlay()
+            if(!this.state.endQuiz){
+                this.rightPlay()
+            }
             $('.selected').css("cssText", 'background: #77bfa3 !important');
             if(this.state.time >= 10){
                 this.setState({
