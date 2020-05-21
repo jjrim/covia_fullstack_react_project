@@ -13,6 +13,17 @@ function openInNewTab() {
     win.focus();
 }
 
+function openfacebookTab(){
+    let fbwin = window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcovia.herokuapp.com%2F&amp;src=sdkpreparse')
+    fbwin.focus();
+}
+
+function openWeiboInNewTab() {
+    var win = window.open(`http://service.weibo.com/share/share.php?url=covia.herokuapp.com&appkey=&title=${twitterInput()}&pic=&ralateUid=&language=`, '_blank');
+    win.focus();
+}
+
+
 function twitterInput(){
     let oldItem = document.getElementById('tweetInput').value;
     return oldItem
@@ -141,12 +152,20 @@ render()
 
             <div id = "twitterDiv" class = "ui container">
             <div class="ui huge input">
-            <input id ='tweetInput'  type="text" name="title" onchange={twitterInput} placeholder = "Hi!" />
+            <input id ='tweetInput'  type="text" name="title" onchange={twitterInput} placeholder = "Share your though!" />
 
             </div>
             <br/>
-            <button class="ui teal button" id = "tweetBtn" onClick = {openInNewTab}> Tweet About Us <i class = "twitter icon"></i></button>
-            </div>
+            <button class="ui teal button" id = "tweetBtn" onClick = {openInNewTab}><i class = "twitter icon"></i> Tweet About Us</button>
+            <button class="ui teal button" id = "weiboBtn" onClick = {openWeiboInNewTab}> <i class = "weibo icon"></i>  Share Us on Weibo</button>
+            <button class="ui teal button" id = "facebookBtn" onClick = {openfacebookTab}> <i class = "facebook icon"></i> Share Us on Facebook </button>
+            </div> 
+            
+
+            
+            
+
+            
 
             <div class="ui inverted vertical footer segment">
                 <div class="ui container">
