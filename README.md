@@ -30,7 +30,9 @@
 - Semantic UI
 - Socket.io
 - HTML/CSS
-
+- Coronavirus Data API
+   1) Homepage: https://documenter.getpostman.com/view/8854915/SzS7R74n?version=latest
+   2) Global Statistics API (NO KEY): https://api.thevirustracker.com/free-api?global=stats
 ---
 
 ### Run this app Easily
