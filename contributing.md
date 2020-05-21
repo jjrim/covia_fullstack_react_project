@@ -8,8 +8,6 @@ When you contribute to our repository, please let our team members know what cha
 
 # Code of Conduct
 
-## Standards
-
 * Organizing the code efficiently
 * Respecting team members’ different point of view
 * Accepting team opinion and decision
@@ -34,5 +32,6 @@ Please abide by the following steps:
 >* Please make sure there are no errors on your code before commit and push.
 >* Please let your team members know you have pushed your code so that they can review and merge it.
 >* Please ensure there are no conflicts when you submit the pull request to the dev branch.
+ 
  
 For any help or complaints, please contact us on Slack (https://bcit-comp2800-202010.slack.com/archives/G012W2N263S) or Discord (https://discord.gg/FCDB96).
