@@ -58,7 +58,7 @@ export default class UsersList extends Component {
   render() {
     return (
       <div>
-        <h3 class = "ui huge purple header">Leaderboard</h3>
+        <h3 class = "ui huge purple header">Score Board</h3>
         <table className="ui table">
           <thead className="thead-light">
             <tr>
