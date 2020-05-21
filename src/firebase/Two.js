@@ -17,7 +17,8 @@ import Bgm from './SoundClips/Bgm.mp3'
 import Right from './SoundClips/right.mp3'
 import Wrong from './SoundClips/wrong.wav'
 
-const PORT = process.env.PORT || ":5000"
+
+let socket = io.connect('https://covia-server.herokuapp.com/')
 
 // Multiplayer Server URL
 // Without it, please use io(PORT) to replace it. Go to server folder, type "npm start" to open the server
