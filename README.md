@@ -73,4 +73,4 @@
 
 #### To participate as a developer, please read [Contributing Guidelines](https://github.com/jjrim/COMP-2800-Team-DTC-07-Covia/blob/master/contributing.md).
 
-> Please make sure to create a Pull Request to the *dev* branch.
+> Please make sure to submit a Pull Request to the *dev* branch.
