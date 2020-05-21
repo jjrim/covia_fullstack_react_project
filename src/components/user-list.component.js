@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import fire from "../firebase/fire";
 
 const User = props => (
   <tr>
@@ -57,8 +58,8 @@ export default class UsersList extends Component {
   render() {
     return (
       <div>
-        <h3>Leaderboard</h3>
-        <table className="table">
+        <h3 class = "ui huge purple header">Leaderboard</h3>
+        <table className="ui table">
           <thead className="thead-light">
             <tr>
             <th>username</th>
@@ -70,7 +71,13 @@ export default class UsersList extends Component {
             { this.userList() }
           </tbody>
         </table>
-      </div>
+        <div>
+        <Link to="/">   <button class="ui inverted blue large button">Home</button>  </Link>
+        <Link to="/" onClick={() => { fire.auth().signOut();}}>   <button class="ui inverted purple large button">  Sign Out  </button>  </Link>
+        </div>
+    </div>
+
+      
     )
   }
 }
