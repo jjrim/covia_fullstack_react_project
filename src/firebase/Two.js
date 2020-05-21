@@ -21,13 +21,14 @@ const PORT = process.env.PORT || ":5000"
 
 // Multiplayer Server URL
 // Without it, please use io(PORT) to replace it. Go to server folder, type "npm start" to open the server
-let socket = io.connect("https://covia-server.herokuapp.com/")
+// let socket = io.connect("https://covia-server.herokuapp.com/")
+let socket = io.(PORT)
 
 
 let randomQuestions = [];
 
 // Backend Server URL
-axios.get('https://covia-backend.herokuapp.com/exercises/')
+axios.get('http://localhost:8000/exercises/')
 .then(response => {
     let randomNumber = [];
     while (randomNumber.length !== 5) {

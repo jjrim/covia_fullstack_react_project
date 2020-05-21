@@ -19,7 +19,7 @@ import Wrong from './SoundClips/wrong.wav'
 
 var randomQuestions = [];
 
-axios.get('https://covia-backend.herokuapp.com/exercises/')
+axios.get('http://localhost:8000/exercises/')
 .then(response => {
     let randomNumber = [];
     while (randomNumber.length !== 5) {
