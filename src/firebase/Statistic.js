@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Bar, Line, Pie} from 'react-chartjs-2'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import Leaderboard from '../components/user-list.component';
 
 
 class Statistic extends Component {
@@ -26,17 +27,14 @@ class Statistic extends Component {
         }
     }
 }
-render(){
-    return(
-        <div className="chart">
-        <Pie
-            data={this.state.chartData}
-            options={{ 
-                maintainAspectRatio: false 
-            }}
-            />
-            <h3>your correct answer rate is 77%</h3>
-        </div>
+render () {
+    return (
+
+    <div >
+
+        <Leaderboard />
+
+    </div>
     )
 }
 }
