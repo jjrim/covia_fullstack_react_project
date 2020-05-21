@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import { render } from '@testing-library/react';
 import "../Single.css";
 import fire from "./fire";
@@ -8,7 +8,6 @@ import { isCompositeComponentWithType } from 'react-dom/test-utils';
 import { Icon } from 'semantic-ui-react'
 import $ from 'jquery'
 import leeke from './leeke.png'
-import CreateUser from "../components/create-user.component";
 import axios from 'axios'
 
 // sound effects
@@ -58,7 +57,7 @@ class Single extends Component {
     bgmAudio = new Audio(Bgm);
     right = new Audio(Right)
     Wrong = new Audio(Wrong)
-
+    
     state = {
         userAnswer: null,
         currentQuestion: 0,
@@ -74,7 +73,11 @@ class Single extends Component {
         bgmPause:true,
         rightPlay: false,
         wrongPlay: false,
+        username: '',
     }
+    onChangeUsername = this.onChangeUsername.bind(this);
+    onChangeUserScore = this.onChangeUserScore.bind(this);
+    onSubmit = this.onSubmit.bind(this);
 
 
         clickPlay = () => {
@@ -314,47 +317,78 @@ class Single extends Component {
         
     } 
 
+    // Submit User Score
+    onChangeUsername(e) {
+        this.setState({
+          username: e.target.value
+        })
+      }
+    
+    onChangeUserScore(e) {
+    this.setState({
+        score: e.target.value
+    })
+    }
+
+    onSubmit(e) {
+    e.preventDefault();
+    
+    const user = {
+        username: this.state.username,
+        score: this.state.score
+    }
+    
+    console.log(user);
+
+    axios.post('http://localhost:8000/users/add', user)
+        .then(res => console.log(res.data));
+        window.location = '/';
+    }
+    // Submit Done
+
+
     render () {
         const {questions, options, currentQuestion, userAnswer, endQuiz, time, score} = this.state; 
             if(endQuiz) {
-                randomQuestions = [];
-
-                axios.get('http://localhost:8000/exercises/')
-                .then(response => {
-                    let randomNumber = [];
-                    while (randomNumber.length !=5) {
-                        let e = Math.floor(Math.random() * (response.data.length - 1)) + 0
-                        if (!randomNumber.includes(e)) {
-                            randomNumber.push(e)
-                        }
-                    }
-                    randomNumber.forEach(element => {
-                        randomQuestions.push({
-                            username: response.data[element].username,
-                            question: response.data[element].question,
-                            options: [response.data[element].option1, response.data[element].option2, response.data[element].option3],
-                            answer: response.data[element].answer
-                        })
-                    });
-                    console.log(randomQuestions); 
-                    this.state.random = randomQuestions;
-                     console.log(randomQuestions);
-                })
-                .catch(function (error) {
-                  console.log(error);
-                })
                 return (
                     <div class = "ui center aligned container" id = "singleGameEnd">
                         <br></br>
                         <h1 className='ui blue header large'>Game Over. <br/>Your final score is {this.state.score} points</h1>
                         <br/>
                         <br/>
-                        <CreateUser />
-
                         <Link to="/"><button className = "ui inverted blue button" onClick={this.bgmPause}>Go Back</button></Link>
                         <Link to='/'>   <button className = "ui inverted violet button" onClick={this.logout}>Log Out</button> </Link> 
-                    </div>
                     
+                     {/* Submit Score */}
+                        <div>
+                        <h3 class="ui purple large header">Create New User</h3>
+                        <form onSubmit={this.onSubmit}>
+                        <div className="form-group"> 
+                            <label class="ui header">Username: </label>
+                                <input  type="text"
+                                    required
+                                    className="form-control"
+                                    value={this.state.username}
+                                    onChange={this.onChangeUsername}
+                                    />
+
+                        </div>
+                        <div className="form-group"> 
+                            <label class="ui header">Your Score: </label>
+                            <input  type="text"
+                                required
+                                className="form-control"
+                                value={this.state.score}
+                                onChange={this.onChangeUserScore} disabled
+                                />
+                        </div>
+                        
+                        <div className="form-group" id = "createUserBtn">
+                        <input type="submit" value="Create User" class="ui violet button" />    
+                        </div>
+                        </form>
+                    </div>
+                  </div>
                 )
             }
             if (endQuiz && this.state.score === 0){
