@@ -22,7 +22,7 @@ const PORT = process.env.PORT || ":5000"
 // Multiplayer Server URL
 // Without it, please use io(PORT) to replace it. Go to server folder, type "npm start" to open the server
 // let socket = io.connect("https://covia-server.herokuapp.com/")
-let socket = io.(PORT)
+let socket = io(PORT)
 
 
 let randomQuestions = [];
