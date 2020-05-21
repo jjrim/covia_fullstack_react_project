@@ -20,7 +20,7 @@ export default class UsersList extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:8000/users/')
+    axios.get('https://covia-backend.herokuapp.com/users/')
       .then(response => {
         this.setState({ users: response.data })
       })

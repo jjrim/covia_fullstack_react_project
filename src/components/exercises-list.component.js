@@ -32,7 +32,7 @@ export default class ExercisesList extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:8000/exercises/')
+    axios.get('https://covia-backend.herokuapp.com/exercises/')
       .then(response => {
         this.setState({ exercises: response.data })
       })
@@ -42,7 +42,7 @@ export default class ExercisesList extends Component {
   }
 
   deleteExercise(id) {
-    axios.delete('http://localhost:8000/exercises/'+id)
+    axios.delete('https://covia-backend.herokuapp.com/exercises/'+id)
       .then(response => { console.log(response.data)});
 
     this.setState({
