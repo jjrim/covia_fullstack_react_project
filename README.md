@@ -58,14 +58,14 @@
 - Open the project with VsCode (Visual Studio Code)
 - Open a terminal in VsCode, split it into three
 - Run database - In the first terminal     
-  1 `cd backend`  
-  2 `npm install`  
-  3 `node server.js`   
+  1) `cd backend`  
+  2) `npm install`  
+  3) `node server.js`   
 - Run multi-player server - In the second terminal   
-  1 `cd server`   
-  2 `npm install`     
-  3 `npm start`   
+  1) `cd server`   
+  2) `npm install`     
+  3) `npm start`   
 - Run overall app -  In the last terminal   
-  1 `npm install`    
-  2 `npm start`   
+  1) `npm install`    
+  2) `npm start`   
 - If not automatically open, in your browser, navigate to http://localhost:3000/ (port is 3000 if you copied the config)
