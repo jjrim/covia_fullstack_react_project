@@ -4,27 +4,24 @@ import axios from 'axios';
 
 const User = props => (
   <tr>
-    <td>{props.User.username}</td>
-    <td>{props.User.question}</td>
-
-
+    <td>{props.user.username}</td>
+    <td>{props.user.score}</td>
 
 
   </tr>
 )
 
-export default class Leaderboard extends Component {
+export default class UsersList extends Component {
   constructor(props) {
     super(props);
 
-
-    this.state = {user: []};
+    this.state = {users: []};
   }
 
   componentDidMount() {
-    axios.get('http://localhost:8000/exercises/')
+    axios.get('http://localhost:8000/users/')
       .then(response => {
-        this.setState({ exercises: response.data })
+        this.setState({ users: response.data })
       })
       .catch((error) => {
         console.log(error);
@@ -34,10 +31,28 @@ export default class Leaderboard extends Component {
 
 
   userList() {
-    return this.state.exercises.map(currentexercise => {
-      return <User exercise={currentexercise}  key={currentexercise._id}/>;
+     return this.state.users.map(currentuser => {
+      return   <User user={currentuser}  key={currentuser._score}/>;
     })
   }
+
+  // export default ({ notes }) => (
+  //   <div className="notes-list">
+  //     {notes.sort((a, b) => { return (a.date > b.date) ? 1 : -1 }).map(none => (
+  //       <Note note={none} key={`note-${none._id}`} />
+  //     ))}
+  //   </div>
+  // );
+
+//   userList() {
+//     return this.state.users.sort((a,b) => {
+//      return   <User user={currentuser}  key={currentuser._score}/>;
+//    })
+//  }
+
+
+
+
 
   render() {
     return (
@@ -48,6 +63,7 @@ export default class Leaderboard extends Component {
             <tr>
             <th>username</th>
               <th>score</th>
+
             </tr>
           </thead>
           <tbody>
