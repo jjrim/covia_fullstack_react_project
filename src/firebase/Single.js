@@ -51,7 +51,13 @@ axios.get('https://covia-backend.herokuapp.com/exercises/')
   console.log(error);
 }) 
 
-
+/**
+ * I fount which states are basically need to be created,
+ * and how to load quiz on https://youtu.be/2i2-LTJ5nF4.
+ * 
+ * @author ReactNinja
+ * @see https://youtu.be/2i2-LTJ5nF4
+ */
 class Single extends Component {
     clickAudio = new Audio(ClickSound);
     bgmAudio = new Audio(Bgm);
