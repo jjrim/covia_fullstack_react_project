@@ -4,7 +4,7 @@ DTC07's project for COMP 2800.
 ## Overview
 
 ### Folder Organization
-The ".vscode" folder contains (sth). The "backend" folder contains (). The "public" folder contains (). The "src" folder contains ().
+The "backend" folder contains everything that is used to connect to the database. The "public" folder contains our logo and index page. The "src" folder contains all the react.js components.
 
 
 ### Team Members
@@ -59,7 +59,14 @@ The ".vscode" folder contains (sth). The "backend" folder contains (). The "publ
   2)https://open.weibo.com/wiki/API%E6%96%87%E6%A1%A3/en
 
 #### Configurations
--
+- server:
+  - Multi-player server url: https://covia-server.herokuapp.com/
+  - Database server url: https://covia-backend.herokuapp.com/
+- database: 
+  - MongoDB
+    - id:root; password:root
+  
+  
 
 #### To participate as a developer, please read [Contributing Guidelines](https://github.com/jjrim/COMP-2800-Team-DTC-07-Covia/blob/master/contributing.md).
 
