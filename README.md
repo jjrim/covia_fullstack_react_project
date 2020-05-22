@@ -1,28 +1,22 @@
 # Covia App Documentation
 
-### Live on: https://covia.herokuapp.com/
-### Test plan: https://docs.google.com/spreadsheets/d/1lEzNY608hqBYMJP-z6VGBPWVmc0KbzmYbEAqUhN5Vis/edit?usp=sharing
+## Overview
 
-### Project Purpose
+### Folder Organization
+The ".vscode" folder contains (sth). The "backend" folder contains (). The "public" folder contains (). The "src" folder contains ().
 
-- COVIA was developed by a group of CST students from BCIT. This application in 2020 was created
-  for our 2800 projects class final project.
-- We designed “COVIA'' as a quiz game app that is made to supply people with more information about COVID-19 while interacting with other people online during the COVID-19 crisis. 
----
+
 
 ### Team Members
 
-- Cindy Lu cindylu26810@gmail.com
-- Erica Jeong heejaerica@gmail.com
-- Jay Rim jjyyrim@gmail.com
-- Luke Mei skystar505836915@gmail.com
----
+|Name|Github ID|Email|
+|---|---|---|
+|Cindy Lu|dafu2020|cindylu26810@gmail.com|
+|Erica Jeong|ericaheeja|heejaerica@gmail.com|
+|Jay Rim|jjrim|jjyyrim@gmail.com|
+|Luke Mei|Bmeimei|skystar505836915@gmail.com|
 
-### Citing From
 
-- For the Multi-Player, the tutorial is from https://www.youtube.com/watch?v=ZwFA3YMfkoc&t=6015s --Build and Deploy a Realtime Chat Application - Socket.io, Node.js, and React.js
-- For the Single-Player, the tutorial is from https://youtu.be/2i2-LTJ5nF4 --which states are needed and how to load quiz - React.js, Semantic UI
----
 
 ### Tools and Technologies
 
@@ -39,13 +33,15 @@
 - Coronavirus Data API
    1) Homepage: https://documenter.getpostman.com/view/8854915/SzS7R74n?version=latest
    2) Global Statistics API (NO KEY): https://api.thevirustracker.com/free-api?global=stats
----
+
+
+## Setting up a Development Environment
 
 ### Run this app Easily
 - To run it easily, go to `Master branch`
 - clone this repository to local (download the zip/ clone to github desktop)
 - Open the project with VsCode (Visual Studio Code)
-- In the terminal, please type:
+- In the terminal, please type:  
   1) `npm install`    
   2) `npm start`   
 - If not automatically open, in your browser, navigate to http://localhost:3000/ (port is 3000 if you copied the config)
@@ -70,8 +66,18 @@
   1) `npm install`    
   2) `npm start`   
 - If not automatically open, in your browser, navigate to http://localhost:3000/ (port is 3000 if you copied the config)
----
+
+#### Configurations
+-
 
 #### To participate as a developer, please read [Contributing Guidelines](https://github.com/jjrim/COMP-2800-Team-DTC-07-Covia/blob/master/contributing.md).
 
 > Please make sure to submit a Pull Request to the *dev* branch.
+
+#### Test plan: https://docs.google.com/spreadsheets/d/1lEzNY608hqBYMJP-z6VGBPWVmc0KbzmYbEAqUhN5Vis/edit?usp=sharing
+
+#### Live on: https://covia.herokuapp.com/
+
+#### Citation
+- For the Multi-Player, the tutorial is from https://www.youtube.com/watch?v=ZwFA3YMfkoc&t=6015s --Build and Deploy a Realtime Chat Application - Socket.io, Node.js, and React.js
+- For the Single-Player, the tutorial is from https://youtu.be/2i2-LTJ5nF4 --which states are needed and how to load quiz - React.js, Semantic UI
