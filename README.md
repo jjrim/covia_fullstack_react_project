@@ -21,6 +21,7 @@
 ### Citing From
 
 - For the Multi-Player, the tutorial is from https://www.youtube.com/watch?v=ZwFA3YMfkoc&t=6015s --Build and Deploy a Realtime Chat Application - Socket.io, Node.js, and React.js
+- For the Single-Player, the tutorial is from https://youtu.be/2i2-LTJ5nF4 --which states are needed and how to load quiz - React.js, Semantic UI
 ---
 
 ### Tools and Technologies
