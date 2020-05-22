@@ -11,6 +11,7 @@ export default class EditExercise extends Component {
     this.onChangeOption2 = this.onChangeOption2.bind(this);
     this.onChangeOption3 = this.onChangeOption3.bind(this);
     this.onChangeAnswer = this.onChangeAnswer.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
       username: '',
