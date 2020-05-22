@@ -1,21 +1,27 @@
 import React from 'react';
 
+/********
+ * React.js Tic Tac Toe Game in 30 Minutes: https://www.youtube.com/watch?v=it54tShOsuI&t=829s
+ * I followed the instructions and logic on how to determine the winner and how to create a tic tac toe game with react.js
+ * *********/
+
+
 
 function refreshPage() {
     window.location.reload(false);
 }
 
 
-function Square(props) {
+function Element(props) {
     return (
-        <button className="square" onClick={props.onClick}>
+        <button className="elementSquare" onClick={props.onClick}>
             {props.value}
         </button>
     );
 }
 
 
-function calculateWinner(squares) {
+function calculateWinner(elements) {
     const lines = [
         [0, 1, 2],
         [3, 4, 5],
@@ -28,19 +34,19 @@ function calculateWinner(squares) {
     ];
     for (let i = 0; i < lines.length; i++) {
         const [a, b, c] = lines[i];
-        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
+        if (elements[a] && elements[a] === elements[b] && elements[a] === elements[c]) {
+            return elements[a];
         }
     }
     return null;
 }
 
 class Board extends React.Component {
-    renderSquare(i) {
+    renderelement(i) {
         return (
-            <Square
+            <Element
                 key={i}
-                value={this.props.squares[i]}
+                value={this.props.elements[i]}
                 onClick={() => this.props.onClick(i)}
             />
         );
@@ -55,7 +61,7 @@ class Board extends React.Component {
                     return (
                         <div key={rowIndex} className="board-row">
                             {[...new Array(colLength)].map((col, colIndex) => {
-                                return this.renderSquare(rowIndex * colLength + colIndex);
+                                return this.renderelement(rowIndex * colLength + colIndex);
                             })}
                         </div>
                     );
@@ -74,7 +80,7 @@ class Game extends React.Component {
         this.state = {
             history: [
                 {
-                    squares: Array(9).fill(null),
+                    elements: Array(9).fill(null),
                     position: [null, null]
                 }
             ],
@@ -83,29 +89,23 @@ class Game extends React.Component {
         };
     }
 
-    jumpTo(step) {
-        this.setState({
-            stepNumber: step,
-            xIsNext: step % 2 === 0
-        });
-    }
 
     handleClick(i) {
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
         const current = history[history.length - 1];
-        const squares = current.squares.slice();
+        const elements = current.elements.slice();
 
-        if (calculateWinner(squares) || squares[i]) {
+        if (calculateWinner(elements) || elements[i]) {
             return;
         }
 
-        squares[i] = this.state.xIsNext ? "X" : "O";
+        elements[i] = this.state.xIsNext ? "X" : "O";
 
         const col = (i % this.colSize) + 1;
         const row = Math.ceil((i + 1) / this.colSize);
 
         this.setState({
-            history: history.concat([{ squares: squares, position: [col, row] }]),
+            history: history.concat([{ elements: elements, position: [col, row] }]),
             stepNumber: history.length,
             xIsNext: !this.state.xIsNext
         });
@@ -114,7 +114,7 @@ class Game extends React.Component {
     render() {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
-        const winner = calculateWinner(current.squares);
+        const winner = calculateWinner(current.elements);
 
         let status;
         if (winner) {
@@ -126,7 +126,7 @@ class Game extends React.Component {
             <div>
                 <div className="game-board">
                     <Board
-                        squares={current.squares}
+                        elements={current.elements}
                         onClick={(i) => {
                             this.handleClick(i);
                         }}
