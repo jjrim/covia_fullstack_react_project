@@ -41,7 +41,7 @@ export default class EditExercise extends Component {
         console.log(error);
       })
 
-    axios.get('https://covia-backend.herokuapp.com//users/')
+    axios.get('https://covia-backend.herokuapp.com/users/')
       .then(response => {
         if (response.data.length > 0) {
           this.setState({
