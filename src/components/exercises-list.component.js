@@ -4,6 +4,13 @@ import axios from 'axios';
 import fire from "../firebase/fire";
 import "../CreateQuestions.css"
 
+
+/**
+ * reading the data and making into a list as a componennt was leanred from
+ * 
+ * https://www.youtube.com/watch?v=7CqJlxBYj-M
+ * Jay
+ */
 const Exercise = props => (
   <tr>
     <td>{props.exercise.username}</td>

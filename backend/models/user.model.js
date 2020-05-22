@@ -3,6 +3,14 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
+
+
+/**
+ * Examples of creating user model was learned from
+ * 
+ * https://www.youtube.com/watch?v=7CqJlxBYj-M
+ * Jay
+ */
 const userSchema = new Schema({
   username: {
     type: String,

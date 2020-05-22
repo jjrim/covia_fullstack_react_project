@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import '../join.css'
 
+/**
+ * basic understanding of creating a data into mongodb was learned from 
+ * 
+ * https://www.youtube.com/watch?v=7CqJlxBYj-M
+ * Jay
+ */
 export default class CreateUser extends Component {
   constructor(props) {
     super(props);

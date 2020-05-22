@@ -1,6 +1,14 @@
 const router = require('express').Router();
 let Exercise = require('../models/exercise.model');
 
+
+
+/**
+ * Basic understanding of routing and connecting between the backend and the front end was learned from
+ * 
+ * https://www.youtube.com/watch?v=7CqJlxBYj-M
+ * Jay
+ */
 router.route('/').get((req, res) => {
   Exercise.find()
     .then(exercises => res.json(exercises))

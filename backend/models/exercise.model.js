@@ -2,6 +2,13 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
+
+/**
+ * Examples of creating question model was learned from
+ * 
+ * https://www.youtube.com/watch?v=7CqJlxBYj-M
+ * Jay
+ */
 const exerciseSchema = new Schema({
   username: { type: String, required: true },
   question: { type: String, required: true },
