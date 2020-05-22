@@ -4,7 +4,7 @@ DTC07's project for COMP 2800.
 ## Overview
 
 ### Folder Organization
-The "backend" folder contains everything that is used to connect to the database. The "public" folder contains our logo and index page. The "src" folder contains all the react.js components.
+The "backend" folder contains everything that is used to connect to the database. The server folder contains the socket server of multiplay game. The "public" folder contains our logo and index page. The "src" folder contains all the react.js components.
 
 
 ### Team Members
