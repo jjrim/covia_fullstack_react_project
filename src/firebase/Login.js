@@ -29,6 +29,13 @@ function twitterInput(){
     return oldItem
 }
 
+/**
+ * https://www.youtube.com/watch?v=PZquB8XdU9k
+ * 
+ * Used video as a source to understand the firebase authentication to establish successful connection with react app.
+ * 
+ * Jay
+ */
 
 class Login extends Component {
     constructor(props)
