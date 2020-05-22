@@ -4,7 +4,7 @@ DTC07's project for COMP 2800.
 ## Overview
 
 ### Folder Organization
-The "backend" folder contains everything that is used to connect to the database. The server folder contains the socket server of multiplay game. The "public" folder contains our logo and index page. The "src" folder contains all the react.js components.
+The "backend" folder contains everything that is used to connect to the database. The "server" folder contains the socket server of the multiplayer game. The "public" folder contains our logo and index page when we host the project on Heroku, Heroku would serve the files in public as static. The "src" folder contains all the react.js components.
 
 
 ### Team Members
@@ -79,3 +79,5 @@ The "backend" folder contains everything that is used to connect to the database
 #### Citation
 - For the Multi-Player, the tutorial is from https://www.youtube.com/watch?v=ZwFA3YMfkoc&t=6015s -- Build and Deploy a Realtime Chat Application - Socket.io, Node.js, and React.js
 - For the Single-Player, the tutorial is from https://youtu.be/2i2-LTJ5nF4 -- which states are needed and how to load quiz - React.js, Semantic UI
+- For EasterEgg, the tutorial is from https://www.youtube.com/watch?v=it54tShOsuI&t=829s -- which shows me the step and logic to build a mini tic tac toe game with react.js
+- For the use of lottieFiles, the tutorial is from https://www.youtube.com/watch?v=LIoRZZ_va_o -- this tutorial shows me how to implement a lottie animation in a react.js system
