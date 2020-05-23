@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import React , { Component } from "react";
 import fire from "./fire";
-import Loading from './Loading'
+import Loading from '../lottie-elements/Loading'
 import "../homepage.css";
 import logo from './logo.png';
 import { Button, Header, Image, Modal } from 'semantic-ui-react';
@@ -9,8 +9,8 @@ import { Button, Header, Image, Modal } from 'semantic-ui-react';
 import { BrowserRouter as Router, Route, Link , Switch } from 'react-router-dom';
 
 /* Lottie elements*/
-import CellVirusCleaning from './PhoneVirusLottie'
-import ReadingRule from './RuleLottie'
+import CellVirusCleaning from '../lottie-elements/PhoneVirusLottie'
+import ReadingRule from '../lottie-elements/RuleLottie'
 
 class Main extends Component {
 constructor(props)
@@ -18,7 +18,7 @@ constructor(props)
     super(props)
     this.state= {
         number:[],
-        isLoaded: true,
+        isLoaded: false,
         open: false,
     };
     
@@ -32,10 +32,20 @@ componentDidMount(){
     .then(json => {
         this.setState({
             isLoaded: true,
-            number: json.results[0].total_new_cases_today,
+            number: json.results[0].total_cases,
         })
     })
     
+    // if the API sucks, after 2 seconds would cancel loading and show the homepage
+    setTimeout(() => {
+      this.cancelLoad()
+    }, 2000);
+}
+
+cancelLoad = () => {
+  this.setState({
+    isLoaded: true
+  })
 }
 
 show = (dimmer) => () => this.setState({ dimmer, open: true})

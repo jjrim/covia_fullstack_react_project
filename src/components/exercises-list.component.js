@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import fire from "../firebase/fire";
+import "../CreateQuestions.css"
 
+/**
+ * reading data from mongodb and displaying into a react table was learned from
+ * 
+ * https://www.youtube.com/watch?v=7CqJlxBYj-M
+ * Jay
+ */
 const Exercise = props => (
   <tr>
     <td>{props.exercise.username}</td>
@@ -15,7 +23,7 @@ const Exercise = props => (
 
 
     <td>
-      <Link to={"/edit/"+props.exercise._id}>edit</Link> | <a href="#" onClick={() => { props.deleteExercise(props.exercise._id) }}>delete</a>
+      <Link to='/' onClick={() => { props.deleteExercise(props.exercise._id) }}>Delete</Link>
     </td>
   </tr>
 )
@@ -30,7 +38,7 @@ export default class ExercisesList extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:8000/exercises/')
+    axios.get('https://covia-backend.herokuapp.com/exercises/')
       .then(response => {
         this.setState({ exercises: response.data })
       })
@@ -40,25 +48,32 @@ export default class ExercisesList extends Component {
   }
 
   deleteExercise(id) {
-    axios.delete('http://localhost:8000/exercises/'+id)
+    axios.delete('https://covia-backend.herokuapp.com/exercises/'+id)
       .then(response => { console.log(response.data)});
 
     this.setState({
       exercises: this.state.exercises.filter(el => el._id !== id)
     })
   }
-
+  
   exerciseList() {
     return this.state.exercises.map(currentexercise => {
       return <Exercise exercise={currentexercise} deleteExercise={this.deleteExercise} key={currentexercise._id}/>;
     })
   }
 
+  logout(){
+    fire.auth().signOut();
+};
+
   render() {
     return (
-      <div>
-        <h3>Manage your questions here</h3>
-        <table className="table">
+      <div id = "viewListedQstionPage">
+        <h3 class="ui blue huge header">Manage your questions here</h3>
+        <Link to="/Question"> <input type="button" value="Question Page" class="ui inverted violet button"/>  </Link>
+        <Link to="/"> <input type="button" value="Homepage" class="ui inverted violet button"/>  </Link>
+        <Link to="/" onClick={this.logout}> <input type="button" value="Sign Out" class="ui inverted violet button"/>  </Link>
+        <table className="ui table">
           <thead className="thead-light">
             <tr>
             <th>username</th>

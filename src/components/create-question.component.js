@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
+import { Link } from 'react-router-dom';
+import fire from "../firebase/fire";
+import "../CreateQuestions.css"
 
 /**
- * editing data  from the front end in the backend was learned from
+ * Creating react components for saving datas in the form data into mongodb was learned from
  * 
  * https://www.youtube.com/watch?v=7CqJlxBYj-M
  * Jay
  */
-export default class EditExercise extends Component {
+export default class CreateQuestion extends Component {
   constructor(props) {
     super(props);
 
@@ -18,6 +20,7 @@ export default class EditExercise extends Component {
     this.onChangeOption2 = this.onChangeOption2.bind(this);
     this.onChangeOption3 = this.onChangeOption3.bind(this);
     this.onChangeAnswer = this.onChangeAnswer.bind(this);
+
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
@@ -30,30 +33,20 @@ export default class EditExercise extends Component {
       users: []
     }
   }
-  
+
+  logout(){
+    fire.auth().signOut();
+};
 
   componentDidMount() {
-    axios.get('https://covia-backend.herokuapp.com/exercises/'+this.props.match.params.id)
-      .then(response => {
-        this.setState({
-          username: response.data.username,
-          question: response.data.question,
-          option1: response.data.option1,
-          option2: response.data.option2,
-          option3: response.data.option3,
-          answer: response.data.answer,
-
-        })   
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-
+    // axios.get('https://covia-backend.herokuapp.com/users/')
     axios.get('https://covia-backend.herokuapp.com/users/')
+
       .then(response => {
         if (response.data.length > 0) {
           this.setState({
             users: response.data.map(user => user.username),
+            username: response.data[0].username
           })
         }
       })
@@ -62,6 +55,9 @@ export default class EditExercise extends Component {
       })
 
   }
+
+  
+
   onChangeUsername(e) {
     this.setState({
       username: e.target.value
@@ -92,29 +88,27 @@ export default class EditExercise extends Component {
     })
   }
 
-  
   onChangeAnswer(e) {
     this.setState({
       answer: e.target.value
     })
   }
-
-
+  
   onSubmit(e) {
     e.preventDefault();
 
-     const exercise = {
+    const exercise = {
       username: this.state.username,
-      question: this.setState.question,
-      option1: this.setState.option1,
-      option2: this.setState.option2,
-      option3: this.setState.option3,
-      answer: this.setState.answer
+      question: this.state.question,
+      option1: this.state.option1,
+      option2: this.state.option2,
+      option3: this.state.option3,
+      answer: this.state.answer
     }
 
     console.log(exercise);
 
-    axios.post('https://covia-backend.herokuapp.com/exercises/update/' + this.props.match.params.id, exercise)
+    axios.post('https://covia-backend.herokuapp.com/exercises/add', exercise)
       .then(res => console.log(res.data));
 
     window.location = '/';
@@ -122,8 +116,8 @@ export default class EditExercise extends Component {
 
   render() {
     return (
-    <div>
-      <h3>Edit Custom Question</h3>
+    <div id = "createNewQuestionPage">
+      <h3 class="ui teal huge header">Create New Custom Question</h3>
       <form onSubmit={this.onSubmit}>
         <div className="form-group"> 
           <label>Username: </label>
@@ -187,9 +181,17 @@ export default class EditExercise extends Component {
               onChange={this.onChangeAnswer}
               />
         </div>
+        
+      
+
 
         <div className="form-group">
-          <input type="submit" value="update question" className="btn btn-primary" />
+          <input type="submit" value="Create Custom Question" class="ui large violet button" />
+        </div>
+        <div className="form-group">
+        <Link to="/Question"> <input type="button" class="ui inverted blue button" value="Question Page"/>  </Link>
+        <Link to="/"> <input type="button" class="ui inverted blue button" value="Homepage"/>  </Link>
+        <Link to="/" onClick={this.logout}> <input type="button" class="ui inverted blue button" value="Sign Out"/>  </Link>
         </div>
       </form>
     </div>

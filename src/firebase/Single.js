@@ -1,42 +1,69 @@
 import React, { Component, Fragment } from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import { render } from '@testing-library/react';
 import "../Single.css";
 import fire from "./fire";
 import Main from './Main';
 import { isCompositeComponentWithType } from 'react-dom/test-utils';
-import { QuizData } from './QuizData';
 import { Icon } from 'semantic-ui-react'
 import $ from 'jquery'
 import leeke from './leeke.png'
-import CreateUser from "../components/create-user.component";
+import axios from 'axios'
 
 // sound effects
 import ClickSound from './SoundClips/Button_Clicking.mp3'
 import Bgm from './SoundClips/Bgm.mp3'
+import Right from './SoundClips/right.mp3'
+import Wrong from './SoundClips/wrong.wav'
 
 
+var randomQuestions = [];
 
+axios.get('https://covia-backend.herokuapp.com/exercises/')
+.then(response => {
+    let randomNumber = [];
+    while (randomNumber.length !== 5) {
+        let e = Math.floor(Math.random() * (response.data.length - 1)) + 0
+        if (!randomNumber.includes(e)) {
+            randomNumber.push(e)
+        }
+    }
+    console.log(response)
+    randomNumber.forEach(element => {
+        randomQuestions.push({
+            username: response.data[element].username,
+            question: response.data[element].question,
+            options: [response.data[element].option1, response.data[element].option2, response.data[element].option3],
+            answer: response.data[element].answer
+        })
+    });
+    console.log('Questions(No shuffle Options): ', randomQuestions); 
+    for(let i = 0; i < 5; i++){
+        randomQuestions[i].options.sort( () => {
+            return 0.5 - Math.random()
+        })
+    }
 
-
-// Shuffle the questions
-let newArray = QuizData.sort(() => {
-    return 0.5 - Math.random()
+    console.log('Questions(shuffle Options): ', randomQuestions); 
+     console.log(randomQuestions);
 })
-let fiveQuestions = newArray.slice(QuizData, 5)
-// Shuffle the options
-for(let i = 0; i < 5; i++){
-    fiveQuestions[i].options.sort( () => {
-        return 0.5 - Math.random()
-    })
-}
-console.log(fiveQuestions)
+.catch(function (error) {
+  console.log(error);
+}) 
 
-
+/**
+ * I fount which states are basically need to be created,
+ * and how to load quiz on https://youtu.be/2i2-LTJ5nF4.
+ * 
+ * @author ReactNinja
+ * @see https://youtu.be/2i2-LTJ5nF4
+ */
 class Single extends Component {
     clickAudio = new Audio(ClickSound);
     bgmAudio = new Audio(Bgm);
-
+    right = new Audio(Right)
+    Wrong = new Audio(Wrong)
+    
     state = {
         userAnswer: null,
         currentQuestion: 0,
@@ -45,12 +72,20 @@ class Single extends Component {
         score: 0,
         disabled: true,
         time: 15,
-        random: fiveQuestions,
+        random: randomQuestions,
         isClicked: false,
         clickPlay:false,
         bgmPlay:false,
         bgmPause:true,
+        rightPlay: false,
+        wrongPlay: false,
+        username: '',
     }
+    onChangeUsername = this.onChangeUsername.bind(this);
+    onChangeUserScore = this.onChangeUserScore.bind(this);
+    onSubmit = this.onSubmit.bind(this);
+
+
         clickPlay = () => {
         this.setState({ clickPlay: true})
         this.clickAudio.play();
@@ -63,6 +98,16 @@ class Single extends Component {
         bgmPause = () => {
             this.setState({ bgmPlay: false, bgmPause: true })
               this.bgmAudio.pause();
+        }
+
+        rightPlay = () => {
+            this.setState({ rightPlay: true })
+            this.right.play()
+        }
+
+        wrongPlay = () => {
+            this.setState({ wrongPlay: true })
+            this.Wrong.play()
         }
     
 
@@ -100,12 +145,13 @@ class Single extends Component {
                 isClicked: false
             });
             console.log(this.state.currentQuestion);
-        }, 2000);
+        }, 1000);
         
         // Get 200 marks if the remaining time is > or = 10
         // If you want to change the background color of correct option, modify the 'green' to others
         // Origin Background: background: linear-gradient(157.81deg, rgba(32, 139, 216, 0.3) 15%,rgba(173, 107, 204, 0.4361) 73%);
         if (userAnswer === answers) {
+            this.rightPlay()
             $('.selected').css("cssText", 'background: #77bfa3 !important');
             if(this.state.time >= 10){
                 this.setState({
@@ -124,14 +170,15 @@ class Single extends Component {
         }
         // If choose wrong option
         else{
+            this.wrongPlay()
             $('.selected').css("cssText", 'background: #ef476f !important');
         }
         // Remove background of the selected option
         setTimeout(() => {
             $('.options').removeAttr("style");
-        }, 1999);
+        }, 999);
         this.setState({
-            time: 17
+            time: 16
         })
     }
 }
@@ -178,10 +225,13 @@ class Single extends Component {
                 this.setState({
                     endQuiz: true
                 })
-            }, 2000);
+            }, 1000);
         }
 
         if (userAnswer === answers) {
+            if(!this.state.endQuiz){
+                this.rightPlay()
+            }
             $('.selected').css("cssText", 'background: #77bfa3 !important');
             if(this.state.time >= 10){
                 this.setState({
@@ -200,6 +250,9 @@ class Single extends Component {
                 }
         }
         else{
+            if(!this.state.endQuiz){
+                this.wrongPlay()
+            }
             $('.selected').css("cssText", 'background: #ef476f !important');
         }
 
@@ -230,7 +283,7 @@ class Single extends Component {
                 if(this.state.time === -1){
                     this.nextQuestionHandler()
                     this.setState({
-                        time: 17
+                        time: 16
                     })
                 }
                 else if(this.state.time < -1) {
@@ -270,43 +323,38 @@ class Single extends Component {
         
     } 
 
+    // Submit User Score
+    onChangeUsername(e) {
+        this.setState({
+          username: e.target.value
+        })
+      }
     
+    onChangeUserScore(e) {
+    this.setState({
+        score: e.target.value
+    })
+    }
 
+    onSubmit(e) {
+    e.preventDefault();
+    
+    const user = {
+        username: this.state.username,
+        score: this.state.score
+    }
+    
+    console.log(user);
 
+    axios.post('https://covia-backend.herokuapp.com/users/add', user)
+        .then(res => console.log(res.data));
+        window.location = '/';
+    }
+    // Submit Done
 
-
-    // componentDidMount () {
-    //     const {question, currentQuestion, nextQuestion} = this.state;
-    //     this.displayQuestions(question, currentQuestion, nextQuestion);
-    // }
-
-    // displayQuestions = (question = this.state.question, currentQuestion, nextQuestion) => {
-    //     let {currentQuestionIndex} = this.state;
-    //     if (isCompositeComponentWithType(this.state.question)) {
-    //         question = this.state.question;
-    //         currentQuestion = question[currentQuestionIndex];
-    //         nextQuestion = question[currentQuestionIndex + 1];
-    //         const answer = currentQuestion.answer;
-    //         this.setState({
-    //             currentQuestion,
-    //             nextQuestion,
-    //             answer
-    //         });
-    //     }
-
-    // startTimer = () => {
-    //     const countDown = Date.now() + 30000;
-    //     this.interval = setInterval(() => {
-    //         const now = new Date();
-    //         const distance = countDown = now;
-
-            
-    //     })
-    // }
 
     render () {
-        const {questions, options, currentQuestion, userAnswer, endQuiz, time, score} = this.state;
-
+        const {questions, options, currentQuestion, userAnswer, endQuiz, time, score} = this.state; 
             if(endQuiz) {
                 return (
                     <div class = "ui center aligned container" id = "singleGameEnd">
@@ -314,12 +362,39 @@ class Single extends Component {
                         <h1 className='ui blue header large'>Game Over. <br/>Your final score is {this.state.score} points</h1>
                         <br/>
                         <br/>
-                        <CreateUser />
-
                         <Link to="/"><button className = "ui inverted blue button" onClick={this.bgmPause}>Go Back</button></Link>
                         <Link to='/'>   <button className = "ui inverted violet button" onClick={this.logout}>Log Out</button> </Link> 
-                    </div>
                     
+                     {/* Submit Score */}
+                        <div>
+                        <h3 class="ui purple large header">Create New User</h3>
+                        <form onSubmit={this.onSubmit}>
+                        <div className="form-group"> 
+                            <label class="ui header">Username: </label>
+                                <input  type="text"
+                                    required
+                                    className="form-control"
+                                    value={this.state.username}
+                                    onChange={this.onChangeUsername}
+                                    />
+
+                        </div>
+                        <div className="form-group"> 
+                            <label class="ui header">Your Score: </label>
+                            <input  type="text"
+                                required
+                                className="form-control"
+                                value={this.state.score}
+                                onChange={this.onChangeUserScore} disabled
+                                />
+                        </div>
+                        
+                        <div className="form-group" id = "createUserBtn">
+                        <input type="submit" value="Create User" class="ui violet button" />    
+                        </div>
+                        </form>
+                    </div>
+                  </div>
                 )
             }
             if (endQuiz && this.state.score === 0){
@@ -350,7 +425,7 @@ class Single extends Component {
                             <h1 id = "singleCountDownMsg"> You only have {time} second left! </h1>
                         </div>
                         <div id = "singleQuestionSpan" className = "ui container"> 
-                            <span className = "ui large inverted header"> {`Questions ${currentQuestion + 1} out of ${this.state.random.length}`}</span>
+                            <span className = "ui large inverted header"> {`Questions ${currentQuestion + 1} out of 5`}</span>
                         </div>
                         {options.map(option => (
                             <p key={option.id} className= {`ui floating message options ${userAnswer === option ? "selected" : null}`} onClick ={() => this.checkAnswer(option)}>

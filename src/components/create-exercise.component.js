@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import fire from "../firebase/fire";
+import "../CreateQuestions.css"
 
+
+/**
+ * Creating react components for saving datas in the form data into mongodb was learned from
+ * 
+ * https://www.youtube.com/watch?v=7CqJlxBYj-M
+ * Jay
+ */
 export default class CreateExercise extends Component {
   constructor(props) {
     super(props);
@@ -25,8 +35,12 @@ export default class CreateExercise extends Component {
     }
   }
 
+  logout(){
+    fire.auth().signOut();
+};
+
   componentDidMount() {
-    axios.get('http://localhost:8000/users/')
+    axios.get('https://covia-backend.herokuapp.com/users/')
       .then(response => {
         if (response.data.length > 0) {
           this.setState({
@@ -40,6 +54,8 @@ export default class CreateExercise extends Component {
       })
 
   }
+
+  
 
   onChangeUsername(e) {
     this.setState({
@@ -71,14 +87,12 @@ export default class CreateExercise extends Component {
     })
   }
 
-  
   onChangeAnswer(e) {
     this.setState({
       answer: e.target.value
     })
   }
-
-
+  
   onSubmit(e) {
     e.preventDefault();
 
@@ -93,7 +107,7 @@ export default class CreateExercise extends Component {
 
     console.log(exercise);
 
-    axios.post('http://localhost:8000/exercises/add', exercise)
+    axios.post('https://covia-backend.herokuapp.com/exercises/add', exercise)
       .then(res => console.log(res.data));
 
     window.location = '/';
@@ -101,8 +115,8 @@ export default class CreateExercise extends Component {
 
   render() {
     return (
-    <div>
-      <h3>Create New Custom Question</h3>
+    <div id = "createNewQuestionPage">
+      <h3 class="ui teal huge header">Create New Custom Question</h3>
       <form onSubmit={this.onSubmit}>
         <div className="form-group"> 
           <label>Username: </label>
@@ -171,7 +185,12 @@ export default class CreateExercise extends Component {
 
 
         <div className="form-group">
-          <input type="submit" value="Create Custom Question" className="btn btn-primary" />
+          <input type="submit" value="Create Custom Question" class="ui large violet button" />
+        </div>
+        <div className="form-group">
+        <Link to="/Question"> <input type="button" class="ui inverted blue button" value="Question Page"/>  </Link>
+        <Link to="/"> <input type="button" class="ui inverted blue button" value="Homepage"/>  </Link>
+        <Link to="/" onClick={this.logout}> <input type="button" class="ui inverted blue button" value="Sign Out"/>  </Link>
         </div>
       </form>
     </div>
