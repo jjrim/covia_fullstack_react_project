@@ -5,7 +5,10 @@ import fire from "../firebase/fire";
 import "../CreateQuestions.css"
 
 /**
+ * Creating react components for saving datas in the form data into mongodb was learned from
  * 
+ * https://www.youtube.com/watch?v=7CqJlxBYj-M
+ * Jay
  */
 export default class CreateQuestion extends Component {
   constructor(props) {

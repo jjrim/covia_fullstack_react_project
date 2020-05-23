@@ -4,6 +4,12 @@ import axios from 'axios';
 import fire from "../firebase/fire";
 import "../CreateQuestions.css"
 
+/**
+ * reading data from mongodb and displaying into a react table was learned from
+ * 
+ * https://www.youtube.com/watch?v=7CqJlxBYj-M
+ * Jay
+ */
 const Exercise = props => (
   <tr>
     <td>{props.exercise.username}</td>

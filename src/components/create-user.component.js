@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import '../join.css'
 
+
+
 export default class CreateUser extends Component {
   constructor(props) {
     super(props);
