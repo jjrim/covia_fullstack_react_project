@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+
+/**
+ * editing data  from the front end in the backend was learned from
+ * 
+ * https://www.youtube.com/watch?v=7CqJlxBYj-M
+ * Jay
+ */
 export default class EditExercise extends Component {
   constructor(props) {
     super(props);
